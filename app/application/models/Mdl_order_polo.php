@@ -105,43 +105,6 @@ EOT;
 		return true;
 	}
 
-	function getAccStatus(){
-		$_sql =<<<EOT
-				SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
-				tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date
-				, ARRAY_TO_JSON(ARRAY(
-				SELECT UNNEST(fnc_manu_screen_avai_status(tmp.prod_status))
-				INTERSECT
-				SELECT UNNEST(uac.arr_avail_status)
-				)) AS arr_avail_status
-				FROM v_order_report o
-				INNER JOIN fnc_listmanuscreen_accright_byuser(984) uac ON True
-				INNER JOIN (
-				SELECT 1 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
-				FROM pm_t_order_screen_polo
-				UNION ALL
-				SELECT 2 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
-				FROM pm_t_order_premade_screen_polo
-				) d
-				ON d.type_id = o.type_id
-				AND d.order_rowid = o.order_rowid
-				INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
-				LEFT JOIN pm_t_manu_screen_production tmp on tmp.order_screen_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
-				LEFT JOIN m_manu_screen_status ss ON ss.rowid = tmp.prod_status
-				LEFT join m_manu_screen_type mst on mst.rowid = tmp.screen_type
-				WHERE o.ps_rowid = 10
-				AND COALESCE(o.is_cancel, 0) < 1
-				and d.order_rowid = 1456
-EOT;
-				$_arr4 = $this->m->arr_execute($_sql);
-				$_strError = $this->m->error_message;
-				if($_strError){
-					return $_strError;
-				}
-				print_r($_arr4);exit;
-				return $_arr4;
-	}
-
 	function list_size_quan() {
 		$_sql = <<<EOT
 SELECT s.rowid, c.rowid AS cat_rowid, c.name AS category, sc.rowid as sub_rowid, sc.name AS sub_category, s.size_text, s.size_chest 

@@ -556,9 +556,6 @@ OTP;
 				INNER JOIN (
 				SELECT 1 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
 				FROM pm_t_order_screen_polo
-				UNION ALL
-				SELECT 2 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
-				FROM pm_t_order_premade_screen_polo
 				) d
 				ON d.type_id = o.type_id
 				AND d.order_rowid = o.order_rowid
@@ -591,13 +588,10 @@ QUERY;
 				SELECT UNNEST(uac.arr_avail_status)
 				)) AS arr_avail_status
 				FROM v_order_report o
-				INNER JOIN fnc_listmanuweave_accright_byuser(984) uac ON True
+				INNER JOIN fnc_listmanuweave_accright_byuser($_userid) uac ON True
 				INNER JOIN (
 				SELECT 1 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
 				FROM pm_t_order_screen_polo
-				UNION ALL
-				SELECT 2 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
-				FROM pm_t_order_premade_screen_polo
 				) d
 				ON d.type_id = o.type_id
 				AND d.order_rowid = o.order_rowid
