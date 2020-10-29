@@ -285,6 +285,11 @@ class Order_tshirt extends MY_Ctrl_crud {
 		hlpr_setController($_details, 'option_is_no_packaging_sep_tpb', 'ไม่ต้องพับแพ็ค-แต่ขอถุงเสื้อแยกมา', array('type'=>'chk')); //new
 		// -- option table join --
 
+		$_screen_status = $this->mt->list_where('manu_screen_status', 'is_cancel=0', NULL, 'm_');
+		$this->add_js("var _ARR_SCREEN_STATUS = " . json_encode($_screen_status) . ";", 'custom');
+		$_weave_status = $this->mt->list_where('manu_weave_status', 'is_cancel=0', NULL, 'm_');
+		$this->add_js("var _ARR_WEAVE_STATUS = " . json_encode($_weave_status) . ";", 'custom');
+
 		
 		$_arrDetailsLayout = array(
 			'แบบแพทเทิร์น' => array('standard_pattern_rowid', '')
@@ -496,13 +501,32 @@ OTP;
 				// -- others price
 
 				// ++ screen
-				$_sql =<<<SCRN
-SELECT t.order_screen_rowid, COALESCE(m.name, '') AS order_screen, t.position, t.detail, t.size, t.job_hist
-, TO_CHAR(COALESCE(t.price, 0), '9G999G990D00') AS price 
-FROM pm_t_order_screen_tshirt t LEFT OUTER JOIN pm_m_order_screen m ON t.order_screen_rowid = m.rowid 
-WHERE t.order_rowid = $_rowid 
-ORDER BY t.seq, t.order_screen_rowid, t.position 
-SCRN;
+				$_userid = $this->session->userdata('user_id');
+				$_sql =<<<QUERY
+				SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
+				tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date
+				, ARRAY_TO_JSON(ARRAY(
+				SELECT UNNEST(fnc_manu_screen_avai_status(tmp.prod_status))
+				INTERSECT
+				SELECT UNNEST(uac.arr_avail_status)
+				)) AS arr_avail_status
+				FROM v_order_report o
+				INNER JOIN fnc_listmanuscreen_accright_byuser($_userid) uac ON True
+				INNER JOIN (
+				SELECT 1 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
+				FROM pm_t_order_screen_tshirt
+				) d
+				ON d.type_id = o.type_id
+				AND d.order_rowid = o.order_rowid
+				INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
+				LEFT JOIN pm_t_manu_screen_production tmp on tmp.order_screen_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
+				LEFT JOIN m_manu_screen_status ss ON ss.rowid = tmp.prod_status
+				LEFT join m_manu_screen_type mst on mst.rowid = tmp.screen_type
+				--WHERE o.ps_rowid = 10
+				WHERE COALESCE(o.is_cancel, 0) < 1
+				AND s.screen_type  = 2
+				AND d.order_rowid = $_rowid
+QUERY;
 				$_arr4 = $this->m->arr_execute($_sql);
 				$_strError = $this->m->error_message;
 				if ($_strError != '') {
@@ -511,9 +535,46 @@ SCRN;
 				}
 				if ($_arr4 == FALSE) $_arr4 = array();
 				$_arrReturn['screen'] = $_arr4;
-				$_blnSuccess = TRUE;
+				
+
+				// ++ weave
+				$_sql =<<<QUERY
+				SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
+				tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date
+				, ARRAY_TO_JSON(ARRAY(
+				SELECT UNNEST(fnc_manu_weave_avai_status(tmp.prod_status))
+				INTERSECT
+				SELECT UNNEST(uac.arr_avail_status)
+				)) AS arr_avail_status
+				FROM v_order_report o
+				INNER JOIN fnc_listmanuweave_accright_byuser($_userid) uac ON True
+				INNER JOIN (
+				SELECT 1 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
+				FROM pm_t_order_screen_tshirt
+				) d
+				ON d.type_id = o.type_id
+				AND d.order_rowid = o.order_rowid
+				INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
+				LEFT JOIN pm_t_manu_weave_production tmp on tmp.order_weave_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
+				LEFT JOIN m_manu_weave_status ss ON ss.rowid = tmp.prod_status
+				LEFT join m_manu_weave_type mst on mst.rowid = tmp.weave_type
+				--WHERE o.ps_rowid = 10
+				WHERE COALESCE(o.is_cancel, 0) < 1
+				and s.screen_type  = 1
+				AND d.order_rowid = $_rowid
+QUERY;
+				$_arr5 = $this->m->arr_execute($_sql);
+				$_strError = $this->m->error_message;
+				if ($_strError != '') {
+					$_whileChecker = FALSE;
+					continue;
+				}
+				if ($_arr5 == FALSE) $_arr5 = array();
+				$_arrReturn['weave'] = $_arr5;
+
+
 				$_whileChecker = FALSE;
-				// -- screen
+				// ++ screen	
 			}
 		}
 		$json = json_encode(
