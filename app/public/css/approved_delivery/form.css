@@ -1,0 +1,6 @@
+#divDisplayQueryResult table tr { line-height: 1.4 !important }
+#divDisplayQueryResult table th { white-space:nowrap; }
+/*#divDisplayQueryResult table.dataTable { table-layout:fixed; }
+#tblSearchResult { table-layout:fixed; }*/
+#tblSearchResult tbody tr td { text-overflow:ellipsis;overflow:hidden;white-space:nowrap; }
+.dataTable tbody td.edit form select { width: 98%;}

@@ -1,0 +1,57 @@
+#ord_size_quan_container {}
+#ord_size_quan_container table {width:98%;margin:10px;padding:10px;}
+#ord_size_quan_container table caption {font-weight:bold;font-size:16px;background:#b9c9fe;padding:5px;}
+#ord_size_quan_container table thead tr {background: rgb(185, 201, 254);}
+#ord_size_quan_container table th {font-weight:bold;margin:2px;padding:2px;}
+#ord_size_quan_container table td {font-weight:bold;margin:0px;padding:0px;padding-top:0px;padding-bottom:0px;}
+#ord_size_quan_container table th:first {width:10%;}
+#ord_size_quan_container table th:last {width:10%;}
+#ord_size_quan_container table td table {margin:0px;padding:0px;width:auto;}
+#ord_size_quan_container table td table.tbl-row-title {width:100%;}
+#ord_size_quan_container table td table.tbl-sum-value {width:100%;}
+#ord_size_quan_container table td table.tbl-sum-value thead tr th {font-size:16px;font-weight:bold;}
+#ord_size_quan_container table td table.tbl-sum-value thead tr th.total-value {height:90px;}
+#ord_size_quan_container table td table.tbl-sum-value thead tr th.total-price {}
+#ord_size_quan_container table td table tr th {width:35px;height:28px;padding:2px;font-weight:bold;margin:2px;padding:2px;}
+#ord_size_quan_container table td table tr td {width:35px;padding:2px;margin:2px;padding:2px;}
+#ord_size_quan_container table td table tr th input[type=text] {width:30px;text-align:center;margin:0px;padding:2px 5px;height:15px;}
+#ord_size_quan_container table td table tr td input[type=text] {width:30px;text-align:center;margin:0px;padding:2px 5px;height:15px;}
+#ord_size_quan_container table td table tr td input[type=text].sp-price {font-size:8px;border-radius:4px;}
+#ord_size_quan_container table th.header-title {width:100px;display:block;}
+#ord_size_quan_container table td.header-title {width:100px;display:block;}
+td #div_order_size_panel {display:block;overflow-x:auto;padding-top:5px;}
+div.total-value {font-weight:bold;font-size:16px;padding-left:20px;padding-right:20px;border:1px solid lightgray;border-radius:4px;}
+div.total-price {font-weight:bold;font-size:16px;padding-left:20px;padding-right:20px;border:1px solid lightgray;border-radius:4px;}
+
+#ord_others_price_container {}
+#ord_others_price_container table {width:80%;margin:10px;padding:10px;border-collapse:collapse;}
+#ord_others_price_container table th {font-weight:bold;margin:2px;padding:2px;}
+#ord_others_price_container table td {font-weight:normal;margin:0px;padding:2px;border:1px solid whitesmoke;}
+#ord_others_price_container table td.price-detail {text-align:left;margin-left:10px;}
+#ord_others_price_container table td.price {}
+#ord_others_price_container table img {margin-right:5px;margin-left:5px;cursor:pointer;vertical-align:middle;}
+
+#ord_scrn_container {}
+#ord_scrn_container table {width:98%;margin:10px;padding:10px;table-layout:fixed;}
+#ord_scrn_container table caption {font-weight:bold;font-size:16px;background:#b9c9fe;padding:5px;}
+#ord_scrn_container table th {font-weight:bold;margin:2px;padding:2px;}
+#ord_scrn_container table td {font-weight:normal;margin:0px;padding:2px;}
+#ord_scrn_container table img {margin-right:2px;margin-left:2px;cursor:pointer;vertical-align:middle;}
+
+.progress { position:relative;width:98%;border:1px solid #ddd;padding:1px;border-radius:3px;}
+.bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
+.percent { position:absolute; display:inline-block; top:3px; left:48%; }
+
+.frm-edit-row-value .ui-button-text {margin:0px;padding:0px;}
+
+table.cls-tbl-edit td .frm-edit-row-value.display-upload {display:inline-block;cursor:pointer;background-repeat:no-repeat;text-align:center;margin:0;padding:0;}
+table.cls-tbl-edit td .frm-edit-row-value.display-upload input[type="file"] {display:block;width:90%;margin:0;padding:0;opacity:0;}
+
+table.cls-tbl-edit td .frm-edit-row-value.display-upload div.form-edit-row-title {display:block;margin:0;}
+table.cls-tbl-edit td .frm-edit-row-value.display-upload span.spn-image-select {display:block;margin:0;}
+div.display-upload.disp-upload-main {height:360px;width:460px;max-height:360px;max-width:460px;background-size:auto 460px;-o-background-size:auto 460px;-webkit-background-size:auto 460px;-moz-background-size:auto 460px;}
+div.display-upload.disp-upload-sub {height:200px;width:200px;max-height:200px;max-width:200px;background-size:auto 200px;-o-background-size:auto 200px;-webkit-background-size:auto 200px;-moz-background-size:auto 200px;}
+
+.hidden > * {display:none !important;}
+
+option.cls-is-expired { color:red;background-color: #CCCCCC; }

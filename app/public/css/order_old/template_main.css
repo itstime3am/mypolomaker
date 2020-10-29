@@ -1,0 +1,60 @@
+div#content { width:100%;height:100%; }
+div#top_wrapper { width:100%;height:0px; }
+div#disp_message { width:100%; }
+
+div#mid_wrapper { height:90%;overflow-y:scroll; }
+div#work_panel { margin:0 5px 0 5px; }
+div#left_panel { position:absolute;width:0; }
+div#right_panel { position:absolute;right:0;width:0; }
+
+div#bot_wrapper { position:absolute;bottom:2px;height:32px;width:98%; }
+div#bottom_panel { text-align:right;font-size:11px;border-top:1px solid #D0D0D0;line-height:32px;padding:0 10px 0 10px;margin:0 0 0 0; }
+
+.ui-autocomplete {max-height:100px;overflow-y:auto;overflow-x:hidden;padding-right:20px;}
+.ui-autocomplete-input { margin:0;padding:0.48em 0 0.47em 0.45em;height:20px; }
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {height: 100px;}
+/* Date Picker */
+.ui-datepicker { font-size:12px; }
+/* Settings Dialog */
+.ui-dialog { font-size:12px; }
+.ui-dialog-titlebar-close {visibility: hidden;}
+
+.tdComboBox input {vertical-align:top;}
+.tdComboBox .ui-button {	margin-left:-1px;width:20px;height:20px;font-size:16px;}
+
+div.order_container { border:2px solid black; }
+div.order_container table { width:100%;padding:0;margin:0;border-spacing:0; }
+div.order_container table th { font-size:14px;font-weight:bold;text-align:center;border:1px solid black;border-spacing:0; }
+div.order_container table td { font-size:12px;font-weight:normal;text-align:center;border:1px solid black;border-spacing:0; }
+div.order_row { width:100%;height:30px;font-size:12px;margin:5px auto; }
+div.order_row div { display:inline-flex;margin:0px 20px; }
+div.left { float:left; }
+div.right { float:right;text-align:right; }
+div.order_row div span { font-size:14px;font-weight:bold;display:inline-table; }
+div.order_row div img {width:20px;height:20px;cursor:pointer;vertical-align:bottom;margin-bottom:3px;}
+div.order_row div span.order_value { font-size:12px;font-weight:normal;text-decoration:underline;width:70%;display:inline-table; }
+div.order_row div input { font-size:12px;font-weight:normal;display:inline-table; }
+div.order_row div textarea { font-size:12px;font-weight:normal;display:inline-table; }
+
+div.order_head_row { vertical-align:bottom;height:50px; }
+div#ord_head_logo img { height:40px;width:auto; }
+div#ord_head_title {  }
+div#ord_head_title span { font-size:18px;font-weight:bold;margin:auto; }
+div.order_row_title { font-size:16px;font-weight:bold;text-align:center;width:100%;border-bottom:2px solid black; }
+
+#ord_dtl_container .order_row div { width:45%; }
+#ord_dtl_container .order_row div span { width:150px; }
+#ord_dtl_container .order_row div div { width:100%;margin:0 0; }
+#ord_dtl_container .order_row div div input { width:100%;margin-left:0px; }
+#ord_dtl_container .order_row div div textarea { width:100%;margin-left:0px; }
+
+#ord_dtl_container .order_row div.order_details_row_checknox div input { width:auto;margin-left:0px;margin:0 5px; }
+
+#ord_size_quan_container table td {width:4%;}
+#ord_size_quan_container table td select {width:100%;}
+#ord_size_quan_container table td input {width:100%;}
+
+.td_size_quan_items { width:20px; }

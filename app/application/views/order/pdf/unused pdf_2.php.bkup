@@ -1,0 +1,78 @@
+			<div class="pdf-row">
+	<?php if (isset($is_tshirt) && ($is_tshirt == TRUE)) : ?>
+				<div class="pdf-title w-1_1">คอเสื้อ</div><div class="pdf-value w-3_3" style="font-size:10px;"><?php echo $data['pattern_name']; ?></div>
+				<div class="pdf-title w-1_2">ทรงเสื้อ</div><div class="pdf-value w-3_3" style="font-size:10px;"><?php echo $data['pattern_name']; ?></div>
+				<div class="pdf-title w-1_1">ชนิดผ้า</div><div class="pdf-value w-3" style="font-size:10px;"><?php echo $data['fabric_name']; ?></div>
+				<div class="pdf-checkbox"><img src="<?php echo ($data['has_sample'] == 1)?'public/images/checkbox_yes.png':'public/images/checkbox_no.png'; ?>"></div><div class="pdf-title w-all">มีเสื้อตัวอย่าง</div>
+	<?php else: ?>
+				<div class="pdf-title w-1_5">แบบเสื้อ</div><div class="pdf-value w-6"><?php echo $data['pattern_name']; ?></div>
+				<div class="pdf-title w-1_4">ชนิดผ้า</div><div class="pdf-value w-5_1"><?php echo $data['fabric_name']; ?></div>
+				<div class="pdf-checkbox"><img src="<?php echo ($data['has_sample'] == 1)?'public/images/checkbox_yes.png':'public/images/checkbox_no.png'; ?>"></div><div class="pdf-title w-all">มีเสื้อตัวอย่าง</div>
+	<?php endif; ?>
+			</div>
+			<div class="pdf-row">
+				<div class="pdf-title w-1_5">ผ้าสีหลัก</div><div class="pdf-value w-3"><?php echo $data['color']; ?></div>
+				<div class="pdf-title w-1_5">สีผ้าตัดต่อ</div><div class="pdf-value w-all"><?php echo $data['color_add1']; ?></div>
+			</div>
+	<?php if (isset($is_tshirt) && ($is_tshirt == TRUE)) : ?>
+			<div class="pdf-row">
+				<div class="ml-1_7 pdf-value w-all"><?php echo $data['color_add2']; ?></div>
+			</div>
+			<div class="pdf-row">
+				<div class="pdf-title w-2_8">แบบคอเสื้อ ซก/RIB</div><div class="pdf-value w-3_2"><?php echo $data['collar_name']; ?></div>
+				<div class="ml-0_2 pdf-value w-all"><?php echo $data['collar_detail']; ?></div>
+			</div>
+			<div class="pdf-row">
+				<div class="pdf-title w-2">แบบแขนเสื้อ</div><div class="pdf-value w-4"><?php echo $data['sleeves_name']; ?></div>
+				<div class="ml-0_2 pdf-value w-all"><?php echo $data['sleeves_detail']; ?></div>
+			</div>
+			<div class="pdf-row">
+				<div class="pdf-title w-2">แบบชายเสื้อ</div><div class="pdf-value w-4"><?php echo $data['flap_type_name']; ?></div>
+				<div class="ml-0_2 pdf-value w-all"><?php echo $data['flap_type_detail']; ?></div>
+			</div>
+			<div class="pdf-row">
+				<div class="pdf-title w-1_2">ผ่าข้าง</div>
+				<div class="pdf-checkbox"><img src="<?php echo ($data['m_flap_side'] == 1)?'public/images/checkbox_yes.png':'public/images/checkbox_no.png'; ?>"></div><div class="pdf-title w-1_2">ผู้ชาย</div>
+				<div class="pdf-checkbox"><img src="<?php echo ($data['f_flap_side'] == 1)?'public/images/checkbox_yes.png':'public/images/checkbox_no.png'; ?>"></div><div class="pdf-title w-1_2">ผู้หญิง</div>
+				<div class="ml-0_2 pdf-value w-3"><?php echo $data['flap_side_pattern_name']; ?></div>
+				<div class="ml-0_2 pdf-value w-all"><?php echo $data['flap_side_ptrn_detail']; ?></div>
+			</div>
+	<?php else: ?>
+			<div class="pdf-row">
+				<div class="pdf-title w-1_5">แบบปก</div><div class="pdf-value w-3"><?php echo $data['collar_name']; ?></div>
+				<div class="ml-0_2 pdf-value w-all"><?php echo $data['collar_detail']; ?></div>
+			</div>
+			<div class="pdf-row">
+				<div class="pdf-title w-2">สาบกระดุมชาย</div><div class="pdf-value w-4"><?php echo $data['m_clasper_name']; ?></div>
+				<div class="pdf-title w-2_2">สาบกระดุมหญิง</div><div class="pdf-value w-4"><?php echo $data['f_clasper_name']; ?></div>
+				<div class="pdf-title w-2_2">แบบสาบกระดุม</div><div class="pdf-value w-all"><?php echo $data['clasper_pattern_name']; ?></div>
+			</div>
+			<div class="pdf-row">
+				<div class="ml-0_2 pdf-value w-9"><?php echo $data['clasper_detail']; ?></div>
+				<div class="pdf-title w-2">แบบชายเสื้อ</div><div class="pdf-value w-4"><?php echo $data['flap_type_name']; ?></div>
+				<div class="ml-0_2 pdf-value w-all"><?php echo $data['flap_type_detail']; ?></div>
+			</div>
+			<div class="pdf-row">
+				<div class="pdf-title w-2">แขนเสื้อชาย</div><div class="pdf-value w-3_5"><?php echo $data['m_sleeves_name']; ?></div>
+				<div class="pdf-title w-2">แขนเสื้อหญิง</div><div class="pdf-value w-3_5"><?php echo $data['f_sleeves_name']; ?></div>
+				<div class="ml-0_2 pdf-value w-all"><?php echo $data['sleeves_detail']; ?></div>
+			</div>
+	<?php endif; ?>			
+			<div class="pdf-row">
+				<div class="pdf-checkbox"><img src="<?php echo ($data['m_pocket'] == 1)?'public/images/checkbox_yes.png':'public/images/checkbox_no.png'; ?>"></div><div class="pdf-title w-2_5">กระเป๋าเสื้อชาย</div>
+				<div class="pdf-checkbox"><img src="<?php echo ($data['f_pocket'] == 1)?'public/images/checkbox_yes.png':'public/images/checkbox_no.png'; ?>"></div><div class="pdf-title w-2_5">กระเป๋าเสื้อหญิง</div>
+				<div class="pdf-title w-2">แบบกระเป๋า</div><div class="pdf-value w-3"><?php echo $data['pocket_type_name']; ?></div>
+				<div class="ml-0_2 pdf-value w-all"><?php echo $data['pocket_type_detail']; ?></div>
+			</div>
+			<div class="pdf-row">
+				<div class="pdf-checkbox"><img src="<?php echo (($data['m_pen'] == 1) || ($data['f_pen'] == 1))?'public/images/checkbox_yes.png':'public/images/checkbox_no.png'; ?>"></div><div class="pdf-title w-2_5">ที่เสียบปากกา</div>
+				<div class="pdf-title w-0_7">แบบ</div><div class="pdf-value w-4"><?php echo $data['pen_pattern_name']; ?></div>
+				<div class="pdf-title w-1_5">ตำแหน่ง</div><div class="pdf-value w-4"><?php echo $data['pen_position_name']; ?></div>
+				<div class="pdf-value w-all"><?php echo $data['pen_detail']; ?></div>
+			</div>
+			<div class="pdf-row">
+				<div class="pdf-title w-3">รายละเอียดเพิ่มเติม</div><div class="pdf-value w-all"><?php echo $data['remark1']; ?></div>
+			</div>
+			<div class="pdf-row">
+				<div class="ml-0_2 pdf-value w-all"><?php echo $data['remark2']; ?></div>
+			</div>

@@ -1,0 +1,91 @@
+.cls-div-info { display:block;text-align:left;margin-left:350px; }
+.ul-vldr-error-msg { display:block;text-align:left;margin-left:350px; }
+.ul-vldr-error-msg li { font-weight:bold;font-size:small;color:red;font-size:11px; }
+
+.cls-div-info {display:none;position:absolute;top:0px;margin:2px auto;width:60%;text-align:center;font-weight:bold;color:red;}
+
+#divDispSelectedJobNumber {
+    width: 90%;
+	min-height: 2em;
+    display: inline-block;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    background: #f2f5f7 50% top repeat-x;
+}
+#divDispSelectedJobNumber .cls-selected-jobnumber {
+	line-height: 1.8;
+    display: inline-block;
+    border: 1px groove lightblue;
+    border-radius: 6px;
+    padding: 0px 20px 0px 5px;
+    margin: 1px 2px;
+    color: gray;
+    background-color: lightblue;
+}
+#divDispSelectedJobNumber .cls-selected-jobnumber .cls-remove-selected-jobnumber {
+	position: absolute;
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    margin-left: 5px;
+    background: url(../../images/b_delete.png);
+	cursor: pointer;
+}
+
+.cls-status-wip { font-weight: bold;color: orange; }
+.cls-status-warning { font-weight: bold;color: red;opacity: 0.4; }
+.cls-status-rejected { font-weight: bold;color: red;opacity: 0.7; }
+
+/* Date Picker */
+.ui-datepicker { font-size:12px; }
+/* Settings Dialog */
+.ui-dialog { font-size:12px; }
+.ui-dialog-titlebar-close {visibility: hidden;}
+
+.td-align-center {text-align:center;}
+
+.cls-tbl-edit {position:relative;top:0px;width:98%;box-sizing:border-box;font-family:"Lucida Sans Unicode", "Lucida Grande", Sans-Serif;line-height:22px;table-layout:fixed;margin:0 auto;}
+.cls-tbl-edit thead {width:100%;box-sizing:border-box;}
+.cls-tbl-edit tbody {width:100%;box-sizing:border-box;}
+.cls-tbl-edit tr {width:100%;box-sizing:border-box;}
+.cls-tbl-edit th {box-sizing:border-box;}
+.cls-tbl-edit td {box-sizing:border-box;}
+.cls-tbl-edit tbody tr:hover td {background:#e8edff;}
+
+.cls-tbl-edit .form-edit-elem-container {width:100%;display:block;box-sizing:border-box;margin:0px auto;}
+.cls-tbl-edit .frm-edit-row-group {width:100%;display:block;box-sizing:border-box;border:1px solid white;padding:2px;margin:2px;}
+.cls-tbl-edit .frm-edit-row-group .group-title {font-weight:bold;font-size:14px;display:block;width:90%;text-align:start;padding:5px 0px;margin-left:15px;}
+.cls-tbl-edit .frm-edit-row {display:inline-flex;width:100%;margin:5px auto;}
+
+.cls-tbl-edit td input[type="text"], .cls-tbl-edit td textarea, .cls-tbl-edit td select {font-weight:normal;font-size:12px;color:#039;width:80%;padding:2px 0px 2px 5px;}
+.cls-tbl-edit td input[type=radio].cls-toggle-label, .cls-tbl-edit td input[type=checkbox].cls-toggle-label {display:none;margin:10px;}
+.cls-tbl-edit td input[type=radio].cls-toggle-label + label, .cls-tbl-edit td input[type=checkbox].cls-toggle-label + label {display:inline-block;margin:-2px;font-weight:normal;font-size:12px;padding:4px 12px;background-color:#e8edff;border-color:#ddd;border:1px solid #dddddd;cursor:pointer;min-width:120px;}
+.cls-tbl-edit td input[type=radio].cls-toggle-label:checked + label, .cls-tbl-edit td input[type=checkbox].cls-toggle-label:checked + label {background-image:none;background-color:#b9c9fe;font-weight:bold;}
+.cls-tbl-edit td input[type=radio].cls-toggle-label:first-child + label, .cls-tbl-edit td input[type=checkbox].cls-toggle-label:first-child + label {border-top-left-radius:6px;border-bottom-left-radius:6px;}
+.cls-tbl-edit td label:last-child {border-top-right-radius:6px;border-bottom-right-radius:6px;}
+
+.cls-tbl-edit td span input {font-weight:normal;font-size:12px;color:#039;width:70%;border-top-right-radius:0px;border-bottom-right-radius:0px;padding:2px 0px 2px 5px;vertical-align:top;}
+.cls-tbl-edit td span .ui-button {margin-left:-1px;width:19px;height:18px;font-size:16px;}
+.cls-tbl-edit td input[readonly], .cls-tbl-edit textarea[readonly], .cls-tbl-edit select[disabled] {border-color:red;}
+.cls-tbl-edit td span input[readonly] {border-color:red;border-top-right-radius:6px;border-bottom-right-radius:6px;width:80%;}
+.cls-tbl-edit td input[disabled] {border-color:red;opacity:1;}
+.cls-tbl-edit td input[type=radio][disabled] + label {border-color:red;}
+.cls-tbl-edit td img.ui-datepicker-trigger {width:20px;height:20px;cursor:pointer;vertical-align:bottom;margin-bottom:3px;}
+.cls-tbl-edit .input-invalid {background-color:red;}
+.cls-tbl-edit select.input-invalid + span.ui-combobox input {background-color:red;}
+
+.cls-tbl-edit .frm-edit-row-title {text-align:right;margin-right:5px;display:inline;}
+.cls-tbl-edit .frm-edit-row-value {text-align:left;margin-left:10px;display:inline;}
+.cls-tbl-edit .title-checkbox {text-align:left;}
+.cls-tbl-edit .value-checkbox {text-align:right;}
+
+.cls-tbl-edit td label[for*="rdo-deliver_route"] {min-width:80px !important;}
+.cls-tbl-edit td label[for*="chk-product_deliver_"] {min-width:80px !important;}
+
+img.tblButton {height:16px;}
+
+.frm-edit-row table thead th {font-weight:bold;}
+.frm-edit-row table tbody tr td img {cursor:pointer;margin:0px 1px;}
+
+.hidden {visibility:hidden !important;}
+

@@ -1,0 +1,18 @@
+﻿#tblSearchPanel {width:270px;margin-top:25px;}
+.ui-autocomplete {max-height:200px;overflow-y:auto;overflow-x:hidden;padding-right:20px;z-index:500}
+.ui-autocomplete-input { margin:0;}
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {height:100px;}
+/* Date Picker */
+.ui-datepicker { font-size:12px;}
+/* Settings Dialog */
+.ui-dialog { font-size:12px;}
+.ui-dialog-titlebar-close {visibility:hidden;}
+
+td.tdComboBox input {vertical-align:top;}
+td.tdComboBox .ui-button {margin-left:-1px;width:19px;height:18px;font-size:16px;vertical-align:top;}
+td.tdComboBox input {border-top-right-radius:0px;border-bottom-right-radius:0px;}
+td.tdDatePicker img {width:20px;height:20px;cursor:pointer;vertical-align:bottom;margin-bottom:3px;}
+.clsFormButton {height:25px;width:80px;font-size:12px;}
