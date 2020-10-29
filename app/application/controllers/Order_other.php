@@ -318,8 +318,9 @@ OTP;
 				FROM v_order_report o
 				INNER JOIN fnc_listmanuscreen_accright_byuser($_userid) uac ON True
 				INNER JOIN (
-				SELECT 1 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
-				FROM t_order_screen_other
+					SELECT o.product_type_rowid AS type_id, s.order_rowid, s.order_screen_rowid, s.position, s.detail, s.size, s.job_hist, s.price, s.seq
+					FROM t_order_premade_other o
+					INNER JOIN t_order_premade_screen_other s ON s.order_rowid = o.rowid
 				) d
 				ON d.type_id = o.type_id
 				AND d.order_rowid = o.order_rowid
@@ -354,8 +355,9 @@ QUERY;
 				FROM v_order_report o
 				INNER JOIN fnc_listmanuweave_accright_byuser($_userid) uac ON True
 				INNER JOIN (
-				SELECT 1 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
-				FROM t_order_screen_other
+					SELECT o.product_type_rowid AS type_id, s.order_rowid, s.order_screen_rowid, s.position, s.detail, s.size, s.job_hist, s.price, s.seq
+					FROM t_order_premade_other o
+					INNER JOIN t_order_premade_screen_other s ON s.order_rowid = o.rowid
 				) d
 				ON d.type_id = o.type_id
 				AND d.order_rowid = o.order_rowid

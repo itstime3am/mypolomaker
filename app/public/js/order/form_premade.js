@@ -22,7 +22,7 @@ $(function() {
 		//$('#size-grand-total').html('0');
 		//$('#spn-total_price').html('0.00');
 		
-		doClearDetailsEditPanel();
+		// doClearDetailsEditPanel();
 		_blnDetailChanged = false;
 		//-- details size
 

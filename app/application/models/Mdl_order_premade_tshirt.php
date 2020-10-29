@@ -215,7 +215,7 @@ EOT;
 				FROM v_order_report o
 				INNER JOIN fnc_listmanuscreen_accright_byuser($_userid) uac ON True
 				INNER JOIN (
-				SELECT 1 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
+				SELECT 4 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
 				FROM pm_t_order_premade_screen_tshirt
 				) d
 				ON d.type_id = o.type_id
@@ -250,7 +250,7 @@ QUERY;
 			FROM v_order_report o
 			INNER JOIN fnc_listmanuweave_accright_byuser($_userid) uac ON True
 			INNER JOIN (
-			SELECT 1 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
+			SELECT 4 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
 			FROM pm_t_order_premade_screen_tshirt
 			) d
 			ON d.type_id = o.type_id

@@ -184,6 +184,7 @@ EOT;
 					array_push($_arrDetails[(string)$_row['order_detail_rowid']]['size'], $_row);
 				}
 			}
+			$_master["detail"] = $_arrDetails;
 			//-- details size
 			//-- details
 
@@ -205,14 +206,32 @@ OTP;
 			// -- others price
 
 			//++ screen
-			$_sql = <<<EOT
-SELECT t.order_screen_rowid, COALESCE(m.name, '') AS order_screen, t.position, t.detail, t.size, t.job_hist
-, TO_CHAR(COALESCE(t.price, 0), '9G999G990D00') AS price 
-FROM pm_t_order_premade_screen_polo t 
-	LEFT OUTER JOIN pm_m_order_screen m ON t.order_screen_rowid = m.rowid 
-WHERE t.order_rowid = $RowID 
-ORDER BY t.seq 
-EOT;
+			$_userid = $this->session->userdata('user_id');
+				$_sql =<<<QUERY
+				SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
+				tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date
+				, ARRAY_TO_JSON(ARRAY(
+				SELECT UNNEST(fnc_manu_screen_avai_status(tmp.prod_status))
+				INTERSECT
+				SELECT UNNEST(uac.arr_avail_status)
+				)) AS arr_avail_status
+				FROM v_order_report o
+				INNER JOIN fnc_listmanuscreen_accright_byuser($_userid) uac ON True
+				INNER JOIN (
+				SELECT 3 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
+				FROM pm_t_order_premade_screen_polo
+				) d
+				ON d.type_id = o.type_id
+				AND d.order_rowid = o.order_rowid
+				INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
+				LEFT JOIN pm_t_manu_screen_production tmp on tmp.order_screen_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
+				LEFT JOIN m_manu_screen_status ss ON ss.rowid = tmp.prod_status
+				LEFT join m_manu_screen_type mst on mst.rowid = tmp.screen_type
+				--WHERE o.ps_rowid = 10
+				WHERE COALESCE(o.is_cancel, 0) < 1
+				AND s.screen_type  = 2
+				AND d.order_rowid = $RowID
+QUERY;
 			$_arrSc = $this->arr_execute($_sql);
 			if ($this->error_message != '') {
 				$_whileChecker = FALSE;
@@ -220,8 +239,42 @@ EOT;
 			}
 			if ($_arrSc == FALSE) $_arrSc = array();
 			
-			$_master["detail"] = $_arrDetails;
 			$_master["screen"] = $_arrSc;
+			// pass variable only no any error in every processes, otherwise just throw FALSE exit while loop and return FALSE
+			// ++ weave
+			$_sql =<<<QUERY
+			SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
+			tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date
+			, ARRAY_TO_JSON(ARRAY(
+			SELECT UNNEST(fnc_manu_weave_avai_status(tmp.prod_status))
+			INTERSECT
+			SELECT UNNEST(uac.arr_avail_status)
+			)) AS arr_avail_status
+			FROM v_order_report o
+			INNER JOIN fnc_listmanuweave_accright_byuser($_userid) uac ON True
+			INNER JOIN (
+			SELECT 3 AS type_id, order_rowid, order_screen_rowid, position, detail, size, job_hist, price, seq
+			FROM pm_t_order_premade_screen_polo
+			) d
+			ON d.type_id = o.type_id
+			AND d.order_rowid = o.order_rowid
+			INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
+			LEFT JOIN pm_t_manu_weave_production tmp on tmp.order_weave_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
+			LEFT JOIN m_manu_weave_status ss ON ss.rowid = tmp.prod_status
+			LEFT join m_manu_weave_type mst on mst.rowid = tmp.weave_type
+			--WHERE o.ps_rowid = 10
+			WHERE COALESCE(o.is_cancel, 0) < 1
+			and s.screen_type  = 1
+			AND d.order_rowid = $RowID
+QUERY;
+
+			$_arrSc = $this->arr_execute($_sql);
+			if ($this->error_message != '') {
+				$_whileChecker = FALSE;
+				continue;
+			}
+			if ($_arrSc == FALSE) $_arrSc = array();
+			$_master["weave"] = $_arrSc;
 			// pass variable only no any error in every processes, otherwise just throw FALSE exit while loop and return FALSE
 			$_arrReturn = $_master;
 			$_whileChecker = FALSE;
