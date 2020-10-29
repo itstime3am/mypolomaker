@@ -328,13 +328,23 @@ function _doRequestOrderDetails(fnc_callback, is_edit, cb_args) {
 				//++ Screens list
 				$('#tbl_sc_list > *:not("thead") tr:not("#sc_edit_panel")').remove();
 				_str = '';
+				console.log(cb_args[0]);
 				if ('screen' in cb_args[0]) {
 					for (_r in cb_args[0]['screen']) {
-						if ('order_screen' in cb_args[0]['screen'][_r]) {
+						if ('disp_type' in cb_args[0]['screen'][_r]) {
 							_row = cb_args[0]['screen'][_r];
-							_str += '<tr><td order_screen_rowid="' + _row['order_screen_rowid'] + '" >' + _row['order_screen'] + "</td><td>" + _row['position'] + "</td><td>" + _row['detail'] + "</td><td>" + _row['size'] + "</td><td>" + _row['job_hist'] + "</td><td>" + _row['price'] + "</td><td class='control-button'>";
-							if (is_edit) _str += "<img src='public/images/edit.png' class='sc-edit-ctrl ctrl-edit' title='Edit' /><img src='public/images/b_delete.png' class='sc-edit-ctrl ctrl-delete' title='Delete' />";
-							_str += "</td></tr>";
+							_scInsertDetailRow($('#tbl_sc_list'),_row);
+						}
+					}
+					$('#sc_edit_panel').before(_str);
+					_blnScChanged = false;
+				}
+
+				if ('weave' in cb_args[0]) {
+					for (_r in cb_args[0]['weave']) {
+						if ('disp_type' in cb_args[0]['weave'][_r]) {
+							_row = cb_args[0]['weave'][_r];
+							_scInsertDetailRow($('#tbl_sc_list'),_row);
 						}
 					}
 					$('#sc_edit_panel').before(_str);
