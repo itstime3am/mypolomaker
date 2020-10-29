@@ -141,6 +141,11 @@ class Order_premade_cap extends MY_Ctrl_crud {
 		$this->_setController("avail_process_status", "", NULL);
 		$this->_setController("order_detail_rowid", "", NULL);
 		//-- set special attributes	
+
+		$_screen_status = $this->mt->list_where('manu_screen_status', 'is_cancel=0', NULL, 'm_');
+		$this->add_js("var _ARR_SCREEN_STATUS = " . json_encode($_screen_status) . ";", 'custom');
+		$_weave_status = $this->mt->list_where('manu_weave_status', 'is_cancel=0', NULL, 'm_');
+		$this->add_js("var _ARR_WEAVE_STATUS = " . json_encode($_weave_status) . ";", 'custom');
 		
 		$pass['left_panel'] = $this->__getLeftPanel();
 
