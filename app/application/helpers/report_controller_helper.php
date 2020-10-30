@@ -449,5 +449,178 @@ OCH
 		);
 }
 
+function hlpr_arrSearchControlsParams_bank_state($type = -1, $product_type_id = 0) {
+	$CI =& get_instance();
+	$CI->load->model('Mdl_customer', 'c');
+/*
+	$_arrCustomer = $CI->c->list_select();
+	if (is_array($_arrCustomer)) {
+		array_unshift($_arrCustomer, array('rowid'=>'', 'company'=>'', 'display_name'=>''));
+	}
+*/
+	$_arrCompanySearch = $CI->c->list_select_company();
+	if (is_array($_arrCompanySearch)) array_unshift($_arrCompanySearch, array('rowid'=>'', 'company'=>''));
+	$CI->load->model('mdl_master_table', 'mt');
+	$_arrFabric = $CI->mt->list_all('fabric', 'is_polo DESC');
+	array_unshift($_arrFabric, array('rowid'=>'', 'name'=>''));
+	$_arrJoomlaUsers = $CI->mt->list_joomla_users();
+	array_unshift($_arrJoomlaUsers, array('id'=>'', 'name'=>''));
+	$_arrDepPayRoute = $CI->mt->list_where('order_payment_route', "is_cancel = 0 AND is_deposit = 1", 'sort_index', 'm_');
+	array_unshift($_arrDepPayRoute, array('rowid'=>'', 'name'=>''));
+	$_arrClsPayRoute = $CI->mt->list_where('order_payment_route', "is_cancel = 0 AND is_close = 1", 'sort_index', 'm_');
+	array_unshift($_arrClsPayRoute, array('rowid'=>'', 'name'=>''));
+	
+	$_to = new DateTime();
+	$_frm = date_sub(new DateTime(), new DateInterval('P3D'));
+
+	$_ctrlProductType = array(
+			"type" => "sel",
+			"label" => "ประเภท",
+			"name" => "product_type_id",
+			"sel_options" => array(
+				array('id'=>'', 'name'=>''),
+				array('id'=>1, 'name'=>'เสื้อโปโล'),
+				array('id'=>2, 'name'=>'เสื้อยืด'),
+				array('id'=>5, 'name'=>'หมวก'),
+				array('id'=>6, 'name'=>'เสื้อแจ๊คเก็ต')
+			),
+			"sel_val" => "id",
+			"sel_text" => "name"
+		);
+	
+	if ((! empty($product_type_id)) && ($product_type_id > 0)) {
+/*
+		array_push($_arrControls, array(
+				"type" => "hdn",
+				"label" => "hidden",
+				"name" => "product_type_id",
+				"value" => $product_type_id
+			));
+*/
+			$_ctrlProductType["class"] = "set-disabled";
+			$_ctrlProductType["value"] = $product_type_id;
+	}
+
+	$_arrControls = array(
+	
+				array(
+					"type" => "txt",
+					"label" => "เลขที่ใบงาน",
+					"name" => "job_number"
+				),
+
+				array(
+					"type" => "aac"
+					, "label" => "ลูกค้า"
+					, "name" => "customer_rowid"
+					, "url" => "./customer/json_search"
+					, "min_length" => 2
+					, "sel_val" => "rowid"
+					, "sel_text" => "display_name_company"
+					, "on_select" => <<<OSL
+				var _aac_text = '';
+				if (ui.item) {
+					_aac_text = ui.item.value || '';
+					_aac_text = _aac_text.toString().trim();
+				}
+				if (_aac_text != '') {
+					var _match = /\[(.+)\]/.exec(_aac_text);
+					if ((_match) && (_match.length > 0)) $('#sel-company', $(this).parents('form').get(0)).combobox('setValue', _match[1]);
+				}
+
+OSL
+				),
+				array(
+					"type" => "sel"
+					, "label" => "บริษัท"
+					, "name" => "company"
+					, "sel_options" => $_arrCompanySearch
+					, "sel_val" => "company"
+					, "sel_text" => "company"
+					, "on_changed" => <<<OCH
+function(str, event, ui) {
+	var _str = str || '';
+	_str = _str.toString().trim();
+	if (_str != '') {
+		$('#tblSearchPanel #aac-customer_rowid').autocomplete('search', _str);
+	}
+}
+
+OCH
+				),
+
+				array(
+					"type" => "rdo"
+					, "name" => "date_type"
+					, "sel_options" => array(
+							array("rowid"=>"1", "name"=>"วันที่เปิดใบงาน")
+							// , array("rowid"=>"2", "name"=>"วันที่ส่งจริง")
+						)
+					, "sel_val" => "rowid"
+					, "sel_text" => "name"
+					, "value" => 1
+				),
+				array(
+					"type" => "dpk",
+					"label" => "จากวันที่",
+					"name" => "date_from",
+					"value" => $_frm->format('d/m/Y')
+				),
+				array(
+					"type" => "dpk",
+					"label" => "ถึงวันที่",
+					"name" => "date_to",
+					"value" => $_to->format('d/m/Y')
+				)
+				/*,array(
+					"type" => "info",
+					"value" => "* จำกัดจำนวนแสดงผลไว้ที่ 100 เพื่อประสิทธิภาพในการทำงานของโปรแกรม"
+				)*/
+		);
+	
+	$_arrLayout = array(
+			// array('product_type_id')
+			// , array('order_status')
+			// , array('category_id')
+			//, array('fabric_rowid')
+			 array('job_number')
+			, array('customer_rowid')
+			, array('company')
+			// , array('create_user_id')
+			, array("เงื่อนไขวันที่" => array(
+				array('date_type')
+				, array('date_from')
+				, array('date_to')
+			))
+		);
+
+	if ($type == 1) {
+
+		array_push($_arrControls, array(
+					"type" => "sel",
+					"label" => "มัดจำ",
+					"name" => "deposit_route_id",
+					"sel_options" => $_arrDepPayRoute
+				));
+		//array_push($_arrLayout, array('deposit_route_id'));
+		$_arrLayout['ช่องทางชำระเงิน'] = array(array('deposit_route_id'));
+	} else {
+
+		array_push($_arrControls, array(
+					"type" => "sel",
+					"label" => "งวดสุดท้าย",
+					"name" => "close_payment_route_id",
+					"sel_options" => $_arrClsPayRoute
+				));
+		//array_push($_arrLayout, array('close_payment_route_id'));
+		$_arrLayout['ช่องทางชำระเงิน'] = array(array('close_payment_route_id'));
+	}
+	return array(
+			'controls' => $_arrControls
+			, 'layout' => $_arrLayout
+		);
+}
+
+
 /* End of file report_controller_helper.php */ 
 /* Location: ./application/helpers/report_controller_helper.php */ 

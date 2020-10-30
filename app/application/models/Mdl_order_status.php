@@ -59,12 +59,16 @@ WHERE True
 	function search($arrObj = array()) {
 		include ( APPPATH.'config/database.php' );
 		$_sql = <<<QUERY
-SELECT q.qo_number, t.*, COALESCE(uc.name, '-') AS sales_name 
-FROM v_order_report_status t 
-	LEFT OUTER join pm_t_quotation_detail qd on qd.rowid = t.order_detail_rowid 
-	LEFT OUTER join pm_t_quotation q on q.rowid = qd.quotation_rowid 
-	LEFT OUTER JOIN {$db['joomla']['database']}.{$db['joomla']['dbprefix']}users uc ON t.create_by = uc.id 
-WHERE COALESCE(t.is_cancel, 0) < 1 
+		SELECT  q.qo_number
+			, t.disp_deposit_payment ,t.deposit_date , t.deposit_payment_route 
+			, t.disp_close_payment , t.close_date , t.close_payment_route 
+			, t.*, COALESCE(uc.name, '-') AS sales_name 
+		FROM v_order_report_status t 
+		LEFT OUTER join pm_t_quotation_detail qd on qd.rowid = t.order_detail_rowid 
+		LEFT OUTER join pm_t_quotation q on q.rowid = qd.quotation_rowid 
+		LEFT OUTER join m_order_payment_route pr on pr.name = t.close_payment_route 
+		LEFT OUTER JOIN {$db['joomla']['database']}.{$db['joomla']['dbprefix']}users uc ON t.create_by = uc.id 
+	WHERE COALESCE(t.is_cancel, 0) < 1 
 QUERY;
 		$_arrSpecWhere = array(
 			'order_status' => array('dbcol'=>'t.order_status_id', 'type'=>'int'),
@@ -125,7 +129,7 @@ QUERY;
 			if ($arrObj['close_payment_route_id'] >= 0) {
 				$_arrSpecWhere['close_payment_route_id'] = array(
 					"type"=>"raw", 
-					"dbcol"=>"COALESCE(t.close_payment_route_id, 0)", 
+					"dbcol"=>"COALESCE(pr.rowid , 0)", 
 					"val"=> $this->db->escape((int) trim($arrObj['close_payment_route_id']))
 				);
 			} else {
