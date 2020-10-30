@@ -45,14 +45,15 @@ class Report_account_all extends MY_Ctrl_crud {
 		$this->_setController("order_status_id", "", NULL);
 		$this->_setController("order_status", "สถานะ", NULL, array("selectable"=>FALSE,"class"=>"center edit order_status_id","width"=>'80px',"order"=>0));
 		$this->_setController("job_number", "เลขที่ใบสั่งตัด", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>1));
-		$this->_setController("order_date", "วันที่", NULL, array("selectable"=>TRUE,"default"=>FALSE,"width"=>60,"class"=>"center","order"=>2));
-		$this->_setController("sales_name", "เซลส์", NULL, array("selectable"=>TRUE,"width"=>100,"order"=>3));
-		$this->_setController("customer", "ชื่อลูกค้า", NULL, array("selectable"=>TRUE,"width"=>120,"order"=>4));
-		$this->_setController("company", "บริษัท", NULL, array("selectable"=>TRUE,"width"=>120,"class"=>"center","order"=>5));
-		$this->_setController("category", "กลุ่มสินค้า", NULL, array("selectable"=>TRUE,"class"=>"center","width"=>60,"order"=>6));
-		$this->_setController("type", "ประเภท", NULL, array("selectable"=>TRUE,"class"=>"center","width"=>60,"order"=>7));
-		$this->_setController("fabric", "ชนิดผ้า", NULL, array("selectable"=>TRUE,"width"=>80,"order"=>8));
-		$this->_setController("sum_qty", "จำนวนตัว", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"center default_int","order"=>9));
+		$this->_setController("qo_number", "เลขที่ใบนำส่ง", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>2));
+		$this->_setController("order_date", "วันที่", NULL, array("selectable"=>TRUE,"default"=>FALSE,"width"=>60,"class"=>"center","order"=>3));
+		$this->_setController("sales_name", "เซลส์", NULL, array("selectable"=>TRUE,"width"=>100,"order"=>4));
+		$this->_setController("customer", "ชื่อลูกค้า", NULL, array("selectable"=>TRUE,"width"=>120,"order"=>5));
+		$this->_setController("company", "บริษัท", NULL, array("selectable"=>TRUE,"width"=>120,"class"=>"center","order"=>6));
+		$this->_setController("category", "กลุ่มสินค้า", NULL, array("selectable"=>TRUE,"class"=>"center","width"=>60,"order"=>7));
+		$this->_setController("type", "ประเภท", NULL, array("selectable"=>TRUE,"class"=>"center","width"=>60,"order"=>8));
+		$this->_setController("fabric", "ชนิดผ้า", NULL, array("selectable"=>TRUE,"width"=>80,"order"=>9));
+		$this->_setController("sum_qty", "จำนวนตัว", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"center default_int","order"=>10));
 			
 		$this->_setController("ปักโรงงาน", "ปักโรงงาน", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>23));
 		$this->_setController("ปักพี่แดง", "ปักพี่แดง", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>24));
@@ -145,6 +146,7 @@ class Report_account_all extends MY_Ctrl_crud {
 		<tr>
 			<th rowspan="2">สถานะ</th>
 			<th rowspan="2">เลขที่ใบสั่งตัด</th>
+			<th rowspan="2">เลขที่ใบนำส่ง</th>
 			<th rowspan="2">วันที่</th>
 			<th rowspan="2">เซลส์</th>
 			<th rowspan="2">ชื่อลูกค้า</th>
