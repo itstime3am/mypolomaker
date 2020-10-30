@@ -129,7 +129,7 @@ QUERY;
 			if ($arrObj['close_payment_route_id'] >= 0) {
 				$_arrSpecWhere['close_payment_route_id'] = array(
 					"type"=>"raw", 
-					"dbcol"=>"COALESCE(pr.rowid , 0)", 
+					"dbcol"=>"COALESCE(t.close_payment_route_id , 0)", 
 					"val"=> $this->db->escape((int) trim($arrObj['close_payment_route_id']))
 				);
 			} else {

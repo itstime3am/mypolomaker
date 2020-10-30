@@ -607,13 +607,22 @@ OCH
 	} else {
 
 		array_push($_arrControls, array(
-					"type" => "sel",
-					"label" => "งวดสุดท้าย",
-					"name" => "close_payment_route_id",
-					"sel_options" => $_arrClsPayRoute
-				));
-		//array_push($_arrLayout, array('close_payment_route_id'));
+			"type" => "sel",
+			"label" => "งวดสุดท้าย",
+			"name" => "close_payment_route_id",
+			"sel_options" => $_arrClsPayRoute
+		));
 		$_arrLayout['ช่องทางชำระเงิน'] = array(array('close_payment_route_id'));
+
+		array_push($_arrControls, array(
+			"type" => "sel",
+			"label" => "มัดจำ",
+			"name" => "deposit_route_id",
+			"sel_options" => $_arrDepPayRoute
+		));
+		$_arrLayout['ช่องทางชำระเงิน'] = array(array('deposit_route_id'));
+
+		
 	}
 	return array(
 			'controls' => $_arrControls
