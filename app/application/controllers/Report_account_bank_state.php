@@ -45,7 +45,7 @@ class Report_account_bank_state extends MY_Ctrl_crud {
 		$this->_setController("order_status_id", "", NULL);
 		// $this->_setController("order_status", "สถานะ", NULL, array("selectable"=>FALSE,"class"=>"center edit order_status_id","width"=>'80px',"order"=>0));
 		$this->_setController("job_number", "เลขที่ใบสั่งตัด", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>1));
-		$this->_setController("qo_number", "เลขที่ใบนำส่ง", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>2));
+		$this->_setController("qo_number", "ใบเสนอราคา", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>2));
 		$this->_setController("order_date", "x", NULL, array("selectable"=>TRUE,"default"=>FALSE,"width"=>60,"class"=>"center","order"=>3));
 		$this->_setController("customer", "ชื่อลูกค้า", NULL, array("selectable"=>TRUE,"width"=>100,"order"=>4));
 		$this->_setController("company", "ชื่อบริษัท", NULL, array("selectable"=>TRUE,"width"=>120,"order"=>5));
@@ -121,7 +121,7 @@ class Report_account_bank_state extends MY_Ctrl_crud {
 	<thead>
 		<tr>
 			<th rowspan="2" style="padding:0px;">เลขที่ใบนำส่ง</th>
-			<th rowspan="2">เลขที่ใบนำส่ง</th>
+			<th rowspan="2">ใบเสนอราคา</th>
 			<th rowspan="2">x</th>
 			<th rowspan="2">ชื่อลูกค้า</th>
 			<th rowspan="2">บริษัท</th>
