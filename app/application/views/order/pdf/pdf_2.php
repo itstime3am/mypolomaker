@@ -65,7 +65,7 @@ div.pdf-sample-img-sub {display:inline-block;float:left;width:6.1cm;height:5cm;l
 						<div class="pdf-title w-2_3">เลขที่ขาย</div><div class="pdf-value pdf-text-center w-all">{$data['job_number']}</div>
 					</div>
 					<div class="line-row">
-						<div class="pdf-title w-2_3">พนักงานขาย</div><div class="pdf-value pdf-text-center w-all">{$data['user_name']}</div>
+						<div class="pdf-title w-2_4">เลขที่ใบเสนอราคา</div><div class="pdf-value pdf-text-center w-all">{$data['quotation_number']}</div>
 					</div>
 				</div>
 			</div>
