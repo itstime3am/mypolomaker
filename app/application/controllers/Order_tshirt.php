@@ -126,7 +126,11 @@ class Order_tshirt extends MY_Ctrl_crud {
 		//++ screen panel form parts
 		$_editFormParams['screen_panel'] = $this->add_view('order/_screen', array(
 				//'screen_list' => array(),
-				'order_screen' => $this->_selOptions['order_screen']
+				'order_screen' => $this->_selOptions['order_screen'],
+				'order_column' => array(
+					"สถานะ", "จัดการสถานะ", "วันที่ Approve", "ช่างตีบล็อค", "รูปภาพ"
+				)
+				
 			), TRUE
 		);
 		//-- screen panel form parts
@@ -534,7 +538,7 @@ QUERY;
 					continue;
 				}
 				if ($_arr4 == FALSE) $_arr4 = array();
-				$_arrReturn['screen'] = $_arr4;
+				$_arrReturn['screen_order'] = $_arr4;
 				
 
 				// ++ weave
@@ -570,7 +574,7 @@ QUERY;
 					continue;
 				}
 				if ($_arr5 == FALSE) $_arr5 = array();
-				$_arrReturn['weave'] = $_arr5;
+				$_arrReturn['weave_order'] = $_arr5;
 
 
 				$_whileChecker = FALSE;

@@ -271,20 +271,10 @@ function _doRequestOrderDetails(fnc_callback, is_edit, cb_args) {
 				
 				$('#tbl_sc_list tbody tr:not("#sc_edit_panel")').remove();
 				_str = '';
-				
-				if ('weave' in cb_args[0]) {
-					for (_r in cb_args[0]['weave']) {
-						if ('disp_type' in cb_args[0]['weave'][_r]) {
-							_row = cb_args[0]['weave'][_r];
-							_scInsertDetailRow($('#tbl_sc_list'),_row);
-						}
-					}
-					_blnScChanged = false;
-				}
-
+				console.log(cb_args[0]);
 				if ('screen' in cb_args[0]) {
 					for (_r in cb_args[0]['screen']) {
-						if ('disp_type' in cb_args[0]['screen'][_r]) {
+						if ('order_screen' in cb_args[0]['screen'][_r]) {
 							_row = cb_args[0]['screen'][_r];
 							_scInsertDetailRow($('#tbl_sc_list'),_row);
 							//_str += '<tr><td order_screen_rowid="' + _row['order_screen_rowid'] + '" >' + _row['order_screen'] + "</td><td>" + _row['position'] + "</td><td>" + _row['detail'] + "</td><td>" + _row['size'] + "</td><td>" + _row['job_hist'] + "</td><td>" + _row['price'] + "</td><td class='control-button'><img src='public/images/edit.png' class='sc-edit-ctrl ctrl-edit' title='Edit' /><img src='public/images/b_delete.png' class='sc-edit-ctrl ctrl-delete' title='Delete' /></td></tr>";
@@ -292,6 +282,27 @@ function _doRequestOrderDetails(fnc_callback, is_edit, cb_args) {
 					}
 					//$('#sc_edit_panel').before(_str);
 					//$('#tbl_sc_list tbody').append(_str);
+					_blnScChanged = false;
+				}
+				
+				if ('weave_order' in cb_args[0]) {
+					for (_r in cb_args[0]['weave_order']) {
+						if ('disp_type' in cb_args[0]['weave_order'][_r]) {
+							_row = cb_args[0]['weave_order'][_r];
+							_scInsertDetailRowOrder($('#tbl_sc_list'),_row);
+						}
+					}
+					_blnScChanged = false;
+				}
+
+				if ('screen_order' in cb_args[0]) {
+					for (_r in cb_args[0]['screen_order']) {
+						if ('disp_type' in cb_args[0]['screen_order'][_r]) {
+							_row = cb_args[0]['screen_order'][_r];
+							_scInsertDetailRowOrder($('#tbl_sc_list'),_row);
+						
+						}
+					}
 					_blnScChanged = false;
 				}
 

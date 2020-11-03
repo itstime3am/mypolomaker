@@ -4,14 +4,15 @@
 			<tr>
 				<th style="width:12%;">ผู้ปัก/สกรีน</th>
 				<th style="width:12%;">ตำแหน่งงาน</th>
-				<th style="width:24%;">รายละเอียด</th>
+				<th style="width:12%;">รายละเอียด</th>
 				<th style="width:12em;">ขนาด</th>
 				<th style="width:12%;">ประวัติงาน</th>
-				<th style="width:12%;">สถานะ</th>
-				<th style="width:12%;">จัดการสถานะ</th>
-				<th style="width:12%;">วันที่ Approve</th>
-				<th style="width:12%;">ช่างตีบล็อค</th>
-				<th style="width:12%;">รูปภาพ</th>
+				<?php if(isset($order_column)){ 
+					foreach ($order_column as $key=>$item){ ?>
+						
+						<th style="width:12%;"><?php echo $item ?></th>
+					
+				<?php } }  ?>
 				<th class="eventView-hide" style="width:12%;">ราคา (บาท)</th>
 				<th class="eventView-hide" style="width:60px;"></th>
 			</tr>

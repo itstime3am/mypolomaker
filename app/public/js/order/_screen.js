@@ -126,6 +126,28 @@ if (typeof _SC_Load == 'undefined') {
 	});
 	//++ Screen panel function
 	function _scInsertDetailRow(tbl, objNew) {
+		var _order_screen_txt = false;
+		if (('order_screen' in objNew)) {
+			_order_screen_txt = objNew.order_screen;
+		} else {
+			var _sc_edit_panel = $('tr#sc_edit_panel', tbl)[0];
+			var _elmSel = $('#sel-sc_order_screen_rowid', _sc_edit_panel).get(0);
+			var _opt = $('option', _elmSel).filter(function() { return ($(this).val() == objNew.order_screen_rowid); });
+			if (_opt.length > 0) _order_screen_txt = _opt.text();
+		}
+		var _str = '<tr><td order_screen_rowid="' + objNew.order_screen_rowid + '" >' + _order_screen_txt + '</td>';
+		//_str += '<td>' + $('#sc_edit_panel #txt-sc_position').val() + '</td>';
+		_str += '<td>' + objNew.position + '</td>';
+		_str += '<td>' + objNew.detail + '</td>';
+		_str += '<td>' + objNew.size + '</td>';
+		_str += '<td>' + objNew.job_hist + '</td>';
+		_str += '<td class="eventView-hide">' + objNew.price + '</td>';
+		_str += '<td class="control-button eventView-hide"><img src="public/images/edit.png" class="sc-edit-ctrl ctrl-edit" title="Edit" /><img src="public/images/b_delete.png" class="sc-edit-ctrl ctrl-delete" title="Delete" /></td></tr>';
+		
+		$('tbody', tbl).append(_str);
+	}
+
+	function _scInsertDetailRowOrder(tbl, objNew) {
 		var _status = objNew.disp_status || '-';
 		var _block_emp = objNew.block_emp || '-';
 		var _approve_date = objNew.approve_date || '-';

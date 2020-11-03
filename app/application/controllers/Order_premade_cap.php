@@ -111,7 +111,10 @@ class Order_premade_cap extends MY_Ctrl_crud {
 
 		//++ screen panel form parts
 		$_editFormParams['screen_panel'] = $this->add_view('order/_screen', array(
-			'order_screen' => $this->_selOptions['order_screen']
+			'order_screen' => $this->_selOptions['order_screen'],
+			'order_column' => array(
+				"สถานะ", "จัดการสถานะ", "วันที่ Approve", "ช่างตีบล็อค", "รูปภาพ"
+			)
 		), TRUE);
 		//-- screen panel form parts
 
