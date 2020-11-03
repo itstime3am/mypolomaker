@@ -290,6 +290,7 @@ SELECT v.*
 , m.file_image1, m.file_image2, m.file_image3, m.file_image4, m.file_image5, m.file_image6, m.file_image7, m.file_image8
 , m.file_image9, m.remark1, m.remark2, m.create_by, m.create_date, m.update_by, m.update_date
 , v.option_promotion AS promotion, qt.revision AS quotation_revision, m.supplier_rowid, v.supplier_name
+, qt.qo_number as quotation_number
 FROM pm_t_order_premade_tshirt m
 	INNER JOIN v_order v ON v.type_id = 4 AND v.order_rowid = m.rowid
 	LEFT OUTER JOIN t_order_add_option op ON op.order_type_id = v.type_id AND op.order_rowid = v.order_rowid
