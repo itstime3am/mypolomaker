@@ -271,7 +271,6 @@ function _doRequestOrderDetails(fnc_callback, is_edit, cb_args) {
 				
 				$('#tbl_sc_list tbody tr:not("#sc_edit_panel")').remove();
 				_str = '';
-				console.log(cb_args[0]);
 				if ('screen' in cb_args[0]) {
 					for (_r in cb_args[0]['screen']) {
 						if ('order_screen' in cb_args[0]['screen'][_r]) {
