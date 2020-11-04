@@ -328,10 +328,9 @@ function _doRequestOrderDetails(fnc_callback, is_edit, cb_args) {
 				//++ Screens list
 				$('#tbl_sc_list > *:not("thead") tr:not("#sc_edit_panel")').remove();
 				_str = '';
-				console.log(cb_args[0]);
 				if ('screen' in cb_args[0]) {
 					for (_r in cb_args[0]['screen']) {
-						if ('disp_type' in cb_args[0]['screen'][_r]) {
+						if ('order_screen' in cb_args[0]['screen'][_r]) {
 							_row = cb_args[0]['screen'][_r];
 							_scInsertDetailRow($('#tbl_sc_list'),_row);
 						}
@@ -339,17 +338,36 @@ function _doRequestOrderDetails(fnc_callback, is_edit, cb_args) {
 					$('#sc_edit_panel').before(_str);
 					_blnScChanged = false;
 				}
+				
+				if ('weave_order' in cb_args[0]) {
+					var _prov_seq = '';
+					for (_r in cb_args[0]['weave_order']) {
+						if ('disp_type' in cb_args[0]['weave_order'][_r]) {
+							_row = cb_args[0]['weave_order'][_r];
+							if(_prov_seq != _row['seq']){
+								_scInsertDetailRowOrder($('#tbl_sc_list'),_row);
+								_prov_seq = _row['seq'];
+							}
 
-				if ('weave' in cb_args[0]) {
-					for (_r in cb_args[0]['weave']) {
-						if ('disp_type' in cb_args[0]['weave'][_r]) {
-							_row = cb_args[0]['weave'][_r];
-							_scInsertDetailRow($('#tbl_sc_list'),_row);
 						}
 					}
-					$('#sc_edit_panel').before(_str);
 					_blnScChanged = false;
 				}
+
+				if ('screen_order' in cb_args[0]) {
+					var _prov_seq = '';
+					for (_r in cb_args[0]['screen_order']) {
+						if ('disp_type' in cb_args[0]['screen_order'][_r]) {
+							_row = cb_args[0]['screen_order'][_r];
+							if(_prov_seq != _row['seq']){
+								_scInsertDetailRowOrder($('#tbl_sc_list'),_row);
+								_prov_seq = _row['seq'];
+							}
+						}
+					}
+					_blnScChanged = false;
+				}
+
 				//-- Screens list
 				
 				//++ Set upload images

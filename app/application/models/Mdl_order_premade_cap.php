@@ -212,7 +212,7 @@ OTP;
 			$_userid = $this->session->userdata('user_id');
 				$_sql =<<<QUERY
 				SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
-				tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date
+				tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date, d.seq, d.order_rowid
 				, ARRAY_TO_JSON(ARRAY(
 				SELECT UNNEST(fnc_manu_screen_avai_status(tmp.prod_status))
 				INTERSECT
@@ -242,12 +242,12 @@ QUERY;
 			}
 			if ($_arrSc == FALSE) $_arrSc = array();
 			
-			$_master["screen"] = $_arrSc;
+			$_master["screen_order"] = $_arrSc;
 			// pass variable only no any error in every processes, otherwise just throw FALSE exit while loop and return FALSE
 			// ++ weave
 			$_sql =<<<QUERY
 			SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
-			tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date
+			tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date, d.seq, d.order_rowid 
 			, ARRAY_TO_JSON(ARRAY(
 			SELECT UNNEST(fnc_manu_weave_avai_status(tmp.prod_status))
 			INTERSECT
@@ -277,7 +277,7 @@ QUERY;
 				continue;
 			}
 			if ($_arrSc == FALSE) $_arrSc = array();
-			$_master["weave"] = $_arrSc;
+			$_master["weave_order"] = $_arrSc;
 			// pass variable only no any error in every processes, otherwise just throw FALSE exit while loop and return FALSE
 			$_arrReturn = $_master;
 			$_whileChecker = FALSE;
