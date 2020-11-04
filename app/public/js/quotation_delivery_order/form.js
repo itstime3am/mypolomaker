@@ -254,7 +254,7 @@ function fnc__DDT_Row_RenderDeliverDetailQtyControl(data, type, full) {
 		var _left_qty = ('left_qty' in full) ? parseInt(full['left_qty']) : 0;
 		var _org_qty = ('original_qty' in full) ? parseInt(full['original_qty']) : 0;
 		var _deliverable = ('deliverable' in full) ? parseInt(full['deliverable']) : -1;
-		if (_deliverable > 0) {
+		if (_deliverable > -1) {
 			if (_left_qty > 0) {
 				_div.append($('<input type="text" class="cls-txt-deliver-qty cls-user-input input-integer" left_qty="' + _left_qty + '" data="deliver_qty" title="เลือกเพื่อนำส่ง">'))
 					.append($('<span>&nbsp;/&nbsp;' + _left_qty + '</span>'));
@@ -265,6 +265,7 @@ function fnc__DDT_Row_RenderDeliverDetailQtyControl(data, type, full) {
 			_div.append($('<span>อยู่ระหว่างขั้นตอนการผลิต</span>'));
 		}
 	}
+	console.log(_elPanel.html())
 	return _elPanel.html();	
 }
 
