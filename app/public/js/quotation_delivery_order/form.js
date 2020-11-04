@@ -265,7 +265,6 @@ function fnc__DDT_Row_RenderDeliverDetailQtyControl(data, type, full) {
 			_div.append($('<span>อยู่ระหว่างขั้นตอนการผลิต</span>'));
 		}
 	}
-	console.log(_elPanel.html())
 	return _elPanel.html();	
 }
 
