@@ -137,6 +137,8 @@
 									<label class="cls-radio-label" for="rdo-deliver_route_7">ไปรษณีย์ EMS ลงทะเบียน</label>
 									<input type="radio" id="rdo-deliver_route_8" name="deliver_route" class="cls-toggle-label user-input input-required data-commit" value="KERRY">
 									<label class="cls-radio-label" for="rdo-deliver_route_8">KERRY</label>
+									<input type="radio" id="rdo-deliver_route_9" name="deliver_route" class="cls-toggle-label user-input input-required data-commit" value="Flash">
+									<label class="cls-radio-label" for="rdo-deliver_route_8">Flash</label>
 								</div>
 								<div class="frm-edit-row" >
 									<div class="frm-edit-row-title table-title" style="width:150px">หมายเหตุ</div>
