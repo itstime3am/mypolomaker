@@ -957,12 +957,14 @@ QUERY;
 			mb_internal_encoding("UTF-8");
 			$this->load->helper('exp_pdf_helper');
 			$this->load->helper('upload_helper');
+			$this->load->library('mpdf8');
 
 			$file_name = '';
 			$html = '';
 			$_rev_no = (isset($pass['data']['quotation_revision'])) ? (int)$pass['data']['quotation_revision'] : 0;
 			$now = new DateTime();
 			$strNow = $now->format('YmdHis');
+			
 			switch ($pdf_index) {
 				case "1":
 					$file_name = 'FM-SA-01-001_' . $strNow . '.pdf';
@@ -1019,9 +1021,9 @@ QUERY;
 					$html = $this->load->view('order/pdf/pdf_1', $pass, TRUE);
 					break;
 			}
-//echo $html;exit;
-			$this->load->library('pdf');
-			$this->pdf->exportMPDF($html, $file_name);
+// echo $html;exit;
+			$temp_name = 'quotation-no-logo';
+			$this->mpdf8->exportMPDF_Template($html, $temp_name, $file_name);
 		}
 	}
 

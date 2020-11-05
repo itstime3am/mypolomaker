@@ -406,6 +406,7 @@ QUERY;
 			mb_internal_encoding("UTF-8");
 			$this->load->helper('exp_pdf_helper');
 			$this->load->helper('upload_helper');
+			$this->load->library('mpdf8');
 
 			$file_name = '';
 			$html = '';
@@ -448,8 +449,8 @@ QUERY;
 					break;
 			}
 //echo $html;exit;
-			$this->load->library('pdf');
-			$this->pdf->exportMPDF($html, $file_name);
+			$temp_name = 'quotation-no-logo';
+			$this->mpdf8->exportMPDF_Template($html, $temp_name, $file_name);
 		}
 	}
 
