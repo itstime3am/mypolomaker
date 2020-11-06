@@ -116,19 +116,10 @@ class Order_premade_other extends MY_Ctrl_crud {
 				"column" => '{"sTitle":"แก้ไขสถานะ", "sClass": "center","mData":"rowid","mRender": function(data,type,full) { return fnc__DDT_Row_RenderOP(data, type, full); } ,"bSortable": false}' 
 				, "order" => 14
 			);
-		if ($this->_blnCheckRight('export_pdf')) {
-			if ($this->_blnCheckRight('edit', 'order')) {
-				$_custom_columns[] = array(
-					"column" => '{"sTitle":"ใบงาน", "sClass": "center","mData": "rowid","mRender": function(data,type,full) { return \'<img class="tblButton" command="pdf_1" src="./public/images/pdf_icon_40.png" title="ใบสั่งซื้อ \' + full[\'product_type\'] + \'สั่งตัด" /><img class="tblButton" command="pdf_6" src="./public/images/pdf_icon_40.png" title="ใบงานข้อมูล \' + full[\'product_type\'] + \'สั่งตัด" />\';}, "bSortable": false}'
-					, "order" => 15
-				);
-			} else {
-				$_custom_columns[] = array(
-					"column" => '{"sTitle":"ใบงาน", "sClass": "center","mData": "rowid","mRender": function(data,type,full) { return \'<img class="tblButton" command="pdf_1" src="./public/images/pdf_icon_40.png" title="ใบสั่งซื้อ \' + full[\'product_type\'] + \'สั่งตัด" /><img class="tblButton" command="pdf_6" src="./public/images/pdf_icon_40.png" title="ใบงานข้อมูล \' + full[\'product_type\'] + \'สั่งตัด" />\';}, "bSortable": false}'
-					, "order" => 15
-				);
-			}
-		}
+			if ($this->_blnCheckRight('export_pdf')) $_custom_columns[] = array(
+				"column" => '{"sTitle":"ใบงาน", "sClass": "center", "mData": "rowid","mRender": function(data,type,full) { return \'<img class="tblButton" command="pdf_1" src="./public/images/pdf_icon_40.png" title="ใบสั่งซื้อ \' + full[\'product_type\'] + \'สำเร็จรูป" /><img class="tblButton" command="pdf_6" src="./public/images/pdf_icon_40.png" title="ใบงานข้อมูล \' + full[\'product_type\'] + \'สำเร็จรูป" />\';}, "bSortable": false}'
+				, "order" => 15
+			);
 
 		$_custom_columns[] = array(
 			"column" => '{"sTitle":"#", "sClass": "center","mData":"rowid","mRender": function(data,type,full) { return fnc__DDT_Row_RenderNotification(data, type, full); } ,"bSortable": false}'
@@ -152,7 +143,7 @@ class Order_premade_other extends MY_Ctrl_crud {
 				, 'list_deleteable' => FALSE
 				, 'edit_template' => $this->load->view('order/form_other', array(
 					"index" => 2
-					, "crud_controller" => "Order_other"
+					, "crud_controller" => "Order_premade_other"
 					, "job_number_list" => $_arrJobNumber
 					, "supplier_list" => $this->_selOptions['supplier']
 					, "detail_panel" => $_arrDtlTabs["detail_panel"]
@@ -403,7 +394,7 @@ QUERY;
 		echo isset($_GET['callback'])? "{" . $_GET['callback']. "}(".$json.")": $json;
 	}
 	
-	public function get_pdf($pdf_index, $rowid) {
+	function get_pdf($pdf_index, $rowid) {
 		$this->load->model($this->modelName, 'm');
 		$pass['data'] = $this->m->get_detail_report($rowid);
 		if ($pass['data'] == FALSE) {
@@ -414,45 +405,35 @@ QUERY;
 			$this->load->helper('exp_pdf_helper');
 			$this->load->helper('upload_helper');
 			$this->load->library('mpdf8');
-
+			
 			$file_name = '';
 			$html = '';
-			$_prodRowID = $pass['data']["product_type_rowid"];
-			$_prodType = $pass['data']["product_type_name"];
+			$_prodType = $pass['data']['type'] . $pass['data']['category'];
 			$_rev_no = (isset($pass['data']['quotation_revision'])) ? (int)$pass['data']['quotation_revision'] : 0;
 			$now = new DateTime();
 			$strNow = $now->format('YmdHis');
 			switch ($pdf_index) {
 				case "1":
-					$file_name = 'FM-SA-06-001_' . $strNow . '.pdf';
-					if ($_prodRowID == 15) {
-						$pass['title'] = 'ใบสั่งซื้อ ' . $_prodType;
-					} else {
-						$pass['title'] = 'ใบสั่งซื้อ ' . $_prodType . 'สั่งตัด';
-					}
-					$pass['code'] = sprintf('FM-SA-06-001 REV.%02d', $_rev_no);
-					$pass['is_show_price'] = TRUE;
-					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_order_detail_others', $pass, TRUE);
+					$file_name = 'FM-SA-03-001_' . $strNow . '.pdf';
+					$pass['title'] = 'ใบสั่งซื้อ ' . $_prodType;
+					$pass['code'] = sprintf('FM-SA-03-001 REV.%02d', $_rev_no);
+					$pass['is_display_price'] = TRUE;
 					$pass['others_price_panel'] = $this->load->view('order/pdf/section/_pdf_others_price', $pass, TRUE);
-					$pass['size_quan_section'] = $this->load->view('order/pdf/section/_pdf_size_quan', $pass, TRUE);
+					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_premade_order_detail', $pass, TRUE);
 					$pass['screen_section'] = $this->load->view('order/pdf/section/_pdf_screen', $pass, TRUE);
 					$pass['images_section'] = $this->load->view('order/pdf/section/_pdf_sample_images', $pass, TRUE);
-					$html = $this->load->view('order/pdf/pdf_other', $pass, TRUE);
+					$html = $this->load->view('order/pdf/premade_pdf', $pass, TRUE);
 					break;
 				case "6":
-					$file_name = 'FM-SA-06-002_' . $strNow . '.pdf';
-					if ($_prodRowID == 15) {
-						$pass['title'] = 'ใบงานข้อมูล ' . $_prodType;
-					} else {
-						$pass['title'] = 'ใบงานข้อมูล ' . $_prodType . 'สั่งตัด';
-					}
-					
-					$pass['code'] = sprintf('FM-SA-06-002 REV.%02d', $_rev_no);
-					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_order_detail_others', $pass, TRUE);
-					$pass['size_quan_section'] = $this->load->view('order/pdf/section/_pdf_size_quan', $pass, TRUE);
+					$file_name = 'FM-SA-03-002_' . $strNow . '.pdf';
+					$pass['title'] = 'ใบงานข้อมูล ' . $_prodType;
+					$pass['code'] = sprintf('FM-SA-03-002 REV.%02d', $_rev_no);
+					$pass['is_display_price'] = FALSE;
+					$pass['others_price_panel'] = $this->load->view('order/pdf/section/_pdf_others_price', $pass, TRUE);
+					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_premade_order_detail', $pass, TRUE);
 					$pass['screen_section'] = $this->load->view('order/pdf/section/_pdf_screen', $pass, TRUE);
 					$pass['images_section'] = $this->load->view('order/pdf/section/_pdf_sample_images', $pass, TRUE);
-					$html = $this->load->view('order/pdf/pdf_other', $pass, TRUE);
+					$html = $this->load->view('order/pdf/premade_pdf', $pass, TRUE);
 					break;
 			}
 //echo $html;exit;
