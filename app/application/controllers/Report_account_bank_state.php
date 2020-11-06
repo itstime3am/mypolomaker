@@ -174,7 +174,7 @@ SCRPT
 				'controls' => array(
 					array(
 						"type" => "sel"
-						, "label" => "ช่องทางการขำระ"
+						, "label" => "ธนาคาร"
 						, "name" => "payment_route"
 						, "sel_options" => $_arrRoute
 						, "sel_val" => "payment_route"
