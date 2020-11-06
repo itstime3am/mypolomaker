@@ -166,6 +166,8 @@ class Order_tshirt extends MY_Ctrl_crud {
 		$this->_setController("close_payment", "", NULL);
 		$this->_setController("arr_payment_log", "", NULL);
 		$this->_setController("avail_process_status", "", NULL);
+		$this->_setController("prod_screen_count", "", NULL);
+		$this->_setController("prod_weave_count", "", NULL);
 		//-- set special attributes	
 		
 		$pass['left_panel'] = $this->__getLeftPanel();
@@ -205,6 +207,12 @@ class Order_tshirt extends MY_Ctrl_crud {
 				);
 			}
 		}
+
+		$_custom_columns[] = array(
+			"column" => '{"sTitle":"#", "sClass": "center","mData":"rowid","mRender": function(data,type,full) { return fnc__DDT_Row_RenderNotification(data, type, full); } ,"bSortable": false}'
+				, "order" => 16
+		);
+
 		$pass['work_panel'] = $this->add_view('_public/_list', 
 			array(
 				'custom_columns' => $_custom_columns,

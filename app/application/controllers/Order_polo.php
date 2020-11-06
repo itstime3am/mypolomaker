@@ -176,6 +176,8 @@ class Order_polo extends MY_Ctrl_crud {
 		$this->_setController("close_payment", "", NULL);
 		$this->_setController("arr_payment_log", "", NULL);
 		$this->_setController("avail_process_status", "", NULL);
+		$this->_setController("prod_screen_count", "", NULL);
+		$this->_setController("prod_weave_count", "", NULL);
 		//-- set special attributes	
 		
 		$pass['left_panel'] = $this->__getLeftPanel();
@@ -187,7 +189,7 @@ class Order_polo extends MY_Ctrl_crud {
 		$_custom_columns[] = array(
 				"column" => '{"sTitle":"ขำระมัดจำ", "sClass":"cls-payment-dlg right","sWidth":"80px","mData":"rowid","mRender": function(data,type,full) { return \'<span class="cls-spn-payment">\' + formatNumber(full.deposit_payment) + \'</span>\';}, "bSortable": true}'
 				, "order" => 7
-			);
+		);
 			//<img class="tblButton" command="cmd_open_deposit_dialog" src="public/images/b_view.png" title="รายการชำระเงินมัดจำ" />
 		$this->_setController("left_amount", "คงเหลือ(บาท)", NULL, array("selectable"=>TRUE,"default"=>TRUE,"class"=>"default_number","order"=>8));
 		/*
@@ -215,6 +217,11 @@ class Order_polo extends MY_Ctrl_crud {
 				);
 			}
 		}
+
+		$_custom_columns[] = array(
+			"column" => '{"sTitle":"#", "sClass": "center","mData":"rowid","mRender": function(data,type,full) { return fnc__DDT_Row_RenderNotification(data, type, full); } ,"bSortable": false}'
+				, "order" => 16
+		);
 		
 		$pass['work_panel'] = $this->add_view('_public/_list', 
 			array(
@@ -225,6 +232,8 @@ class Order_polo extends MY_Ctrl_crud {
 				'edit_template' => $this->load->view('order/form_polo', $_editFormParams, TRUE)
 			), TRUE
 		);
+
+
 		$this->add_css('public/css/order/form.css');
 		$this->add_js('public/js/order/_base_order.js');
 		$this->add_js('public/js/order/form.js');
@@ -239,7 +248,9 @@ class Order_polo extends MY_Ctrl_crud {
 		
 		$pass['title'] = "สั่งตัดเสื้อโปโล";
 		if ($_strStartScript != '') $this->add_js($_strStartScript, 'custom');
-
+		// echo '<br>';
+		// print_r($_strStartScript);
+		// echo '<br>';exit;
 		$this->add_view_with_script_header('_public/_template_main', $pass);
 	}
 	

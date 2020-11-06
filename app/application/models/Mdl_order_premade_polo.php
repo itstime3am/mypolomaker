@@ -50,6 +50,8 @@ SELECT t.rowid, t.job_number, t.ref_number, t.customer_rowid, v.customer, t.orde
 , v.total_price_sum, v.deposit_payment, v.arr_deposit_log, v.close_payment, v.arr_payment_log
 , v.total_price_sum - v.deposit_payment - v.close_payment AS left_amount, t.supplier_rowid, v.order_detail_rowid
 , fnc_order_avai_status(v.ps_rowid) AS avail_process_status, ps.code AS ps_code, ps.name AS process_status 
+, (select count(m.order_rowid) from pm_t_manu_screen_production m where m.order_rowid  = t.rowid and m.prod_status = 30 ) as prod_screen_count
+, (select count(m.order_rowid) from pm_t_manu_weave_production m where m.order_rowid  = t.rowid and m.prod_status = 30 ) as prod_weave_count
 FROM {$this->_TABLE_NAME} t 
 	INNER JOIN v_order_report_status v ON v.type_id = 3 AND v.order_rowid = t.rowid 
 	LEFT OUTER JOIN pm_t_quotation_detail qd ON qd.rowid = v.quotation_detail_rowid

@@ -474,6 +474,19 @@ function _fnc_onSelectedCustomer(event, ui) {
 	});
 }
 
+function fnc__DDT_Row_RenderNotification(data, type, full) {
+	var count_screen = (full['prod_screen_count']) || -1 ;
+	var count_weave = (full['prod_weave_count']) || -1 ;
+	if(count_screen > 0 || count_weave > 0 ){
+		var sum = 0;
+		sum = (parseInt(count_screen)+parseInt(count_weave));
+		return '<div class="notification" style="border-radius: 50%;height: 20px;width: 20px;background-color:red;"><strong style="color:#FFF;">'+sum+'</strong></div>';
+	}else{
+		return '-';
+	}
+	
+}
+
 function fnc__DDT_Row_RenderOP(data, type, full) {
 	var _str = ('avail_process_status' in full) ? full.avail_process_status + ',' : false;
 	var _strReturn = '';

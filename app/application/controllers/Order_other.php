@@ -92,6 +92,8 @@ class Order_other extends MY_Ctrl_crud {
 		$this->_setController("arr_payment_log", "", NULL);
 		$this->_setController("avail_process_status", "", NULL);
 		$this->_setController("product_type_rowid", "", NULL);
+		$this->_setController("prod_screen_count", "", NULL);
+		$this->_setController("prod_weave_count", "", NULL);
 		//-- set special attributes	
 
 		$_screen_status = $this->mt->list_where('manu_screen_status', 'is_cancel=0', NULL, 'm_');
@@ -127,6 +129,11 @@ class Order_other extends MY_Ctrl_crud {
 				);
 			}
 		}
+
+		$_custom_columns[] = array(
+			"column" => '{"sTitle":"#", "sClass": "center","mData":"rowid","mRender": function(data,type,full) { return fnc__DDT_Row_RenderNotification(data, type, full); } ,"bSortable": false}'
+				, "order" => 16
+		);
 		
 		$this->load->model($this->modelName, 'm_model');
 		$this->load->helper('order_detail_helper');

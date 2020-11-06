@@ -144,6 +144,8 @@ class Order_premade_jacket extends MY_Ctrl_crud {
 		$this->_setController("arr_payment_log", "", NULL);
 		$this->_setController("avail_process_status", "", NULL);
 		$this->_setController("order_detail_rowid", "", NULL);
+		$this->_setController("prod_screen_count", "", NULL);
+		$this->_setController("prod_weave_count", "", NULL);
 		//-- set special attributes	
 
 		$_screen_status = $this->mt->list_where('manu_screen_status', 'is_cancel=0', NULL, 'm_');
@@ -179,6 +181,11 @@ class Order_premade_jacket extends MY_Ctrl_crud {
 				"column" => '{"sTitle":"ใบงาน", "sClass": "center","mData": function() { return \'<img class="tblButton" command="pdf_1" src="./public/images/pdf_icon_40.png" title="สั่งซื้อแจ็คเก็ตสำเร็จรูป" /><img class="tblButton" command="pdf_6" src="./public/images/pdf_icon_40.png" title="ใบงานข้อมูล แจ็คเก็ตสำเร็จรูป" />\';}, "bSortable": false}'
 				, "order" => 15
 			);
+
+		$_custom_columns[] = array(
+				"column" => '{"sTitle":"#", "sClass": "center","mData":"rowid","mRender": function(data,type,full) { return fnc__DDT_Row_RenderNotification(data, type, full); } ,"bSortable": false}'
+				, "order" => 16
+		);
 		
 		$pass['work_panel'] = $this->add_view('_public/_list', 
 			array(

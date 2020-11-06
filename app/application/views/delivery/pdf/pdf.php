@@ -287,6 +287,10 @@ FROW;
 				<div class="pdf-value w-all"></div>
 			</div>
 <?php endif; ?>
+			<div>
+				<strong style="color:red">กรุณาตรวจสอบสินค้าก่อนเซ็นรับทุกครั้ง หากสินค้ามีปัญหากรุณาแจ้งกลับภายใน 7 วัน </strong>
+			</div>
 		</div>
+		
 	</body>
 </html>

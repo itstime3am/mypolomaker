@@ -56,7 +56,9 @@ SELECT t.rowid, t.job_number, t.ref_number, t.customer_rowid, v.customer, t.orde
 , fnc__dispVATType(t.is_vat) AS disp_vat_type, COALESCE(t.is_tax_inv_req, 0) AS is_tax_inv_req
 , v.total_price_sum, v.deposit_payment, v.arr_deposit_log, v.close_payment, v.arr_payment_log
 , v.total_price_sum - v.deposit_payment - v.close_payment AS left_amount, t.supplier_rowid
-, fnc_order_avai_status(t.ps_rowid) AS avail_process_status, ps.code AS ps_code, ps.name AS process_status 
+, fnc_order_avai_status(t.ps_rowid) AS avail_process_status, ps.code AS ps_code, ps.name AS process_status
+, (select count(m.order_rowid) from pm_t_manu_screen_production m where m.order_rowid  = t.rowid and m.prod_status = 30 ) as prod_screen_count
+, (select count(m.order_rowid) from pm_t_manu_weave_production m where m.order_rowid  = t.rowid and m.prod_status = 30 ) as prod_weave_count
 FROM pm_t_order_polo t
 	INNER JOIN v_order_report_status v ON v.type_id = 1 AND v.order_rowid = t.rowid 
 	INNER JOIN pm_t_order_detail_polo d ON t.rowid = d.order_rowid 
