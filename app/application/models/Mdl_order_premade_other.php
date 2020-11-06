@@ -49,18 +49,20 @@ class Mdl_order_premade_other extends MY_Model {
 		$_sql = <<<EOT
 SELECT t.rowid, t.job_number, t.ref_number, t.customer_rowid, v.customer, t.order_date, t.deliver_date, t.due_date
 , TO_CHAR(t.order_date, 'DD/MM/YYYY') AS disp_order_date, TO_CHAR(t.due_date, 'DD/MM/YYYY') AS disp_due_date
-, TO_CHAR(t.deliver_date, 'DD/MM/YYYY') AS disp_deliver_date, t.is_vat, t.has_sample, t.file_image1, t.file_image2
-, t.remark1, t.remark2, t.product_type_rowid, pt.name AS product_type
+, TO_CHAR(t.deliver_date, 'DD/MM/YYYY') AS disp_deliver_date, t.is_vat, t.has_sample, t.product_type_rowid, pt.name AS product_type
+, t.file_image1, t.file_image2, t.remark1, t.remark2
 , fnc__dispVATType(t.is_vat) AS disp_vat_type, COALESCE(t.is_tax_inv_req, 0) AS is_tax_inv_req
 , v.total_price_sum, v.deposit_payment, v.arr_deposit_log, v.close_payment, v.arr_payment_log
-, v.total_price_sum - v.deposit_payment - v.close_payment AS left_amount, t.supplier_rowid, v.order_detail_rowid
-, fnc_order_avai_status(v.ps_rowid) AS avail_process_status, ps.code AS ps_code, ps.name AS process_status 
-FROM {$this->_TABLE_NAME} t 
+, v.total_price_sum - v.deposit_payment - v.close_payment AS left_amount, t.supplier_rowid
+, fnc_order_avai_status(t.ps_rowid) AS avail_process_status, ps.code AS ps_code, ps.name AS process_status 
+, (select count(m.order_rowid) from pm_t_manu_screen_production m where m.order_rowid  = t.rowid and m.prod_status = 30 ) as prod_screen_count
+, (select count(m.order_rowid) from pm_t_manu_weave_production m where m.order_rowid  = t.rowid and m.prod_status = 30 ) as prod_weave_count
+FROM {$this->_TABLE_NAME} t
 	INNER JOIN v_order_report_status v ON v.type_id IN (12, 14) AND v.order_rowid = t.rowid 
 	INNER JOIN m_other_product_type pt ON pt.rowid = t.product_type_rowid 
 	LEFT OUTER JOIN pm_t_quotation_detail qd ON qd.rowid = v.quotation_detail_rowid
 	LEFT OUTER JOIN pm_t_quotation q ON qd.quotation_rowid = q.rowid
-	LEFT OUTER JOIN m_process_status ps ON v.ps_rowid = ps.rowid
+	LEFT OUTER JOIN m_process_status ps ON t.ps_rowid = ps.rowid
 WHERE COALESCE(t.is_cancel, 0) < 1 
 
 EOT;
@@ -126,171 +128,18 @@ EOT;
 	}
 	
 	function get_detail_by_id($RowID) {
-		$_arrReturn = FALSE;
-		$_whileChecker = TRUE;
-		while ($_whileChecker) {
-		
-			$_sql = <<<EOT
-SELECT t.rowid, t.job_number, t.ref_number, t.customer_rowid, t.order_date, t.deliver_date, t.due_date
-, TO_CHAR(t.order_date, 'DD/MM/YYYY') AS disp_order_date, TO_CHAR(t.due_date, 'DD/MM/YYYY') AS disp_due_date
-, TO_CHAR(t.deliver_date, 'DD/MM/YYYY') AS disp_deliver_date, t.is_vat, t.has_sample, t.file_image1, t.file_image2
-, TO_CHAR(COALESCE(t.total_price, 0), '9G999G990D00') AS total_price, t.remark1, t.remark2
-, fnc__dispVATType(t.is_vat) AS disp_vat_type, COALESCE(t.is_tax_inv_req, 0) AS is_tax_inv_req
-, COALESCE(c.display_name, '') AS customer_name, COALESCE(c.company, '') AS company
-, COALESCE(c.mobile, c.tel, '') AS contact_no, COALESCE(c.tax_id, '') AS tax_id, COALESCE(c.tax_branch, '') AS tax_branch
-, COALESCE(CONCAT_WS(' ', ca.address, cap.name_th, ca.postal_code), '') AS address, t.supplier_rowid
-FROM {$this->_TABLE_NAME} AS t
-	LEFT OUTER JOIN pm_t_customer c ON t.customer_rowid = c.rowid 
-	LEFT OUTER JOIN pm_t_customer_address ca ON ca.customer_rowid = c.rowid 
-	LEFT OUTER JOIN pm_m_province cap ON cap.rowid = ca.province_rowid 
-WHERE t.rowid = $RowID
+		$_sql = <<<EOT
+SELECT t.* 
+FROM v_order_premade_other t 
+WHERE t.rowid = ?
 EOT;
-			$_master = $this->arr_execute($_sql);
-			if ($this->error_message != '') {
-				$_whileChecker = FALSE;
-				continue;
-			}
-			if (count($_master) > 0) {
-				$_master = $_master[0];
-			}
-			
-			//++ details
-			$_sql = <<<EDT
-SELECT d.rowid, p.rowid AS pattern_rowid, p.code, d.color
-FROM t_order_premade_detail_other AS d
-	INNER JOIN t_order_premade_other m ON m.rowid = d.order_rowid
-	INNER JOIN m_other_premade_pattern AS p ON p.product_type_rowid = m.product_type_rowid AND p.rowid = d.pattern_rowid 
-WHERE d.order_rowid = $RowID
-EDT;
-			$_arr1 = $this->arr_execute($_sql);
-			if ($this->error_message != '') {
-				$_whileChecker = FALSE;
-				continue;
-			}
-			$_arrDetails = array();
-			if (is_array($_arr1)) {
-				foreach ($_arr1 as $_row) {
-					$_row['size'] = array();
-					$_arrDetails[(string)$_row['rowid']] = $_row;
-				}
-			}
-
-			//++ details size
-			$_sql = <<<EOT
-SELECT s.* 
-FROM t_order_premade_detail_other AS d 
-	INNER JOIN t_order_premade_size_other AS s ON d.rowid = s.order_detail_rowid
-WHERE d.order_rowid = $RowID
-EOT;
-			$_arr2 = $this->arr_execute($_sql);
-			if ($this->error_message != '') {
-				$_whileChecker = FALSE;
-				continue;
-			}
-			if (is_array($_arr2)) {
-				foreach ($_arr2 as $_row) {
-					array_push($_arrDetails[(string)$_row['order_detail_rowid']]['size'], $_row);
-				}
-			}
-			//-- details size
-			//-- details
-
-			// ++ others price
-			$_sql = <<<OTP
-SELECT t.detail, TO_CHAR(COALESCE(t.price, 0), '9G999G990D00') AS price 
-FROM t_order_premade_price_other t 
-WHERE t.order_rowid = $RowID 
-ORDER BY t.seq 
-OTP;
-			$_arr3 = $this->m->arr_execute($_sql);
-			$_strError = $this->m->error_message;
-			if ($_strError != '') {
-				$_whileChecker = FALSE;
-				continue;
-			}
-			if ($_arr3 == FALSE) $_arr3 = array();
-			$_master['others_price'] = $_arr3;
-
-			// -- others price
-
-			//++ screen
-			$_userid = $this->session->userdata('user_id');
-				$_sql =<<<QUERY
-				SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
-				tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date, d.seq, d.order_rowid
-				, ARRAY_TO_JSON(ARRAY(
-				SELECT UNNEST(fnc_manu_screen_avai_status(tmp.prod_status))
-				INTERSECT
-				SELECT UNNEST(uac.arr_avail_status)
-				)) AS arr_avail_status
-				FROM v_order_report o
-				INNER JOIN fnc_listmanuscreen_accright_byuser($_userid) uac ON True
-				INNER JOIN (
-					SELECT o.product_type_rowid AS type_id, s.order_rowid, s.order_screen_rowid, s.position, s.detail, s.size, s.job_hist, s.price, s.seq
-					FROM t_order_premade_other o
-					INNER JOIN t_order_premade_screen_other s ON s.order_rowid = o.rowid
-				) d
-				ON d.type_id = o.type_id
-				AND d.order_rowid = o.order_rowid
-				INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
-				LEFT JOIN pm_t_manu_screen_production tmp on tmp.order_screen_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
-				LEFT JOIN m_manu_screen_status ss ON ss.rowid = tmp.prod_status
-				LEFT join m_manu_screen_type mst on mst.rowid = tmp.screen_type
-				--WHERE o.ps_rowid = 10
-				WHERE COALESCE(o.is_cancel, 0) < 1
-				AND s.screen_type  = 2
-				AND d.order_rowid = $RowID
-QUERY;
-			$_arrSc = $this->arr_execute($_sql);
-			if ($this->error_message != '') {
-				$_whileChecker = FALSE;
-				continue;
-			}
-			if ($_arrSc == FALSE) $_arrSc = array();
-			
-			$_master["screen_order"] = $_arrSc;
-			// pass variable only no any error in every processes, otherwise just throw FALSE exit while loop and return FALSE
-			// ++ weave
-			$_sql =<<<QUERY
-			SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
-			tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date, d.seq, d.order_rowid
-			, ARRAY_TO_JSON(ARRAY(
-			SELECT UNNEST(fnc_manu_weave_avai_status(tmp.prod_status))
-			INTERSECT
-			SELECT UNNEST(uac.arr_avail_status)
-			)) AS arr_avail_status
-			FROM v_order_report o
-			INNER JOIN fnc_listmanuweave_accright_byuser($_userid) uac ON True
-			INNER JOIN (
-				SELECT o.product_type_rowid AS type_id, s.order_rowid, s.order_screen_rowid, s.position, s.detail, s.size, s.job_hist, s.price, s.seq
-				FROM t_order_premade_other o
-				INNER JOIN t_order_premade_screen_other s ON s.order_rowid = o.rowid
-			) d
-			ON d.type_id = o.type_id
-			AND d.order_rowid = o.order_rowid
-			INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
-			LEFT JOIN pm_t_manu_weave_production tmp on tmp.order_weave_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
-			LEFT JOIN m_manu_weave_status ss ON ss.rowid = tmp.prod_status
-			LEFT join m_manu_weave_type mst on mst.rowid = tmp.weave_type
-			--WHERE o.ps_rowid = 10
-			WHERE COALESCE(o.is_cancel, 0) < 1
-			and s.screen_type  = 1
-			AND d.order_rowid = $RowID
-QUERY;
-
-			$_arrSc = $this->arr_execute($_sql);
-			if ($this->error_message != '') {
-				$_whileChecker = FALSE;
-				continue;
-			}
-			if ($_arrSc == FALSE) $_arrSc = array();
-			$_master["weave_order"] = $_arrSc;
-			// pass variable only no any error in every processes, otherwise just throw FALSE exit while loop and return FALSE
-			$_arrReturn = $_master;
-			$_whileChecker = FALSE;
-			//-- screen
+		$_sql .= $this->_getCheckAccessRight("t.create_by", "order");
+		$_arr = $this->arr_execute($_sql, array($RowID));
+		if (is_array($_arr) && count($_arr) > 0) {
+			return $_arr[0];
+		} else {
+			return FALSE;
 		}
-		return $_arrReturn;
 	}
 
 	function get_detail_report($RowID) {

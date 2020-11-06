@@ -107,9 +107,9 @@ class Order_other extends MY_Ctrl_crud {
 		//"column" => '{"sTitle":"ขำระมัดจำ", "sClass":"cls-payment-dlg right","sWidth":"80px","mData":"rowid","mRender": function(data,type,full) { return \'<span class="cls-spn-payment">\' + formatNumber(full.total_deposit_payment) + \'</span><img class="tblButton" command="cmd_open_deposit_dialog" src="public/images/b_view.png" title="รายการชำระเงินมัดจำ" />\';}, "bSortable": true}'
 		$_custom_columns[] = array(
 				"column" => '{"sTitle":"ขำระมัดจำ", "sClass":"cls-payment-dlg right","sWidth":"80px","mData":"rowid","mRender": function(data,type,full) { return \'<span class="cls-spn-payment">\' + formatNumber(full.deposit_payment) + \'</span>\';}, "bSortable": true}'
-				, "order" => 7
+				, "order" => 8
 			);
-		$this->_setController("left_amount", "คงเหลือ(บาท)", NULL, array("selectable"=>TRUE,"default"=>TRUE,"class"=>"default_number","order"=>8));
+		$this->_setController("left_amount", "คงเหลือ(บาท)", NULL, array("selectable"=>TRUE,"default"=>TRUE,"class"=>"default_number","order"=>9));
 		$this->_setController("process_status", "สถานะ", NULL, array("selectable"=>TRUE,"default"=>TRUE,"class"=>"center","order"=>12));
 		
 		if ($this->_blnCheckRight('edit')) $_custom_columns[] = array(
@@ -322,21 +322,21 @@ OTP;
 				INTERSECT
 				SELECT UNNEST(uac.arr_avail_status)
 				)) AS arr_avail_status
-				FROM v_order_report o
+				FROM v_order_report vo
 				INNER JOIN fnc_listmanuscreen_accright_byuser($_userid) uac ON True
 				INNER JOIN (
 					SELECT o.product_type_rowid AS type_id, s.order_rowid, s.order_screen_rowid, s.position, s.detail, s.size, s.job_hist, s.price, s.seq
-					FROM t_order_premade_other o
-					INNER JOIN t_order_premade_screen_other s ON s.order_rowid = o.rowid
+					FROM t_order_other o
+					INNER JOIN t_order_screen_other s ON s.order_rowid = o.rowid
 				) d
-				ON d.type_id = o.type_id
-				AND d.order_rowid = o.order_rowid
+				ON d.type_id = vo.type_id
+				AND d.order_rowid = vo.order_rowid
 				INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
 				LEFT JOIN pm_t_manu_screen_production tmp on tmp.order_screen_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
 				LEFT JOIN m_manu_screen_status ss ON ss.rowid = tmp.prod_status
 				LEFT join m_manu_screen_type mst on mst.rowid = tmp.screen_type
 				--WHERE o.ps_rowid = 10
-				WHERE COALESCE(o.is_cancel, 0) < 1
+				WHERE COALESCE(vo.is_cancel, 0) < 1
 				AND s.screen_type  = 2
 				AND d.order_rowid = $_rowid
 QUERY;
@@ -347,7 +347,7 @@ QUERY;
 					continue;
 				}
 				if ($_arr4 == FALSE) $_arr4 = array();
-				$_arrReturn['screen'] = $_arr4;
+				$_arrReturn['screen_order'] = $_arr4;
 				
 
 				// ++ weave
@@ -355,26 +355,26 @@ QUERY;
 				SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
 				tmp.fabric_date , tmp.block_date, tmp.block_emp, tmp.approve_date
 				, ARRAY_TO_JSON(ARRAY(
-				SELECT UNNEST(fnc_manu_weave_avai_status(tmp.prod_status))
+				SELECT UNNEST(fnc_manu_screen_avai_status(tmp.prod_status))
 				INTERSECT
 				SELECT UNNEST(uac.arr_avail_status)
 				)) AS arr_avail_status
-				FROM v_order_report o
-				INNER JOIN fnc_listmanuweave_accright_byuser($_userid) uac ON True
+				FROM v_order_report vo
+				INNER JOIN fnc_listmanuscreen_accright_byuser($_userid) uac ON True
 				INNER JOIN (
 					SELECT o.product_type_rowid AS type_id, s.order_rowid, s.order_screen_rowid, s.position, s.detail, s.size, s.job_hist, s.price, s.seq
-					FROM t_order_premade_other o
-					INNER JOIN t_order_premade_screen_other s ON s.order_rowid = o.rowid
+					FROM t_order_other o
+					INNER JOIN t_order_screen_other s ON s.order_rowid = o.rowid
 				) d
-				ON d.type_id = o.type_id
-				AND d.order_rowid = o.order_rowid
+				ON d.type_id = vo.type_id
+				AND d.order_rowid = vo.order_rowid
 				INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
 				LEFT JOIN pm_t_manu_weave_production tmp on tmp.order_weave_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
 				LEFT JOIN m_manu_weave_status ss ON ss.rowid = tmp.prod_status
 				LEFT join m_manu_weave_type mst on mst.rowid = tmp.weave_type
 				--WHERE o.ps_rowid = 10
-				WHERE COALESCE(o.is_cancel, 0) < 1
-				and s.screen_type  = 1
+				WHERE COALESCE(vo.is_cancel, 0) < 1
+				AND s.screen_type  = 1
 				AND d.order_rowid = $_rowid
 QUERY;
 				$_arr5 = $this->m->arr_execute($_sql);
@@ -384,7 +384,7 @@ QUERY;
 					continue;
 				}
 				if ($_arr5 == FALSE) $_arr5 = array();
-				$_arrReturn['weave'] = $_arr5;
+				$_arrReturn['weave_order'] = $_arr5;
 
 
 				$_whileChecker = FALSE;
@@ -392,6 +392,7 @@ QUERY;
 			}
 		}
 		if ($_arrReturn !== FALSE) $_blnSuccess = TRUE;
+		// print_r($_arrReturn);exit;
 		$json = json_encode(
 			array(
 				'success' => $_blnSuccess,
