@@ -5,6 +5,58 @@ if (typeof _SC_Load == 'undefined') {
 	var _sc_current_row = false;
 	var _blnScChanged = false;
 	$(function() {
+
+		_DLG_STATUS_REMARK = $('#div_status_remark').dialog({
+			height: 180
+			, width: 780
+			, show: {effect:"puff", duration: 100}
+			, hide: {effect:"fade", duration: 100}
+			, modal: true
+			, resizable: true
+			, closeOnEscape: true
+			, autoOpen: false
+			, beforeClose: function(event, ui) {
+				$(this).removeAttr('status_rowid').removeAttr('status_text');
+				$(this).find('#txa-status_remark').attr('readonly',false);
+				$(this).find('#txa-status_remark').val('');
+			}
+			, buttons: {
+				'Commit': function() {
+					var ele = $('#div_status_remark');
+					var _rowid = ele.attr('rowid') || false;
+					var _status_rowid = ele.attr('status_rowid') || false;
+					var _status_text =ele.attr('status_text') || false;
+					var _type = ele.attr('type') || false;
+					var _remark = $(this).find('#txa-status_remark').val();
+					var readonly = $(this).find('#txa-status_remark').attr('readonly') || false;
+
+					doClearVldrErrorElement($('#sel-status_remark'));
+					doClearVldrErrorElement($('#txa-status_remark'));
+					if(!readonly){
+						if (_remark == '') {
+							doSetVldrError($('#sel-status_remark'), 'status_remark', 'required', 'กรุณาระบุเหตุผลในการเปลี่ยนเป็นสถานะ', 1);
+							doSetVldrError($('#txa-status_remark'), 'status_remark', 'required', 'กรุณาระบุเหตุผลในการเปลี่ยนเป็นสถานะ', 1);
+							_doDisplayToastMessage('กรุณาระบุเหตุผลในการเปลี่ยนเป็นสถานะ', 3, false);
+						} else {
+							if (confirm('กรุณายืนยันการเปลี่ยนสถานะป็น "' + _status_text + '"')) {
+								__doChangeStatus(_rowid, _status_rowid, _status_text, _type, _remark)
+								$(this).dialog('close');
+							}
+						}
+					}else{
+						$(this).dialog('close');
+					}
+					return false;
+				}
+				, 'Cancel': function() {
+					$(this).dialog('close');
+				}
+			}
+		});
+
+
+
+
 		$('table#tbl_sc_list tr').on('change', '#txt-sc_price', function () {
 				doClearVldrErrorElement(this)
 				blnValidateElem_TypeDouble(this);
@@ -98,25 +150,37 @@ if (typeof _SC_Load == 'undefined') {
 		
 		$('#sc_edit_panel #sel-sc_position').combobox({is_allow_add: true});
 
+		$('body').on('click', '.view-status-remark', function () {
+			var txt_remark = $(this).attr('txt_remark');
+			if(txt_remark != undefined && txt_remark != ''){
+				
+				var ele = $('#div_status_remark.ui-dialog-content').children('#txa-status_remark');
+				ele.val(txt_remark).attr('readonly',true);
+				
+			}
+			_DLG_STATUS_REMARK.dialog('option', 'title', 'สาเหตุ ').dialog( "open" );
+		});
+
 		$('body').on('change', '.cls-sel-change-status', function () {
 			var _rowid = $(this).attr('rowid') || -1;
-			// var _type = $(this).attr('type') || -1;
-			// var _code = $(this).attr('ps_code') || false;
-			// var _order_rowid = $(this).attr('order_rowid') || -1;
-			// var _order_s_rowid = $(this).attr('order_s_rowid') || -1;
-			// var _seq = $(this).attr('seq') || -1;
-			// var _curr_status_text = $(this).attr('curr_status_text') || false;
 			var _selOpt = $('option:selected', this);
 			var _type = _selOpt.attr('type') || false;
 			var _status_text = _selOpt.attr('name') || false;
 			var _status_rowid = (_selOpt.length > 0) ? _selOpt.val() : -1;
 			// var _status_text = (_selOpt.length > 0) ? _selOpt.val() : '';
-	
-			if ((_rowid >= 0) && (_status_rowid > 0)) {
+			if ((_rowid >= 0) && (_status_rowid == 110)) {
 				// 100:CMP, 180:CNL, 200:CLO
-					if (confirm('กรุณายืนยันการเปลี่ยนสถานะป็น "' + _status_text + '"')) {
-						__doChangeStatus(_rowid, _status_rowid, _status_text, _type)
-					};
+				$('#div_status_remark').attr('rowid', _rowid)
+				.attr('status_rowid', _status_rowid)
+				.attr('status_text', _status_text)
+				.attr('type', _type)
+				.show();
+
+				_DLG_STATUS_REMARK.dialog('option', 'title', ' ระบุสาเหตุ ').dialog( "open" );
+			}else{
+				if (confirm('กรุณายืนยันการเปลี่ยนสถานะป็น "' + _status_text + '"')) {
+					__doChangeStatus(_rowid, _status_rowid, _status_text, _type)
+				};
 			}
 			$(this).val($.data(this, 'current'));
 			return false;
@@ -167,10 +231,15 @@ if (typeof _SC_Load == 'undefined') {
 		_str += '<td>' + objNew.detail + '</td>';
 		_str += '<td>' + objNew.size + '</td>';
 		_str += '<td>' + objNew.job_hist + '</td>';
+		var status_remark = '';
+		if(objNew.status_remark){ 
+			status_remark =  '<img src="public/images/doc_table_icon.png" class="view-status-remark" txt_remark="'+objNew.status_remark+'" />'
+		}
+		_str += '<td class="status_remark">' + status_remark  + '</td>';
 		_str += '<td class="disp_status">' + _status + '</td>';
-		_str += '<td class="status"> <select class="cls-sel-change-status" rowid="'+objNew.prod_rowid+'">' + renderAvaiStatus(objNew.prod_rowid, objNew.arr_avail_status, objNew.screen_type, objNew.prod__status); +'</select></td>';
+		_str += '<td class="status"> <select class="cls-sel-change-status" rowid="'+objNew.prod_rowid+'" status_rowid="'+objNew.prod_status+'">' + renderAvaiStatus(objNew.prod_rowid, objNew.arr_avail_status, objNew.screen_type, objNew.prod__status); +'</select></td>';
 		_str += '<td class="approve_date">'  +_approve_date + '</td>';
-		_str += '<td>' + _block_emp  + '</td>';
+		_str += '<td class="block_emp">'  +_block_emp + '</td>';
 		_str += '<td class="img">' + renderBtnDownload(objNew.img, objNew.screen_type) + '</td>';
 		_str += '<td class="eventView-hide">' + objNew.price + '</td>';
 		_str += '<td class="control-button eventView-hide"><img src="public/images/edit.png" class="sc-edit-ctrl ctrl-edit" title="Edit" /><img src="public/images/b_delete.png" class="sc-edit-ctrl ctrl-delete" title="Delete" /></td></tr>';
@@ -178,8 +247,9 @@ if (typeof _SC_Load == 'undefined') {
 		$('tbody', tbl).append(_str);
 	}
 
-	function __doChangeStatus(rowid, status_rowid, _status_text, _type) {
+	function __doChangeStatus(rowid, status_rowid, _status_text, _type, _remark) {
 		var _index = 0;
+		var _json ='';
 		var _rowid = rowid || false;
 		var _status_rowid = status_rowid || false;
 
@@ -188,7 +258,11 @@ if (typeof _SC_Load == 'undefined') {
 			return false;
 		}
 	
-		var _json = { "rowid": rowid, "status_rowid": status_rowid,  "type": _type };
+		if(_remark){
+			_json = { "rowid": rowid, "status_rowid": status_rowid,  "type": _type, "status_remark": _remark};
+		}else{
+			_json = { "rowid": rowid, "status_rowid": status_rowid,  "type": _type };
+		}
 		_str = JSON.stringify(_json);
 		$.ajax({
 			type: "POST",
@@ -252,6 +326,9 @@ if (typeof _SC_Load == 'undefined') {
 			_type = 'screen';
 			_arr_status  = _ARR_SCREEN_STATUS
 		}
+
+		$('.cls-sel-change-status')
+		.attr('screen_type', _screen_type)
 
 		var _elSel = $('<select>').append($('<option>').html('--'))
 

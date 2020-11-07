@@ -104,6 +104,7 @@ EOT;
 			$this->db->update($this->_TABLE_NAME);
 
 		$this->error_message = $this->db->error()['message'];
+		// echo $this->db->last_query();exit;
 		return true;
 	}
 

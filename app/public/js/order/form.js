@@ -268,38 +268,42 @@ function _doRequestOrderDetails(fnc_callback, is_edit, cb_args) {
 				//-- Set upload images
 
 				//++ Screens list
-				
-				$('#tbl_sc_list tbody tr:not("#sc_edit_panel")').remove();
+				$('#tbl_sc_list > *:not("thead") tr:not("#sc_edit_panel")').remove();
 				_str = '';
 				if ('screen' in cb_args[0]) {
 					for (_r in cb_args[0]['screen']) {
 						if ('order_screen' in cb_args[0]['screen'][_r]) {
 							_row = cb_args[0]['screen'][_r];
 							_scInsertDetailRow($('#tbl_sc_list'),_row);
-							//_str += '<tr><td order_screen_rowid="' + _row['order_screen_rowid'] + '" >' + _row['order_screen'] + "</td><td>" + _row['position'] + "</td><td>" + _row['detail'] + "</td><td>" + _row['size'] + "</td><td>" + _row['job_hist'] + "</td><td>" + _row['price'] + "</td><td class='control-button'><img src='public/images/edit.png' class='sc-edit-ctrl ctrl-edit' title='Edit' /><img src='public/images/b_delete.png' class='sc-edit-ctrl ctrl-delete' title='Delete' /></td></tr>";
 						}
 					}
-					//$('#sc_edit_panel').before(_str);
-					//$('#tbl_sc_list tbody').append(_str);
+					$('#sc_edit_panel').before(_str);
 					_blnScChanged = false;
 				}
-				
 				if ('weave_order' in cb_args[0]) {
+					var _prov_seq = '';
 					for (_r in cb_args[0]['weave_order']) {
 						if ('disp_type' in cb_args[0]['weave_order'][_r]) {
 							_row = cb_args[0]['weave_order'][_r];
-							_scInsertDetailRowOrder($('#tbl_sc_list'),_row);
+							if(_prov_seq != _row['seq']){
+								_scInsertDetailRowOrder($('#tbl_sc_list'),_row);
+								_prov_seq = _row['seq'];
+							}
+
 						}
 					}
 					_blnScChanged = false;
 				}
 
 				if ('screen_order' in cb_args[0]) {
+					var _prov_seq = '';
 					for (_r in cb_args[0]['screen_order']) {
 						if ('disp_type' in cb_args[0]['screen_order'][_r]) {
 							_row = cb_args[0]['screen_order'][_r];
-							_scInsertDetailRowOrder($('#tbl_sc_list'),_row);
-						
+							if(_prov_seq != _row['seq']){
+								_scInsertDetailRowOrder($('#tbl_sc_list'),_row);
+								_prov_seq = _row['seq'];
+							}
 						}
 					}
 					_blnScChanged = false;

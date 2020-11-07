@@ -4,11 +4,12 @@
 			<tr>
 				<th style="width:12%;">ผู้ปัก/สกรีน</th>
 				<th style="width:12%;">ตำแหน่งงาน</th>
-				<th style="width:12%;">รายละเอียด</th>
-				<th style="width:12em;">ขนาด</th>
+				<th style="width:24%;">รายละเอียด</th>
+				<th style="width:12%;">ขนาด</th>
 				<th style="width:12%;">ประวัติงาน</th>
-				<?php if(isset($order_column)){ 
-					foreach ($order_column as $key=>$item){ ?>
+				<?php if(isset($order_column)){ ?>
+					<th style="width:3%;"><?php echo '#'; ?></th>
+					<?php foreach ($order_column as $key=>$item){ ?>
 						
 						<th style="width:12%;"><?php echo $item ?></th>
 					

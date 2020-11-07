@@ -32,7 +32,7 @@
 							<div class="frm-edit-row" >
 								<div class="frm-edit-row-title table-title" style="width:10%;">เลขที่งาน</div>
 								<div class="frm-edit-row-value" style="width:20%;" >
-									<input type="text" id="txt-job_number" class="user-input" maxlength="10"/>
+								<input type="text" id="txt-job_number" class="user-input" maxlength="10"/>
 								</div>
 								<div class="frm-edit-row-title table-title" style="width:10%;">เลขที่อ้างอิง</div>
 								<div class="frm-edit-row-value" style="width:20%;" >
@@ -335,6 +335,10 @@ EOT;
 		});
 	});
 </script>
+<div id="div_status_remark" style="display:none;">
+	<span class="cls-label" style="font-weight:bold;">สาเหตุ</span>
+	<textarea id="txa-status_remark" style="width:96%;" class="user-input" rows="3" placeholder="สาเหตุ หรือ ข้อมูลเพิ่มเติม"></textarea>
+</div>
 EOT;
 	}
 ?>

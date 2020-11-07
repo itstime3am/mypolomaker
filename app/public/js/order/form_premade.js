@@ -338,7 +338,6 @@ function _doRequestOrderDetails(fnc_callback, is_edit, cb_args) {
 					$('#sc_edit_panel').before(_str);
 					_blnScChanged = false;
 				}
-				
 				if ('weave_order' in cb_args[0]) {
 					var _prov_seq = '';
 					for (_r in cb_args[0]['weave_order']) {

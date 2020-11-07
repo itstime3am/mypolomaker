@@ -30,6 +30,14 @@
 				<div id="left_panel"><?php echo isset($left_panel)?$left_panel:'';?></div>
 				<div id="work_panel"><?php echo isset($work_panel)?$work_panel:'';?></div>
 				<div id="right_panel"><?php echo isset($right_panel)?$right_panel:'';?></div>
+				<?php
+	echo <<<EOT
+<div id="div_status_remark" style="display:none;">
+	<span class="cls-label" style="font-weight:bold;">สาเหตุ</span>
+	<textarea id="txa-status_remark" style="width:96%;" class="user-input" rows="3" placeholder="สาเหตุ หรือ ข้อมูลเพิ่มเติม"></textarea>
+</div>
+EOT;
+?>
 			</div>
 			<div id="bot_wrapper">
 				<div id="bottom_panel">Page rendered in <strong>{elapsed_time}</strong> seconds</div>
