@@ -269,7 +269,13 @@ function customCommand(command, aData, tr, divEditDlg) {
 	} else if (command.substr(0, 5) == 'chPS_') {
 		var _rowid;
 		if (CONTROLLER_NAME.search('_premade_') >= 0) {
-			_rowid = ('order_detail_rowid' in aData) ? aData['order_detail_rowid'] : false;			
+			if( 'rowid' in aData ){
+				_rowid = ('rowid' in aData) ? aData['rowid'] : false;
+			}else{
+				_rowid = ('order_detail_rowid' in aData) ? aData['order_detail_rowid'] : false;	
+			}
+
+					
 		} else {
 			_rowid = ('rowid' in aData) ? aData['rowid'] : false;			
 		}
@@ -315,7 +321,7 @@ function __doChangeProcessStatus(rowid, ps_rowid, strStatusRemark) {
 	}
 	var _json = { "ps_rowid": _ps_rowid };
 	if (CONTROLLER_NAME.search('_premade_') >= 0) {
-		_json["detail_rowid"] = _rowid;
+		_json["rowid"] = _rowid;
 	} else {
 		_json["rowid"] = _rowid;
 	}

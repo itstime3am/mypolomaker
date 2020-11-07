@@ -154,7 +154,7 @@ class Order_premade_other extends MY_Ctrl_crud {
 		$this->add_css('public/css/order/form.css');
 		$this->add_js('public/js/order/_base_order.js');
 		$this->add_js('public/js/order/form.js');
-		$pass['title'] = "สั่งตัด:: อื่นๆ";
+		$pass['title'] = "สั่งตัดสำเร็จรูป:: อื่นๆ";
 		
 		if ($_strStartScript != '') $this->add_js($_strStartScript, 'custom');
 

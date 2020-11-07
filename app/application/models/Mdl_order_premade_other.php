@@ -129,9 +129,10 @@ EOT;
 	
 	function get_detail_by_id($RowID) {
 		$_sql = <<<EOT
-SELECT t.* 
-FROM v_order_premade_other t 
-WHERE t.rowid = ?
+		SELECT t.* 
+		FROM v_order_premade_other t 
+		left join t_order_premade_detail_other td on t.rowid  = td.order_rowid 
+		WHERE t.rowid = ?
 EOT;
 		$_sql .= $this->_getCheckAccessRight("t.create_by", "order");
 		$_arr = $this->arr_execute($_sql, array($RowID));
@@ -245,7 +246,7 @@ EOT;
 		$this->db->set('ps_rowid', $_ps_rowid);
 		$this->db->set('update_by', $this->db->escape((int)$this->session->userdata('user_id')));
 		$this->db->where('rowid', $_detail_rowid);
-		$this->db->update('t_order_premade_detail_other');
+		$this->db->update('t_order_premade_other');
 		
 		$this->error_message = $this->db->error()['message'];
 		return true;

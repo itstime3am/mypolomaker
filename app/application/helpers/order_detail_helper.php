@@ -444,6 +444,9 @@ function hlpr_get_OrderOther_ViewParams() {
 		, array(
 			'order_screen' => $_arrSelOptions['order_screen']
 			,'arr_position_list' => $_arrSelOptions['weave_screen_position']
+			,'order_column' => array(
+				"สถานะ", "จัดการสถานะ", "วันที่ Approve", "ช่างตีบล็อค", "รูปภาพ"
+			)
 		)
 		, TRUE
 	);
