@@ -146,22 +146,22 @@ function __doInitialOrderControls() {
 
 	_evntCheckBeforeChangeTab = function(currTab) {
 		return true;/* TEST FAST */
-		if ($('#hdn-customer_rowid', currTab).length > 0) doClearVldrErrorElement($('#hdn-customer_rowid', currTab));
-		if (! blnValidateContainer(false, currTab, '.user-input')) {
-			$('.cls-frm-edit .ui-tabs-panel:visible .input-invalid').each(function() {
-				var _elem = $(this);
-				if (_elem.length > 0) {
-					var _msg = _elem.attr('invalid-msg') || 'Invalid';
-					if (_elem.attr('id') == 'hdn-customer_rowid') {
-						doClearVldrErrorElement(_elem);
-						doSetVldrError($('#aac-customer'), 'customer_rowid', _msg, 'ข้อมูลลูกค้า: ' + _msg);
-					}
-				}
-			});
-			return false;
-		} else {
-			return true;
-		}		
+		// if ($('#hdn-customer_rowid', currTab).length > 0) doClearVldrErrorElement($('#hdn-customer_rowid', currTab));
+		// if (! blnValidateContainer(false, currTab, '.user-input')) {
+		// 	$('.cls-frm-edit .ui-tabs-panel:visible .input-invalid').each(function() {
+		// 		var _elem = $(this);
+		// 		if (_elem.length > 0) {
+		// 			var _msg = _elem.attr('invalid-msg') || 'Invalid';
+		// 			if (_elem.attr('id') == 'hdn-customer_rowid') {
+		// 				doClearVldrErrorElement(_elem);
+		// 				doSetVldrError($('#aac-customer'), 'customer_rowid', _msg, 'ข้อมูลลูกค้า: ' + _msg);
+		// 			}
+		// 		}
+		// 	});
+		// 	return false;
+		// } else {
+		// 	return true;
+		// }		
 	};
 	
 	var _chldCount = $("#tabs ul").find("a").length;
