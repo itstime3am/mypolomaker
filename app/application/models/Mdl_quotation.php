@@ -158,6 +158,7 @@ SELECT t.*
 , TO_CHAR(t.sum_after_discount, '9G999G990D00') AS disp_sum_after_discount
 , TO_CHAR(t.sum_vat, '9G999G990D00') AS disp_sum_vat
 , t.grand_total AS sum_amount, TO_CHAR(t.grand_total, '9G999G990D00') AS disp_sum_amount
+, t.qo_number as quotation_number
 , COALESCE(ug.title, '') AS branch, COALESCE(uc.name, ' - ') AS create_user
 FROM v_quotation t 
 	LEFT OUTER JOIN {$db['joomla']['database']}.{$db['joomla']['dbprefix']}users uc ON t.sale_rowid = uc.id 
