@@ -410,7 +410,7 @@ EOT;
 		$this->db->set('update_by', $this->db->escape((int)$this->session->userdata('user_id')));
 		$this->db->where('rowid', $_detail_rowid);
 		$this->db->update('t_order_premade_detail_cap');
-		
+
 		$this->error_message = $this->db->error()['message'];
 		return true;
 	}
