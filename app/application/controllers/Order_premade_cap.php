@@ -564,7 +564,7 @@ OSL
 		$json_input_data = json_decode(trim(file_get_contents('php://input')), true); //get json
 		$_arrData = (isset($json_input_data))?$json_input_data:$this->input->post(); //or post data submit
 		if (isset($_arrData) && ($_arrData != FALSE)) {
-			if (! isset($_arrData['rowid'])) $strError .= '"detail_rowid" not found,';
+			if (! isset($_arrData['rowid'])) $strError .= '"rowid" not found,';
 			if (! isset($_arrData['ps_rowid'])) $strError .= '"ps_rowid" not found,';
 			$_remark = FALSE;
 			if (isset($_arrData['status_remark']) && (!(empty($_arrData['status_remark'])))) $_remark = $_arrData['status_remark'];

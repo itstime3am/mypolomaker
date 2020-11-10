@@ -431,7 +431,7 @@ EOT;
 		if ($status_remark) $this->db->set('status_remark', $status_remark);
 		$this->db->set('ps_rowid', $_ps_rowid);
 		$this->db->set('update_by', $this->db->escape((int)$this->session->userdata('user_id')));
-		$this->db->where('rowid', $_detail_rowid);
+		$this->db->where('order_rowid', $_detail_rowid);
 		$this->db->update('pm_t_order_premade_detail_tshirt');
 		
 		$this->error_message = $this->db->error()['message'];
