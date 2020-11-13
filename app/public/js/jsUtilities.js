@@ -1754,14 +1754,14 @@ function _doDisplayToastMessage(msg, optIntBlinkLoop, optIsGetObjPresist) {
 		}else if(msg.indexOf("ล้มเหลว") > 0){
 			_divMsg.css('color', 'red');
 		}
-		_divMsg.show().fadeOut(3000);	
+		_divMsg.show().fadeOut(5000);	
 		// for (var _l = 0;_l < _intLoop;_l++) {
 		// 	_divMsg.fadeOut(_intDelayHide).fadeIn(1000);
 		// }
 		if (_isPresist) {
 			return _divMsg;
 		} else {
-			_divMsg.fadeOut(3000, function() { _divMsg.remove(); });
+			_divMsg.fadeOut(5000, function() { _divMsg.remove(); });
 		}
 	}
 }
