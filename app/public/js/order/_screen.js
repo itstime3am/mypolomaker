@@ -17,6 +17,7 @@ if (typeof _SC_Load == 'undefined') {
 			, autoOpen: false
 			, beforeClose: function(event, ui) {
 				$(this).removeAttr('status_rowid').removeAttr('status_text');
+				$('#div_status_remark').css('display','none');
 				$(this).find('#txa-status_remark').attr('readonly',false);
 				$(this).find('#txa-status_remark').val('');
 			}
