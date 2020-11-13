@@ -262,10 +262,23 @@ PRF;
 	}
 	
 	function approve($rowid) {
-		return $this->db->insert('pm_t_delivery_approve', array(
-			'delivery_rowid' => $rowid
-			, 'approve_by' => $this->session->userdata('user_id')
-		));
+
+		$_sql = "SELECT COUNT(rowid) FROM pm_t_delivery_approve WHERE delivery_rowid = $rowid";
+		$_data_exits = $this->arr_execute($_sql);
+		if(is_array($_data_exits)){
+			if($_data_exits[0]['count'] == 0){
+				$this->db->insert('pm_t_delivery_approve', array(
+					'delivery_rowid' => $rowid
+					, 'approve_by' => $this->session->userdata('user_id')
+				));
+				return 0;
+			}else{
+				return 1;
+			}
+		}
+		// return $_data_exits;exit;
+
+		
 	}
 	
 	function revoke($rowid) {

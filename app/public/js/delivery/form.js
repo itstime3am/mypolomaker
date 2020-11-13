@@ -918,17 +918,17 @@ function customCommand(command, aData, tr, divEditDlg) {
 			success: function(data, textStatus, jqXHR) {
 				if (('success' in data) && (data.success)) {
 					if (command.toLowerCase() == 'approve') {
-						doDisplayInfo("Delivery order approved", "Success");
+						_doDisplayToastMessage(MSG_ALERT_COMMIT_SUCCESS.replace(/v_XX_1/g, 'Approve ใบนำส่งสินค้าสำเร็จแล้ว !'), 3, false);
 					} else {
-						doDisplayInfo("Approvement revoked", "Success");						
+						_doDisplayToastMessage(MSG_ALERT_COMMIT_SUCCESS.replace(/v_XX_1/g, 'Revoked ใบนำส่งสินค้าสำเร็จแล้ว !'), 3, false);				
 					}
 					doSearch(false);
 				} else {
-					console.log('Unknown error!');
+					_doDisplayToastMessage(MSG_ALERT_COMMIT_FAILED.replace(/v_XX_1/g, ' +'+ data['error'] +'!'), 3, false);
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				console.log(errorThrown);
+				doDisplayInfo(MSG_ALERT_QUERY_FAILED.replace(/v_XX_1/g, textStatus + ' ( ' + errorThrown + ' )'), "ErrorMessage");
 			},
 			statusCode: {
 				404: function() {

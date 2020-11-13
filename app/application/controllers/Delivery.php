@@ -328,8 +328,11 @@ CCLMS
 		$this->load->model('mdl_delivery', 'm');
 		$result = $this->m->approve($rowid);
 		$strError = $this->m->error_message;
-		if ($strError == '') {
+		// echo $result;exit;
+		if ($strError == '' && $result < 1) {
 			$blnSuccess = TRUE;
+		}else{
+			$strError = "This Delivery Rowid Is Already Approve !";
 		}
 		$json = json_encode(
 			array(
