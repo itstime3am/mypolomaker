@@ -335,7 +335,7 @@ EOT;
 		});
 	});
 </script>
-<div id="div_status_remark" style="display:none;">
+<div id="div_status_remark_manu" style="display:none;">
 	<span class="cls-label" style="font-weight:bold;">สาเหตุ</span>
 	<textarea id="txa-status_remark" style="width:96%;" class="user-input" rows="3" placeholder="สาเหตุ หรือ ข้อมูลเพิ่มเติม"></textarea>
 </div>

@@ -6,7 +6,7 @@ if (typeof _SC_Load == 'undefined') {
 	var _blnScChanged = false;
 	$(function() {
 
-		_DLG_STATUS_REMARK = $('#div_status_remark').dialog({
+		_DLG_STATUS_REMARK_manu = $('#div_status_remark_manu').dialog({
 			height: 180
 			, width: 780
 			, show: {effect:"puff", duration: 100}
@@ -17,13 +17,13 @@ if (typeof _SC_Load == 'undefined') {
 			, autoOpen: false
 			, beforeClose: function(event, ui) {
 				$(this).removeAttr('status_rowid').removeAttr('status_text');
-				$('#div_status_remark').css('display','none');
+				$('#div_status_remark_manu').css('display','none');
 				$(this).find('#txa-status_remark').attr('readonly',false);
 				$(this).find('#txa-status_remark').val('');
 			}
 			, buttons: {
 				'Commit': function() {
-					var ele = $('#div_status_remark');
+					var ele = $('#div_status_remark_manu');
 					var _rowid = ele.attr('rowid') || false;
 					var _status_rowid = ele.attr('status_rowid') || false;
 					var _status_text =ele.attr('status_text') || false;
@@ -155,14 +155,15 @@ if (typeof _SC_Load == 'undefined') {
 			var txt_remark = $(this).attr('txt_remark');
 			if(txt_remark != undefined && txt_remark != ''){
 				
-				var ele = $('#div_status_remark.ui-dialog-content').children('#txa-status_remark');
+				var ele = $('#div_status_remark_manu.ui-dialog-content').children('#txa-status_remark');
 				ele.val(txt_remark).attr('readonly',true);
 				
 			}
 			_DLG_STATUS_REMARK.dialog('option', 'title', 'สาเหตุ ').dialog( "open" );
 		});
 
-		$('body').on('change', '.cls-sel-change-status', function () {
+		$('body').on('change', '.cls-sel-change-status-manu', function () {
+			console.log(1)
 			var _rowid = $(this).attr('rowid') || -1;
 			var _selOpt = $('option:selected', this);
 			var _type = _selOpt.attr('type') || false;
@@ -171,7 +172,7 @@ if (typeof _SC_Load == 'undefined') {
 			// var _status_text = (_selOpt.length > 0) ? _selOpt.val() : '';
 			if ((_rowid >= 0) && (_status_rowid == 110)) {
 				// 100:CMP, 180:CNL, 200:CLO
-				$('#div_status_remark').attr('rowid', _rowid)
+				$('#div_status_remark_manu').attr('rowid', _rowid)
 				.attr('status_rowid', _status_rowid)
 				.attr('status_text', _status_text)
 				.attr('type', _type)
@@ -179,7 +180,7 @@ if (typeof _SC_Load == 'undefined') {
 
 				_DLG_STATUS_REMARK.dialog('option', 'title', ' ระบุสาเหตุ ').dialog( "open" );
 			}else{
-				if (confirm('กรุณายืนยันการเปลี่ยนสถานะป็น "' + _status_text + '"')) {
+				if (confirm('กรุณายืนยันการเปลี่ยนสถานะเป็น "' + _status_text + '"')) {
 					__doChangeStatus(_rowid, _status_rowid, _status_text, _type)
 				};
 			}
