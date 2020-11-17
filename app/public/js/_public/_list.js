@@ -183,17 +183,27 @@
 		_currEditData = {};
 		$(form).find(".user-input:not(.no-commit), .data-container[data]:not(.no-commit)").each(function () {
 			var _data = (_getElemData(this) || '').trim();
+			
 			var _val = _getElemValue(this, null);
 			if (_val !== null) {
 				if (_data.indexOf('[]') >= 0) {
 					_data = _data.replace('[]', '');
-					if (_data in _currEditData) {
+					if (_data in _currEditData ){
 						_currEditData[_data] += _val + ',';
 					} else {
 						_currEditData[_data] = ',' + _val + ',';						
 					}
 				} else {
-					if ((_data)) _currEditData[_data] = _val;
+					if( 'pattern' == _data || 'detail1' == _data || 'detail2' == _data  || 'fabric_type' == _data){
+						if(_data in _currEditData ){
+
+						}else{
+							if ((_data)) _currEditData[_data] = _val;
+						}
+
+					}else{
+						if ((_data)) _currEditData[_data] = _val;
+					}
 				}
 			}
 		});
