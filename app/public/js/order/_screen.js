@@ -159,11 +159,10 @@ if (typeof _SC_Load == 'undefined') {
 				ele.val(txt_remark).attr('readonly',true);
 				
 			}
-			_DLG_STATUS_REMARK.dialog('option', 'title', 'สาเหตุ ').dialog( "open" );
+			_DLG_STATUS_REMARK_manu.dialog('option', 'title', 'สาเหตุ ').dialog( "open" );
 		});
 
 		$('body').on('change', '.cls-sel-change-status-manu', function () {
-			console.log(1)
 			var _rowid = $(this).attr('rowid') || -1;
 			var _selOpt = $('option:selected', this);
 			var _type = _selOpt.attr('type') || false;
@@ -178,7 +177,7 @@ if (typeof _SC_Load == 'undefined') {
 				.attr('type', _type)
 				.show();
 
-				_DLG_STATUS_REMARK.dialog('option', 'title', ' ระบุสาเหตุ ').dialog( "open" );
+				_DLG_STATUS_REMARK_manu.dialog('option', 'title', ' ระบุสาเหตุ ').dialog( "open" );
 			}else{
 				if (confirm('กรุณายืนยันการเปลี่ยนสถานะเป็น "' + _status_text + '"')) {
 					__doChangeStatus(_rowid, _status_rowid, _status_text, _type)
@@ -239,7 +238,7 @@ if (typeof _SC_Load == 'undefined') {
 		}
 		_str += '<td class="status_remark">' + status_remark  + '</td>';
 		_str += '<td class="disp_status">' + _status + '</td>';
-		_str += '<td class="status"> <select class="cls-sel-change-status" rowid="'+objNew.prod_rowid+'" status_rowid="'+objNew.prod_status+'">' + renderAvaiStatus(objNew.prod_rowid, objNew.arr_avail_status, objNew.screen_type, objNew.prod__status); +'</select></td>';
+		_str += '<td class="status"> <select class="cls-sel-change-status-manu" rowid="'+objNew.prod_rowid+'" status_rowid="'+objNew.prod_status+'">' + renderAvaiStatus(objNew.prod_rowid, objNew.arr_avail_status, objNew.screen_type, objNew.prod__status); +'</select></td>';
 		_str += '<td class="approve_date">'  +_approve_date + '</td>';
 		_str += '<td class="block_emp">'  +_block_emp + '</td>';
 		_str += '<td class="img">' + renderBtnDownload(objNew.img, objNew.screen_type) + '</td>';
@@ -329,7 +328,7 @@ if (typeof _SC_Load == 'undefined') {
 			_arr_status  = _ARR_SCREEN_STATUS
 		}
 
-		$('.cls-sel-change-status')
+		$('.cls-sel-change-status-manu')
 		.attr('screen_type', _screen_type)
 
 		var _elSel = $('<select>').append($('<option>').html('--'))
