@@ -82,8 +82,10 @@ QUERY;
 		if (array_key_exists('product_type_id', $arrObj)) {
 			$_type_id = $arrObj['product_type_id'];
 			if (is_numeric($_type_id)) {
-				if ($_type_id <= 2) { // if 1,2 query both
-					$_arrSpecWhere['product_type_id'] = array('dbcol'=>'t.order_type_id','type'=>'raw','operand'=>'IN','val'=>"(1,2,3,4)");
+				if ($_type_id == 1) { // if 1,2 query both
+					$_arrSpecWhere['product_type_id'] = array('dbcol'=>'','type'=>'raw','operand'=>'','val'=>"(t.order_type_id = 1 OR t.order_type_id = 3)");
+				} elseif ($_type_id == 2) {
+					$_arrSpecWhere['product_type_id'] = array('dbcol'=>'','type'=>'raw','operand'=>'','val'=>"(t.order_type_id = 2 OR t.order_type_id = 4)");
 				} else {
 					$_arrSpecWhere['product_type_id'] = array('dbcol'=>'t.order_type_id','type'=>'raw','operand'=>'IN','val'=>"(" . $_type_id . "," . ($_type_id + 2) . ")");
 				}
@@ -139,7 +141,7 @@ QUERY;
 		$_sql .= $this->_getCheckAccessRight("t.create_by", "report_deliver");
 		///$_sql .= "ORDER BY t.job_number, t.raw_order_date, t.raw_due_date ";	
 		//$_sql .= "LIMIT 100";	
-///echo $_sql;exit;
+// echo $_sql;exit;
 		return $this->arr_execute($_sql);
 	}
 	
