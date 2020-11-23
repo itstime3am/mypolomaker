@@ -980,7 +980,7 @@ QUERY;
 				case "1":
 					$file_name = 'FM-SA-01-001_' . $strNow . '.pdf';
 					$pass['title'] = 'ใบสั่งซื้อ เสื้อสั่งตัดโปโล';
-					$pass['code'] = sprintf('FM-SA-01-001 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-01-001 REV.00 / %02d', $_rev_no);
 					$pass['is_show_price'] = TRUE;
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_order_detail', $pass, TRUE);
 					$pass['others_price_panel'] = $this->load->view('order/pdf/section/_pdf_others_price', $pass, TRUE);
@@ -992,7 +992,7 @@ QUERY;
 				case "2":
 					$file_name = 'FM-SA-01-002_' . $strNow . '.pdf';
 					$pass['title'] = 'ใบสั่งตัด เสื้อโปโล';
-					$pass['code'] = sprintf('FM-SA-01-002 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-01-002 REV.00 / %02d', $_rev_no);
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_order_detail', $pass, TRUE);
 					$pass['size_quan_section'] = $this->load->view('order/pdf/section/_pdf_size_quan', $pass, TRUE);
 					$pass['screen_section'] = $this->load->view('order/pdf/section/_pdf_screen', $pass, TRUE);
@@ -1002,21 +1002,21 @@ QUERY;
 				case "3":
 					$file_name = 'FM-SA-01-003_' . $strNow . '.pdf';
 					$pass['title'] = 'ใบจ่ายงานเย็บ สั่งตัดเสื้อโปโล';
-					$pass['code'] = sprintf('FM-SA-01-003 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-01-003 REV.00 / %02d', $_rev_no);
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_order_detail', $pass, TRUE);
 					$html = $this->load->view('order/pdf/pdf_3', $pass, TRUE);
 					break;
 				case "4":
 					$file_name = 'FM-SA-01-004_' . $strNow . '.pdf';
 					$pass['title'] = 'ใบจ่ายงานเย็บแขน เสื้อโปโล';
-					$pass['code'] = sprintf('FM-SA-01-004 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-01-004 REV.00 / %02d', $_rev_no);
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_order_detail', $pass, TRUE);
 					$html = $this->load->view('order/pdf/pdf_4', $pass, TRUE);
 					break;
 				case "5":
 					$file_name = 'FM-SA-01-005_' . $strNow . '.pdf';
 					$pass['title'] = 'ใบจ่ายเย็บ เสื้อโปโล';
-					$pass['code'] = sprintf('FM-SA-01-005 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-01-005 REV.00 / %02d', $_rev_no);
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_order_detail', $pass, TRUE);
 					$pass['screen_section'] = $this->load->view('order/pdf/section/_pdf_screen', $pass, TRUE);
 					$html = $this->load->view('order/pdf/pdf_5', $pass, TRUE);
@@ -1024,7 +1024,7 @@ QUERY;
 				case "6":
 					$file_name = 'FM-SA-01-006_' . $strNow . '.pdf';
 					$pass['title'] = 'ใบงานข้อมูล สั่งตัดเสื้อโปโล';
-					$pass['code'] = sprintf('FM-SA-01-006 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-01-006 REV.00 / %02d', $_rev_no);
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_order_detail', $pass, TRUE);
 					$pass['size_quan_section'] = $this->load->view('order/pdf/section/_pdf_size_quan', $pass, TRUE);
 					$pass['screen_section'] = $this->load->view('order/pdf/section/_pdf_screen', $pass, TRUE);

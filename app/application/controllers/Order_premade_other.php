@@ -416,7 +416,7 @@ QUERY;
 				case "1":
 					$file_name = 'FM-SA-03-001_' . $strNow . '.pdf';
 					$pass['title'] = 'ใบสั่งซื้อ ' . $_prodType;
-					$pass['code'] = sprintf('FM-SA-03-001 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-03-001 REV.00 / %02d', $_rev_no);
 					$pass['is_display_price'] = TRUE;
 					$pass['others_price_panel'] = $this->load->view('order/pdf/section/_pdf_others_price', $pass, TRUE);
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_premade_order_detail', $pass, TRUE);
@@ -427,7 +427,7 @@ QUERY;
 				case "6":
 					$file_name = 'FM-SA-03-002_' . $strNow . '.pdf';
 					$pass['title'] = 'ใบงานข้อมูล ' . $_prodType;
-					$pass['code'] = sprintf('FM-SA-03-002 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-03-002 REV.00 / %02d', $_rev_no);
 					$pass['is_display_price'] = FALSE;
 					$pass['others_price_panel'] = $this->load->view('order/pdf/section/_pdf_others_price', $pass, TRUE);
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_premade_order_detail', $pass, TRUE);

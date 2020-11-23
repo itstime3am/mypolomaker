@@ -531,7 +531,7 @@ OSL
 				case "1":
 					$file_name = 'FM-SA-07-001_' . $strNow . '.pdf';
 					$pass['title'] = 'สั่งซื้อ หมวกสำเร็จรูป';
-					$pass['code'] = sprintf('FM-SA-07-001 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-07-001 REV.00 / %02d', $_rev_no);
 					$pass['is_display_price'] = TRUE;
 					$pass['others_price_panel'] = $this->load->view('order/pdf/section/_pdf_others_price', $pass, TRUE);
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_premade_order_detail_cap', $pass, TRUE);
@@ -542,7 +542,7 @@ OSL
 				case "6":
 					$file_name = 'iFM-SA-07-002_' . $strNow . '.pdf';
 					$pass['title'] = 'ใบงานข้อมูล หมวกสำเร็จรูป';
-					$pass['code'] = sprintf('FM-SA-07-002 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-07-002 REV.00 / %02d', $_rev_no);
 					$pass['is_display_price'] = FALSE;
 					$pass['others_price_panel'] = $this->load->view('order/pdf/section/_pdf_others_price', $pass, TRUE);
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_premade_order_detail_cap', $pass, TRUE);

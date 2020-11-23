@@ -431,7 +431,7 @@ QUERY;
 					} else {
 						$pass['title'] = 'ใบสั่งซื้อ ' . $_prodType . 'สั่งตัด';
 					}
-					$pass['code'] = sprintf('FM-SA-06-001 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-06-001 REV.00 / %02d', $_rev_no);
 					$pass['is_show_price'] = TRUE;
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_order_detail_others', $pass, TRUE);
 					$pass['others_price_panel'] = $this->load->view('order/pdf/section/_pdf_others_price', $pass, TRUE);
@@ -448,7 +448,7 @@ QUERY;
 						$pass['title'] = 'ใบงานข้อมูล ' . $_prodType . 'สั่งตัด';
 					}
 					
-					$pass['code'] = sprintf('FM-SA-06-002 REV.%02d', $_rev_no);
+					$pass['code'] = sprintf('FM-SA-06-002 REV.00 / %02d', $_rev_no);
 					$pass['detail_section'] = $this->load->view('order/pdf/section/_pdf_order_detail_others', $pass, TRUE);
 					$pass['size_quan_section'] = $this->load->view('order/pdf/section/_pdf_size_quan', $pass, TRUE);
 					$pass['screen_section'] = $this->load->view('order/pdf/section/_pdf_screen', $pass, TRUE);
