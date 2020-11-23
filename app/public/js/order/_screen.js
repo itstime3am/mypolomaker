@@ -153,14 +153,24 @@ if (typeof _SC_Load == 'undefined') {
 
 		$('body').on('click', '.view-status-remark', function () {
 			var txt_remark = $(this).attr('txt_remark');
-			if(txt_remark != undefined && txt_remark != ''){
-				
+			if(txt_remark != undefined && txt_remark != ''){	
 				var ele = $('#div_status_remark_manu.ui-dialog-content').children('#txa-status_remark');
 				ele.val(txt_remark).attr('readonly',true);
 				
 			}
 			_DLG_STATUS_REMARK_manu.dialog('option', 'title', 'สาเหตุ ').dialog( "open" );
 		});
+
+		$('body').on('click', '.cls-qs-with-remark', function () {
+			var txt_remark = $(this).attr('remark');
+			if(txt_remark != undefined && txt_remark != ''){
+				var ele = $('#div_status_remark_manu.ui-dialog-content').children('#txa-status_remark');
+				ele.val(txt_remark).attr('readonly',true);
+				
+			}
+			_DLG_STATUS_REMARK_manu.dialog('option', 'title', 'หมายเหตุจากโรงงาน').dialog( "open" );
+		});
+
 
 		$('body').on('change', '.cls-sel-change-status-manu', function () {
 			var _rowid = $(this).attr('rowid') || -1;
@@ -237,8 +247,9 @@ if (typeof _SC_Load == 'undefined') {
 			status_remark =  '<img src="public/images/doc_table_icon.png" class="view-status-remark" txt_remark="'+objNew.status_remark+'" />'
 		}
 		_str += '<td class="status_remark">' + status_remark  + '</td>';
-		_str += '<td class="disp_status">' + _status + '</td>';
-		_str += '<td class="status"> <select class="cls-sel-change-status-manu" rowid="'+objNew.prod_rowid+'" status_rowid="'+objNew.prod_status+'">' + renderAvaiStatus(objNew.prod_rowid, objNew.arr_avail_status, objNew.screen_type, objNew.prod__status); +'</select></td>';
+		_str += '<td class="disp_status">' + fnc__DDT_Row_RenderStatus(_status, objNew.prod_status, objNew.eg_remark ) + '</td>';
+		// _str += '<td class="disp_status">' + _status + '</td>';
+		_str += '<td class="status"> <select class="cls-sel-change-status-manu" rowid="'+objNew.prod_rowid+'" status_rowid="'+objNew.prod_status+'">' + renderAvaiStatus(objNew.prod_rowid, objNew.arr_avail_status, objNew.screen_type, objNew.prod_status); +'</select></td>';
 		_str += '<td class="approve_date">'  +_approve_date + '</td>';
 		_str += '<td class="block_emp">'  +_block_emp + '</td>';
 		_str += '<td class="img">' + renderBtnDownload(objNew.img, objNew.screen_type) + '</td>';
@@ -313,6 +324,23 @@ if (typeof _SC_Load == 'undefined') {
 		}
 		return _elSel.html();
 
+	}
+
+	function fnc__DDT_Row_RenderStatus(_status, _prod_status, _eg_remark) {
+		var _elPanel = $('<div>');
+		var _div = $('<div>').html(_status).appendTo(_elPanel);
+		
+		if (_eg_remark != null && _eg_remark != '' &&  _prod_status == 30) {
+			if(_eg_remark.length > 0 ){
+				console.log(222)
+				_div.addClass('cls-qs-with-remark').attr('title', _eg_remark).attr('remark', _eg_remark);
+				_div.css('display','flex');
+				_div.append('<div style="background:url(./public/images/icons/24/chat-bubble-o.png) no-repeat right;cursor:pointer;background-size:contain;display:inline; width:20%; height:22px;"></div>')
+				// _div.attr('style','background:url(./public/images/icons/24/chat-bubble-o.png) no-repeat right;cursor:pointer;background-size:contain;display:inline;padding:0px 3px;}')
+			}
+		}
+		console.log(_elPanel.html())
+		return _elPanel.html();
 	}
 
 	function renderAvaiStatus(_rowid, _avai_status, _screen_type, _prod_status){

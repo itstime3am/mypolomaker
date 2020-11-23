@@ -366,7 +366,7 @@ CCLMS
 	{$_depPaymentDlg}
 </div>
 <div id="div_status_remark">
-	<span class="cls-label" style="font-weight:bold;">สาเหตุ</span>
+	<span class="cls-label" style="font-weight:bold;"></span>
 	<!-- 
 	<select id="sel-status_remark" style="width:45%;vertical-align:top;" class="user-input">
 		<option>&nbsp;</option>
