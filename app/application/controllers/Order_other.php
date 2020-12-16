@@ -332,7 +332,7 @@ OTP;
 				ON d.type_id = vo.type_id
 				AND d.order_rowid = vo.order_rowid
 				INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
-				LEFT JOIN pm_t_manu_screen_production tmp on tmp.order_screen_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
+				LEFT JOIN pm_t_manu_screen_production tmp on tmp.order_screen_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq and tmp.type_id = vo.type_id
 				LEFT JOIN m_manu_screen_status ss ON ss.rowid = tmp.prod_status
 				LEFT join m_manu_screen_type mst on mst.rowid = tmp.screen_type
 				--WHERE o.ps_rowid = 10
@@ -368,7 +368,7 @@ QUERY;
 				ON d.type_id = o.type_id
 				AND d.order_rowid = o.order_rowid
 				INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
-				LEFT JOIN pm_t_manu_weave_production tmp on tmp.order_weave_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
+				LEFT JOIN pm_t_manu_weave_production tmp on tmp.order_weave_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq and tmp.type_id = o.type_id
 				LEFT JOIN m_manu_weave_status ss ON ss.rowid = tmp.prod_status
 				LEFT join m_manu_weave_type mst on mst.rowid = tmp.weave_type
 				--WHERE o.ps_rowid = 10
