@@ -313,7 +313,7 @@ OTP;
 				SELECT UNNEST(uac.arr_avail_status)
 				)) AS arr_avail_status
 				FROM v_order_report vo
-				INNER JOIN fnc_listmanuscreen_accright_byuser(984) uac ON True
+				INNER JOIN fnc_listmanuscreen_accright_byuser($_userid) uac ON True
 				INNER JOIN (
 					SELECT o.product_type_rowid AS type_id, s.order_rowid, s.order_screen_rowid, s.position, s.detail, s.size, s.job_hist, s.price, s.seq
 					FROM t_order_premade_other o
@@ -338,33 +338,32 @@ QUERY;
 				}
 				if ($_arr4 == FALSE) $_arr4 = array();
 				$_arrReturn['screen_order'] = $_arr4;
-				
 
 				// ++ weave
 				$_sql =<<<QUERY
-				SELECT  d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
-				tmp.fabric_date , tmp.block_emp, tmp.approve_date, tmp.prod_status, tmp.status_remark, tmp.eg_remark
-					, ARRAY_TO_JSON(ARRAY(
-				SELECT UNNEST(fnc_manu_screen_avai_status(tmp.prod_status))
+				SELECT d.position, d.detail, d.job_hist, CONCAT('กว้าง ' ,tmp.width, ' | ', 'สูง ' ,tmp.height ) as size, s.name AS disp_type, ss.name as disp_status, s.screen_type, tmp.img, tmp.rowid as prod_rowid,
+				tmp.fabric_date , tmp.block_emp, tmp.approve_date, d.seq, d.order_rowid, tmp.prod_status, tmp.status_remark, tmp.eg_remark
+				, ARRAY_TO_JSON(ARRAY(
+				SELECT UNNEST(fnc_manu_weave_avai_status(tmp.prod_status))
 				INTERSECT
 				SELECT UNNEST(uac.arr_avail_status)
 				)) AS arr_avail_status
-				FROM v_order_report vo
-				INNER JOIN fnc_listmanuscreen_accright_byuser(984) uac ON True
+				FROM v_order_report o
+				INNER JOIN fnc_listmanuweave_accright_byuser($_userid) uac ON True
 				INNER JOIN (
 					SELECT o.product_type_rowid AS type_id, s.order_rowid, s.order_screen_rowid, s.position, s.detail, s.size, s.job_hist, s.price, s.seq
 					FROM t_order_premade_other o
 					INNER JOIN t_order_premade_screen_other s ON s.order_rowid = o.rowid
 				) d
-				ON d.type_id = vo.type_id
-				AND d.order_rowid = vo.order_rowid
+				ON d.type_id = o.type_id
+				AND d.order_rowid = o.order_rowid
 				INNER JOIN pm_m_order_screen s on s.rowid = d.order_screen_rowid
-				LEFT JOIN pm_t_manu_screen_production tmp on tmp.order_screen_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
-				LEFT JOIN m_manu_screen_status ss ON ss.rowid = tmp.prod_status
-				LEFT join m_manu_screen_type mst on mst.rowid = tmp.screen_type
+				LEFT JOIN pm_t_manu_weave_production tmp on tmp.order_weave_rowid = d.order_screen_rowid and tmp.order_rowid = d.order_rowid and tmp.seq = d.seq
+				LEFT JOIN m_manu_weave_status ss ON ss.rowid = tmp.prod_status
+				LEFT join m_manu_weave_type mst on mst.rowid = tmp.weave_type
 				--WHERE o.ps_rowid = 10
-				WHERE COALESCE(vo.is_cancel, 0) < 1
-				AND s.screen_type  = 1
+				WHERE COALESCE(o.is_cancel, 0) < 1
+				and s.screen_type  = 1
 				AND d.order_rowid = $_rowid
 QUERY;
 				$_arr5 = $this->m->arr_execute($_sql);
