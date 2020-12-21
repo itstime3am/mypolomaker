@@ -88,6 +88,7 @@ EOT;
 
 	function change_status_manu_by_id($rowid, $status_rowid, $type, $status_remark = FALSE, $order_rowid, $order_s_rowid, $seq)
 	{
+		$_user_id = $this->db->escape((int)$this->session->userdata('user_id'));
 
 		if($type == "screen"){
 			$this->_TABLE_NAME = 'pm_t_manu_screen_production';
@@ -97,15 +98,52 @@ EOT;
 		$_rowid = $this->db->escape((int) $rowid);
 		$status_rowid = $this->db->escape((int) $status_rowid);
 		if ($status_remark) $this->db->set('status_remark', $status_remark);
-
-			$this->db->set('prod_status', $status_rowid);
-			$this->db->set('update_by', $this->db->escape((int)$this->session->userdata('user_id')));
-			$this->db->where('rowid', $_rowid);
-			$this->db->update($this->_TABLE_NAME);
-
+		$this->db->set('prod_status', $status_rowid);
+		$this->db->set('update_by', $_user_id);
+		$this->db->where('rowid', $_rowid);
+		$this->db->update($this->_TABLE_NAME);
 		$this->error_message = $this->db->error()['message'];
+		// SAVE LOG
+		$_arrData = array(
+			'rowid' => $rowid,
+			'prod_status' => $status_rowid,
+			'status_remark' => $status_remark,
+			'update_by' => $_user_id,
+		);
+		$this->save_log($_user_id, 'UPDATE', $_arrData, $type);
+
+		// SAVE REMARK TIMELINE
+		if($status_rowid == 110){
+			$data = array(
+				''.$type.'_rowid' => $_rowid,
+				'department' =>  'sale',
+				'remark_text' => $status_remark,
+				'create_by' => $_user_id,
+			);
+			$this->db->insert('pm_t_manu_'.$type.'_remark_timeline', $data);
+		}
+
 		// echo $this->db->last_query();exit;
 		return true;
+	}
+
+	function save_log($_userid, $_action, $_arrData, $type){
+		$_sql_log = '';
+		$_data_json = json_encode( $_arrData, JSON_UNESCAPED_UNICODE );
+		if($type == 'screen'){
+			$_sql_log =<<<EOT
+				INSERT INTO public.pm_t_manu_screen_production_log 
+				( create_by, "action", "data")
+				VALUES( $_userid, '$_action', '$_data_json');
+EOT;
+		}else{
+			$_sql_log =<<<EOT
+				INSERT INTO public.pm_t_manu_weave_production_log 
+				( create_by, "action", "data")
+				VALUES( $_userid, '$_action', '$_data_json');
+EOT;
+		}
+		$this->db->query($_sql_log);
 	}
 
 	function list_size_quan() {
