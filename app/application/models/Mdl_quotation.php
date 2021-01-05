@@ -332,7 +332,7 @@ QRY;
 		$_QueryYear = sprintf('%04d', $_year);
 
 		$_sql = <<<QRY
-SELECT CONCAT('QT{$_ThaiYear}', TO_CHAR(COALESCE(MAX(SUBSTR(qo_number, 5, 5)::INT), 0) + 1, 'FM00000')) AS qo_number
+SELECT CONCAT('QT{$_ThaiYear}', TO_CHAR(COALESCE(COUNT(SUBSTR(qo_number, 5, 5)::INT), 0) + 1, 'FM00000')) AS qo_number
 FROM pm_t_quotation 
 WHERE TO_CHAR(start_date, 'YYYY') = '$_QueryYear';
 QRY;
