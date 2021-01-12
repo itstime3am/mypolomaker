@@ -60,6 +60,7 @@ WHERE True
 		include ( APPPATH.'config/database.php' );
 		$_sql = <<<QUERY
 		SELECT  t.qo_number 
+			, t.customer_name, t.customer_tel, t.customer_mobile , t.address as customer_address
 			, t.disp_deposit_payment ,t.deposit_date , t.deposit_payment_route 
 			, t.disp_close_payment , t.close_date , t.close_payment_route 
 			, t.*, COALESCE(uc.name, '-') AS sales_name 

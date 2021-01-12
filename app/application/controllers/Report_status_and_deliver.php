@@ -76,55 +76,58 @@ class Report_status_and_deliver extends MY_Ctrl_order {
 		$this->_setController("sales_name", "เซลส์", NULL, array("selectable"=>TRUE,"width"=>100,"order"=>3));
 		$this->_setController("customer", "ชื่อลูกค้า", NULL, array("selectable"=>TRUE,"width"=>120,"order"=>4));
 		$this->_setController("company", "บริษัท", NULL, array("selectable"=>TRUE,"width"=>120,"class"=>"center","order"=>5));
-		$this->_setController("category", "กลุ่มสินค้า", NULL, array("selectable"=>TRUE,"class"=>"center","width"=>60,"order"=>6));
-		$this->_setController("type", "ประเภท", NULL, array("selectable"=>TRUE,"class"=>"center","width"=>60,"order"=>7));
-		$this->_setController("fabric", "ชนิดผ้า", NULL, array("selectable"=>TRUE,"width"=>80,"order"=>8));
-		$this->_setController("standard_pattern", "แพทเทิร์น", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>9));
-		$this->_setController("main_color", "สีหลัก", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>10));
-		$this->_setController("line_color", "สีวิ่งเส้น", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>11));
-		$this->_setController("sub_color1", "สีรอง1", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>12));
-		$this->_setController("sub_color2", "สีรอง2", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>13));
-		$this->_setController("sub_color3", "สีรอง3", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>14));
-		$this->_setController("option_hem_color", "สีกุ๊น", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>15));
-		$this->_setController("is_screen", "สกรีน", NULL, array("selectable"=>TRUE,"class"=>"center","width"=>40,"order"=>16));
-		$this->_setController("screen_status", "สถานะสกรีน", NULL, array("selectable"=>FALSE,"width"=>80,"class"=>"center screen_status_id","order"=>17));
-		$this->_setController("is_weave", "ปัก", NULL, array("selectable"=>TRUE,"width"=>40,"class"=>"center","order"=>18));
-		$this->_setController("weave_status", "สถานะปัก", NULL, array("selectable"=>FALSE,"width"=>80,"class"=>"center weave_status_id","order"=>19));
-		$this->_setController("disp_due_date", "กำหนดส่ง", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"center","order"=>20));
-		$this->_setController("disp_deliver_date", "วันที่ส่งลูกค้า", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"center","order"=>21));
-		$this->_setController("sum_qty", "จำนวนตัว", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"center default_int","order"=>22));
+		$this->_setController("customer_mobile", "เบอร์มือถือ", NULL, array("selectable"=>TRUE,"width"=>120,"class"=>"center","order"=>6));
+		$this->_setController("customer_tel", "เบอร์โทรศัพท์", NULL, array("selectable"=>TRUE,"width"=>120,"class"=>"center","order"=>7));
+		$this->_setController("customer_address", "ที่อยู่", NULL, array("selectable"=>TRUE,"width"=>120,"class"=>"center","order"=>8));
+		$this->_setController("category", "กลุ่มสินค้า", NULL, array("selectable"=>TRUE,"class"=>"center","width"=>60,"order"=>9));
+		$this->_setController("type", "ประเภท", NULL, array("selectable"=>TRUE,"class"=>"center","width"=>60,"order"=>10));
+		$this->_setController("fabric", "ชนิดผ้า", NULL, array("selectable"=>TRUE,"width"=>80,"order"=>11));
+		$this->_setController("standard_pattern", "แพทเทิร์น", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>12));
+		$this->_setController("main_color", "สีหลัก", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>13));
+		$this->_setController("line_color", "สีวิ่งเส้น", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>14));
+		$this->_setController("sub_color1", "สีรอง1", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>15));
+		$this->_setController("sub_color2", "สีรอง2", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>16));
+		$this->_setController("sub_color3", "สีรอง3", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>17));
+		$this->_setController("option_hem_color", "สีกุ๊น", NULL, array("selectable"=>TRUE,"width"=>80,"class"=>"center","order"=>18));
+		$this->_setController("is_screen", "สกรีน", NULL, array("selectable"=>TRUE,"class"=>"center","width"=>40,"order"=>19));
+		$this->_setController("screen_status", "สถานะสกรีน", NULL, array("selectable"=>FALSE,"width"=>80,"class"=>"center screen_status_id","order"=>20));
+		$this->_setController("is_weave", "ปัก", NULL, array("selectable"=>TRUE,"width"=>40,"class"=>"center","order"=>21));
+		$this->_setController("weave_status", "สถานะปัก", NULL, array("selectable"=>FALSE,"width"=>80,"class"=>"center weave_status_id","order"=>22));
+		$this->_setController("disp_due_date", "กำหนดส่ง", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"center","order"=>23));
+		$this->_setController("disp_deliver_date", "วันที่ส่งลูกค้า", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"center","order"=>24));
+		$this->_setController("sum_qty", "จำนวนตัว", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"center default_int","order"=>25));
 			
-		$this->_setController("ปักโรงงาน", "ปักโรงงาน", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>23));
-		$this->_setController("ปักพี่แดง", "ปักพี่แดง", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>24));
-		$this->_setController("ปักร็อค", "ปักร็อค", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>25));
-		$this->_setController("ปักร้านหมวก", "ปักร้านหมวก", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>26));
+		$this->_setController("ปักโรงงาน", "ปักโรงงาน", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>26));
+		$this->_setController("ปักพี่แดง", "ปักพี่แดง", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>27));
+		$this->_setController("ปักร็อค", "ปักร็อค", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>28));
+		$this->_setController("ปักร้านหมวก", "ปักร้านหมวก", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>29));
 
-		$this->_setController("สกรีนโรงงาน", "สกรีนโรงงาน", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>27));
-		$this->_setController("สกรีน DTG", "สกรีน DTG", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>28));
-		$this->_setController("สกรีนปุ้ย", "สกรีนปุ้ย", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>29));
-		$this->_setController("สกรีนพี่ณี", "สกรีนพี่ณี", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>30));
-		$this->_setController("สกรีนร้านหมวก", "สกรีนร้านหมวก", NULL, array("selectable"=>TRUE,"width"=>"85","class"=>"default_number","order"=>31));
+		$this->_setController("สกรีนโรงงาน", "สกรีนโรงงาน", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>30));
+		$this->_setController("สกรีน DTG", "สกรีน DTG", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>31));
+		$this->_setController("สกรีนปุ้ย", "สกรีนปุ้ย", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>32));
+		$this->_setController("สกรีนพี่ณี", "สกรีนพี่ณี", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>33));
+		$this->_setController("สกรีนร้านหมวก", "สกรีนร้านหมวก", NULL, array("selectable"=>TRUE,"width"=>"85","class"=>"default_number","order"=>34));
 		
-		$this->_setController("ea_item_price", "เสื้อรวม", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>32));
-		$this->_setController("ea_screen_price", "สกรีนรวม", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>33));
-		$this->_setController("ea_weave_price", "ปักรวม", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>34));
-		$this->_setController("ea_other_price", "อื่นๆรวม", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>35));
-		$this->_setController("total_price_each", "ราคารวมต่อตัว", NULL, array("selectable"=>TRUE,"width"=>"90","class"=>"default_number","order"=>36));
-		$this->_setController("total_price_sum_net", "ราคารวม", NULL, array("selectable"=>TRUE,"width"=>"90","class"=>"default_number","order"=>37));
-		$this->_setController("total_price_sum_vat", "VAT", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>38));
-		$this->_setController("total_price_sum", "รวมทั้งสิ้น", NULL, array("selectable"=>TRUE,"width"=>"100","class"=>"default_number","order"=>39));
-		$this->_setController("promotion", "PROMOTION", NULL, array("selectable"=>TRUE,"width"=>"100","class"=>"center","order"=>40));
+		$this->_setController("ea_item_price", "เสื้อรวม", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>35));
+		$this->_setController("ea_screen_price", "สกรีนรวม", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>36));
+		$this->_setController("ea_weave_price", "ปักรวม", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>37));
+		$this->_setController("ea_other_price", "อื่นๆรวม", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>38));
+		$this->_setController("total_price_each", "ราคารวมต่อตัว", NULL, array("selectable"=>TRUE,"width"=>"90","class"=>"default_number","order"=>39));
+		$this->_setController("total_price_sum_net", "ราคารวม", NULL, array("selectable"=>TRUE,"width"=>"90","class"=>"default_number","order"=>40));
+		$this->_setController("total_price_sum_vat", "VAT", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_number","order"=>41));
+		$this->_setController("total_price_sum", "รวมทั้งสิ้น", NULL, array("selectable"=>TRUE,"width"=>"100","class"=>"default_number","order"=>42));
+		$this->_setController("promotion", "PROMOTION", NULL, array("selectable"=>TRUE,"width"=>"100","class"=>"center","order"=>43));
 
-		$this->_setController("deposit_payment_route", "ช่องทางชำระมัดจำ", NULL, array("selectable"=>FALSE,"width"=>"100","class"=>"center","order"=>42));
-		$this->_setController("disp_deposit_date", "วันที่ชำระมัดจำ", NULL, array("selectable"=>FALSE,"width"=>"100","class"=>"center","order"=>43));
+		$this->_setController("deposit_payment_route", "ช่องทางชำระมัดจำ", NULL, array("selectable"=>FALSE,"width"=>"100","class"=>"center","order"=>45));
+		$this->_setController("disp_deposit_date", "วันที่ชำระมัดจำ", NULL, array("selectable"=>FALSE,"width"=>"100","class"=>"center","order"=>46));
 		
-		$this->_setController("close_payment_route", "ช่องทางชำระงวดสุดท้าย", NULL, array("selectable"=>FALSE,"width"=>"100","class"=>"center","order"=>45));
-		$this->_setController("disp_close_date", "วันที่ชำระงวดสุดท้าย", NULL, array("selectable"=>FALSE,"width"=>"100","class"=>"center","order"=>46));
+		$this->_setController("close_payment_route", "ช่องทางชำระงวดสุดท้าย", NULL, array("selectable"=>FALSE,"width"=>"100","class"=>"center","order"=>48));
+		$this->_setController("disp_close_date", "วันที่ชำระงวดสุดท้าย", NULL, array("selectable"=>FALSE,"width"=>"100","class"=>"center","order"=>49));
 		
-		$this->_setController("close_payment_wht", "WHT จำนวน", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_numer","order"=>47));
+		$this->_setController("close_payment_wht", "WHT จำนวน", NULL, array("selectable"=>TRUE,"width"=>"80","class"=>"default_numer","order"=>50));
 
-		$this->_setController("deliver_remark", "หมายเหตุ", NULL, array("selectable"=>FALSE,"width"=>"120","class"=>"center deliver_remark","order"=>48));
-		$this->_setController("status_deliver_date", "วันที่ส่งจริง", NULL, array("selectable"=>FALSE,"width"=>"80","class"=>"center status_deliver_date","order"=>49));
+		$this->_setController("deliver_remark", "หมายเหตุ", NULL, array("selectable"=>FALSE,"width"=>"120","class"=>"center deliver_remark","order"=>51));
+		$this->_setController("status_deliver_date", "วันที่ส่งจริง", NULL, array("selectable"=>FALSE,"width"=>"80","class"=>"center status_deliver_date","order"=>52));
 
 		//$this->_setController("total_deposit_payment", "", NULL);
 		//$this->_setController("total_payment", "", NULL);
@@ -137,11 +140,11 @@ class Report_status_and_deliver extends MY_Ctrl_order {
 		$_custom_columns = array(
 			array(
 				"column" => '{"sTitle":"มัดจำ", "sClass":"cls-payment-dlg right","sWidth":"120","mData":"rowid","mRender": function(data,type,full) { return \'<span class="cls-spn-payment">\' + full.disp_deposit_payment + \'</span><img class="tblButton" command="cmd_open_deposit_dialog" src="public/images/forms.png" title="รายการชำระเงินมัดจำ" />\';}, "bSortable": true}'
-				, "order" => 41
+				, "order" => 44
 			)
 			, array(
 				"column" => '{"sTitle":"งวดสุดท้าย", "sClass":"cls-payment-dlg right","sWidth":"120","mData":"rowid","mRender": function(data,type,full) { return \'<span class="cls-spn-payment">\' + full.disp_close_payment + \'</span><img class="tblButton" command="cmd_open_payment_dialog" src="public/images/forms.png" title="รายการชำระเงิน" />\';}, "bSortable": true}'
-				, "order" => 44
+				, "order" => 47
 			)
 		);
 /*
@@ -224,6 +227,9 @@ class Report_status_and_deliver extends MY_Ctrl_order {
 			<th rowspan="2">เซลส์</th>
 			<th rowspan="2">ชื่อลูกค้า</th>
 			<th rowspan="2">บริษัท</th>
+			<th rowspan="2">เบอร์มือถือ</th>
+			<th rowspan="2">เบอร์โทรศัพท์</th>
+			<th rowspan="2">ที่อยู่</th>
 			<th rowspan="2">กลุ่มสินค้า</th>
 			<th rowspan="2">ประเภท</th>
 			<th rowspan="2">ชนิดผ้า</th>
