@@ -558,6 +558,13 @@ OCH
 	function get_pdf($quotation_rowid) {
 		$this->load->model($this->modelName, 'm');
 		$pass['data'] = $this->m->get_detail_report($quotation_rowid);
+
+		for ($i=0; $i < count($pass['data']['details']); $i++) { 
+			if( strpos($pass['data']['details'][$i]['title'],' (') > 0 && strpos($pass['data']['details'][$i]['title'],'เสื้อยืด') > 0){
+
+			$pass['data']['details'][$i]['title'] = substr($pass['data']['details'][$i]['title'], 0, strpos($pass['data']['details'][$i]['title'],'('));
+			}
+		}
 		if ($pass['data'] == FALSE) {
 			echo "Error get report data: " . $this->m->error_message;
 			return;
@@ -572,6 +579,7 @@ OCH
 			$file_name = 'quotation_' . $strNow . '.pdf';
 			$this->load->library('mpdf8');
 			$pass['title'] = 'ใบเสนอราคา';
+	
 			$html = $this->load->view('quotation/pdf/quotation', $pass, TRUE);
 
 			if(!isset($pass['data']['is_vat']) || ($pass['data']['is_vat'] == 0 )){

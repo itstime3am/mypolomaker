@@ -95,7 +95,11 @@
 							$_th3 .= '<th class="th-chest'.$_addClass.'" cat_id="'.$_catID.'" sub_cat_id="'.$_subCatID.'" order_size_rowid="'.$_obj['rowid'].'">'.$_text.'</th>';						
 						} else {
 							$_th3 .= '<th class="th-chest'.$_addClass.'" cat_id="'.$_catID.'" sub_cat_id="'.$_subCatID.'" order_size_rowid="'.$_obj['rowid'].'">'.$_text;
-							if (! empty($_obj['chest'])) $_th3 .= ':' . $_obj['chest'];
+							if($_catID == '2'){
+								if (! empty($_obj['chest'])) $_th3;
+							}else{
+								if (! empty($_obj['chest'])) $_th3 .= ':' . $_obj['chest'];
+							}
 							$_th3 .= '</th>';
 						}
 						$_td_edit .= '<td class="td-qty' . $_addClass . '"><input type="text" class="user-input input-integer' . $_addClass . '" id="txt-' . $_intItemCount . '" cat_id="' . $_catID . '" sub_cat_id="' . $_subCatID . '" order_size_rowid="' . $_obj['rowid'] . '" /></td>';
