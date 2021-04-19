@@ -52,11 +52,11 @@ $(function() {
 	});
 	
 	//++ Validation
-	$('.input-integer').on('change', function (ev) {
+	$('.input-integer').on('change paste keyup', function (ev) {
 		doClearVldrErrorElement(this);
 		blnValidateElem_TypeInt(this);
 	});
-	$('.input-double').on('change', function (ev) {
+	$('.input-double').on('change paste keyup', function (ev) {
 		doClearVldrErrorElement(this);
 		if (blnValidateElem_TypeDouble(this)) {
 			var _index = ($(this).parents('[index]').length > 0) ? $($(this).parents('[index]')[0]).attr('index') : 0;
@@ -719,7 +719,6 @@ function _doUpdateTotalValue(index) {
 		$('#divMain #spn-sum_discount').html(formatNumber(_totalDiscount, 2));
 		$('#divMain #spn-sum_vat').html(formatNumber(_totalVAT, 2));
 		$('#divMain #spn-grand_total').html(formatNumber(_totalValue, 2));
-
 		_doUpdateDepositValues();
 		//$('#divMain #spn-disp_deposit_payment').html(formatNumber(_totalValue, 2));
 		//$('#divMain #spn-disp_left_amount').html(formatNumber(_totalValue, 2));

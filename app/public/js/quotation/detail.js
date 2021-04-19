@@ -87,6 +87,65 @@ $(function() {
 		}
 	})
 	.show();
+
+	$('body').on('click', '.submit-query-cqt', function(){
+		// let aa = $('#div_order_size_panel table#cat_id_5').find('tbody tr td.cls-col-size-qty');
+		var _cqtJobNumber = $('.input-query-cqt input').val();
+		if(!_cqtJobNumber){alert('กรุณากรอกหมายเลข CQT');return;};
+
+		$.ajax({
+			type:"GET",
+			url:`https://www.pmkcustomdesign.com/api/psom/sale_input?job_number=${_cqtJobNumber}`,
+			success: function(data, textStatus, jqXHR) {
+				if(!data.error){
+					let result = data.data;
+					let _arrSize = result['size'];
+
+					Object.keys(result).map( (key, index) => { 
+						let _val = result[key];
+						if(!_val || _val == '' || key == 'size') return;
+
+						if(key.indexOf('txa') < 0){
+							$(`#hdn-${key}_disp`).siblings('select.user-input').find('option').filter(function() {
+								return $(this).text().trim() == _val;
+							}).prop('selected', true);
+							let _valText = $(`#hdn-${key}_disp`).siblings('select.user-input').find('option:selected').text();
+							if(_valText){
+								$(`#hdn-${key}_disp`).val(_valText);
+								$(`#hdn-${key}_disp`).siblings('span.ui-combobox').find('input').val(_valText);
+							}
+						}else{
+							$(`textarea#${key}`).val(_val);
+						}
+					});
+					$(`textarea#txa-detail_remark2`).val(`insert value from ${_cqtJobNumber}`);
+
+					let _poloSizeMale = $($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[1]);
+					let _poloSizeFeMale = $($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[30]);
+					_arrSize.map((item, index) => {
+						let _tdSizePool = item.type_disp.indexOf('ผู้ชาย') >= 0 ?  $($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[1]) : $($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[30]);
+						$(_tdSizePool).find(`table tbody tr td.cls-col-size-qty[size="${item.size}"] input`).val(item.amount).trigger('change')
+						$(_tdSizePool).find(`table tbody tr td.cls-col-size-price[size="${item.size}"] input`).val(item.price).trigger('change')
+
+					});
+
+					_doUpdateTotalValue(1);
+				}else{
+					alert(data.msg);
+					$('.input-query-cqt input').val('');
+				}
+			}
+			, error: function(jqXHR, textStatus, errorThrown) {
+				
+			}, statusCode: {
+				404: function() {
+					// doDisplayInfo("Page not found", "ErrorMessage", _index);
+					// if (typeof opt_fncCallback == 'function') opt_fncCallback.apply(this, arguments);
+					// $("#dialog-modal").dialog( "close" );
+				}
+			}
+		});
+	});
 	
 	$('#sel-title_rowid').combobox({
 		select: function() {
@@ -105,10 +164,29 @@ $(function() {
 			$('#txt-qty', _prnt).val('').attr('readonly', 'readonly');
 			$('#txt-amount', _prnt).val('').attr('readonly', 'readonly');
 			
+			if(_order_type_id == 1){
+				$('tr.query-cqt').remove();
+				var _topPoloDetailPanel = $('#divPoloDetailPanel').find('#ord_dtl_container').find('tbody');
+				var _trQueryCQT = `
+					<tr class="query-cqt">
+						<td colspan="3" class="td-align-center">
+							<div class="frm-edit-row-group">
+								<span class="group-title">เรียกข้อมูลจากหมายเลข CQT</span>
+								<div class="input-query-cqt" style="display:flex;padding-left:60px">
+									<input type="text" name="cqt_job_number" autocomplete="off" style="width:30%;">
+									<div class="submit-query-cqt" style="background-color: #FFF;padding: 2px 10px;margin: 0px 0px 0px 5px;cursor: pointer;">ค้นหา</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				`
+				$(_trQueryCQT).insertBefore(_topPoloDetailPanel);
+			}
+
 			_order_type_id = parseInt(_order_type_id)			
 			switch (_order_type_id) {
 				case 1:
-					$('#tabMnuDetail', _prnt).removeClass('hidden');
+				$('#tabMnuDetail', _prnt).removeClass('hidden');
 					$('#tabMnuOthers', _prnt).removeClass('hidden');
 					$('#divPoloDetailPanel', _prnt).removeClass('hidden');
 					$('#divPoloOthersPanel', _prnt).removeClass('hidden');

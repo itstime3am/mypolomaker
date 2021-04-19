@@ -39,8 +39,8 @@
 					}
 					$_subCatRow1 .= '<th class="cls-col-size-txt' . $_clsExpired . '">' . $_text . '</th>';
 					$_subCatRow2 .= '<th class="cls-col-size-chest' . $_clsExpired . '">' . $_obj['chest'] . '</th>';
-					$_subCatRow3 .= '<td class="cls-col-size-qty' . $_clsExpired . '"><input type="text" id="txt-sq_' . $_obj['rowid'] . '" class="user-input input-integer sq-qty' . $_clsExpired . '" /></td>';
-					$_subCatRow4 .= '<td class="cls-col-size-price' . $_clsExpired . '"><input type="text" id="txt-sp_' . $_obj['rowid'] . '" class="user-input input-double sp-price' . $_clsExpired . '" /></td>';
+					$_subCatRow3 .= '<td class="cls-col-size-qty' . $_clsExpired . '" size="'.$_text.'"><input type="text" id="txt-sq_' . $_obj['rowid'] . '" class="user-input input-integer sq-qty' . $_clsExpired . '" /></td>';
+					$_subCatRow4 .= '<td class="cls-col-size-price' . $_clsExpired . '" size="'.$_text.'"><input type="text" id="txt-sp_' . $_obj['rowid'] . '" class="user-input input-double sp-price' . $_clsExpired . '" /></td>';
 				}					
 				$_ref = $_catID.'_'.$_subCatID;
 				//++ Feed 4 block of custom edit size 
