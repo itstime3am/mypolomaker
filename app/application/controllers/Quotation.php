@@ -222,25 +222,31 @@ CCLMS
 			)
 			, array(
 				"column" => <<<CCLMS
-{ "sTitle":"ร่างใบงาน","width":"180","sClass":"center","mData":'rowid',"mRender":function(data,type,full) { return fnc__DDT_Row_RenderDraftDetailOrder(data, type, full); }, "bSortable": false }
+{ "sTitle":"หมายเหตุ","width":"100","sClass":"center","mData":'rowid',"mRender":function(data,type,full) { return fnc__DDT_Row_RenderStatusRemark(data, type, full); }, "bSortable": true }
 CCLMS
 				, "order" => 17
 			)
 			, array(
 				"column" => <<<CCLMS
-{ "sTitle":"แก้ไขสถานะ","width":"180","sClass":"center","mData":'rowid',"mRender":function(data,type,full) { return fnc__DDT_Row_RenderAvailStatus(data, type, full); }, "bSortable": false }
+{ "sTitle":"ร่างใบงาน","width":"180","sClass":"center","mData":'rowid',"mRender":function(data,type,full) { return fnc__DDT_Row_RenderDraftDetailOrder(data, type, full); }, "bSortable": false }
 CCLMS
 				, "order" => 18
 			)
 			, array(
 				"column" => <<<CCLMS
-{ "sTitle":"จัดการข้อมูล","width":"120","sClass":"center","mData":'rowid',"mRender":function(data,type,full) { return fnc__DDT_Row_RenderAvailAction(data, type, full); }, "bSortable": false }
+{ "sTitle":"แก้ไขสถานะ","width":"180","sClass":"center","mData":'rowid',"mRender":function(data,type,full) { return fnc__DDT_Row_RenderAvailStatus(data, type, full); }, "bSortable": false }
 CCLMS
 				, "order" => 19
 			)
 			, array(
-				"column" => '{"sTitle":"เอกสาร", "sClass":"center","mData":function() { return \'<img class="tblButton" command="pdf" src="./public/images/pdf_icon_40.png" title="Export to PDF" />\';}, "bSortable": false}'
+				"column" => <<<CCLMS
+{ "sTitle":"จัดการข้อมูล","width":"120","sClass":"center","mData":'rowid',"mRender":function(data,type,full) { return fnc__DDT_Row_RenderAvailAction(data, type, full); }, "bSortable": false }
+CCLMS
 				, "order" => 20
+			)
+			, array(
+				"column" => '{"sTitle":"เอกสาร", "sClass":"center","mData":function() { return \'<img class="tblButton" command="pdf" src="./public/images/pdf_icon_40.png" title="Export to PDF" />\';}, "bSortable": false}'
+				, "order" => 21
 			)
 		);
 		$pass['left_panel'] = $this->add_view('_public/_search_panel', $this->_arrSearchParams(), TRUE);

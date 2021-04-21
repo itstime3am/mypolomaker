@@ -1043,6 +1043,23 @@ function fnc__DDT_Row_RenderStatus(data, type, full) {
 	return _elPanel.html();
 }
 
+function fnc__DDT_Row_RenderStatusRemark(data, type, full) {
+	var _dispText = (full['disp_status'] || '').trim();
+	var _status_rowid = full['status_rowid'] || -1;
+	var _strRemark = _status_rowid == 170  ? (full['status_remark'] || '').trim() : '';
+
+	var _elPanel = $('<div>');
+	var _div = $('<div>').html(_strRemark)
+		.addClass('cls-quotation-status-remark')
+		.addClass('cls-qs-rowid-' + _status_rowid)
+		.appendTo(_elPanel)
+	;
+	// if (_strRemark.length > 0) {
+	// 	_div.addClass('cls-qs-with-remark').attr('title', _strRemark).attr('remark', _strRemark);
+	// }
+	return _elPanel.html();
+}
+
 function __fncManageExpired(blnIsCheckValue) {
 	var _blnIsCheckValue = blnIsCheckValue || false;
 	if (! _blnIsCheckValue) {
