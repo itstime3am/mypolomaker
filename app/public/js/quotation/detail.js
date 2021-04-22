@@ -90,61 +90,108 @@ $(function() {
 
 	$('body').on('click', '.submit-query-cqt', function(){
 		// let aa = $('#div_order_size_panel table#cat_id_5').find('tbody tr td.cls-col-size-qty');
-		var _cqtJobNumber = $('.input-query-cqt input').val();
-		if(!_cqtJobNumber){alert('กรุณากรอกหมายเลข CQT');return;};
+		var _jobNumber = $('.input-query-cqt input').val();
+		if(!_jobNumber){alert('กรุณากรอกหมายเลข CQT');return;};
 
-		$.ajax({
-			type:"GET",
-			url:`https://www.pmkcustomdesign.com/api/psom/sale_input?job_number=${_cqtJobNumber}`,
-			success: function(data, textStatus, jqXHR) {
-				if(!data.error){
-					let result = data.data;
-					let _arrSize = result['size'];
-
-					Object.keys(result).map( (key, index) => { 
-						let _val = result[key];
-						if(!_val || _val == '' || key == 'size') return;
-
-						if(key.indexOf('txa') < 0){
-							$(`#hdn-${key}_disp`).siblings('select.user-input').find('option').filter(function() {
-								return $(this).text().trim() == _val;
-							}).prop('selected', true);
-							let _valText = $(`#hdn-${key}_disp`).siblings('select.user-input').find('option:selected').text();
-							if(_valText){
-								$(`#hdn-${key}_disp`).val(_valText);
-								$(`#hdn-${key}_disp`).siblings('span.ui-combobox').find('input').val(_valText);
+		if(_jobNumber.indexOf('CQT') >= 0) {
+			$.ajax({
+				type:"GET",
+				url:`https://www.pmkcustomdesign.com/api/psom/sale_input?job_number=${_jobNumber}`,
+				success: function(data, textStatus, jqXHR) {
+					if(!data.error){
+						let result = data.data;
+						let _arrSize = result['size'];
+	
+						Object.keys(result).map( (key, index) => { 
+							let _val = result[key];
+							if(!_val || _val == '' || key == 'size') return;
+	
+							if(key.indexOf('txa') < 0){
+								$('#divPoloDetailPanel').find(`#hdn-${key}_disp`).siblings('select.user-input').find('option').filter(function() {
+									return $(this).text().trim() == _val;
+								}).prop('selected', true);
+								let _valText = $(`#hdn-${key}_disp`).siblings('select.user-input').find('option:selected').text();
+								if(_valText){
+									$('#divPoloDetailPanel').find(`#hdn-${key}_disp`).val(_valText);
+									$('#divPoloDetailPanel').find(`#hdn-${key}_disp`).siblings('span.ui-combobox').find('input').val(_valText);
+								}
+							}else{
+								$('#divPoloDetailPanel').find(`textarea#${key}`).val(_val);
 							}
-						}else{
-							$(`textarea#${key}`).val(_val);
-						}
-					});
-					$(`textarea#txa-detail_remark2`).val(`insert value from ${_cqtJobNumber}`);
-
-					let _poloSizeMale = $($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[1]);
-					let _poloSizeFeMale = $($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[30]);
-					_arrSize.map((item, index) => {
-						let _tdSizePool = item.type_disp.indexOf('ผู้ชาย') >= 0 ?  $($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[1]) : $($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[30]);
-						$(_tdSizePool).find(`table tbody tr td.cls-col-size-qty[size="${item.size}"] input`).val(item.amount).trigger('change')
-						$(_tdSizePool).find(`table tbody tr td.cls-col-size-price[size="${item.size}"] input`).val(item.price).trigger('change')
-
-					});
-
-					_doUpdateTotalValue(1);
-				}else{
-					alert(data.msg);
-					$('.input-query-cqt input').val('');
+						});
+						$('#divPoloDetailPanel').find(`textarea#txa-detail_remark2`).val(`insert value from ${_jobNumber}`);
+	
+						_arrSize.map((item, index) => {
+							let _tdSizePool = item.type_disp.indexOf('ผู้ชาย') >= 0 ?  $('#divPoloOthersPanel').find($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[1]) : $('#divPoloOthersPanel').find($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[30]);
+							$(_tdSizePool).find(`table tbody tr td.cls-col-size-qty[size="${item.size}"] input`).val(item.amount).trigger('change')
+							$(_tdSizePool).find(`table tbody tr td.cls-col-size-price[size="${item.size}"] input`).val(item.price).trigger('change')
+	
+						});
+	
+						_doUpdateTotalValue(1);
+					}else{
+						alert(data.msg);
+						$('.input-query-cqt input').val('');
+					}
 				}
-			}
-			, error: function(jqXHR, textStatus, errorThrown) {
-				
-			}, statusCode: {
-				404: function() {
-					// doDisplayInfo("Page not found", "ErrorMessage", _index);
-					// if (typeof opt_fncCallback == 'function') opt_fncCallback.apply(this, arguments);
+				, error: function(jqXHR, textStatus, errorThrown) {
+					
+				}, statusCode: {
+					404: function() {
+						// doDisplayInfo("Page not found", "ErrorMessage", _index);
+						// if (typeof opt_fncCallback == 'function') opt_fncCallback.apply(this, arguments);
+						// $("#dialog-modal").dialog( "close" );
+					}
+				}
+			});
+		}else{
+			let obj = { job_number: _jobNumber};
+			let _str = JSON.stringify(obj);
+			$.ajax({
+				type:"POST",
+				url:"./quotation_detail/clone",
+				contentType:"application/json;charset=utf-8",
+				dataType:"json",
+				data:_str,
+				success: function(data, textStatus, jqXHR) {
+					
+					if(!data.error){
+						let result = data.data;
+						Object.keys(result).map( (key, index) => { 
+							
+							let _val = result[key];
+							if(!_val || _val == '' || key == 'size_category') return;
+							let _ele = $('#divPoloDetailPanel').find("*[id*='"+key+"']");
+							let _eleTag = _ele.prop("tagName").toLowerCase()
+							// console.log(_eleTag)
+							
+							if(_eleTag == 'select'){ 
+								_ele.val(_val);
+								let _text = _ele.find('option:selected').text();
+								if(_text){
+									_ele.siblings('input[id*="hdn-"]').val(_text)
+									_ele.siblings('span.ui-combobox').find('input').val(_text);
+								}
+							}else if (_eleTag == 'textarea'){
+								_ele.length > 1 ? $(_ele[0]).val(_val) : _ele.val(_val);
+							};
+						});
+						$('#divPoloDetailPanel').find(`textarea#txa-detail_remark2`).val(`insert value from ${_jobNumber}`);
+					}else{
+						alert(data.msg);
+					}
+				}
+				, error: function(jqXHR, textStatus, errorThrown) {
+					// doDisplayInfo(textStatus + ' : ' + errorThrown, "ErrorMessage", _index);
 					// $("#dialog-modal").dialog( "close" );
+				}, statusCode: {
+					404: function() {
+						doDisplayInfo("Page not found", "ErrorMessage", _index);
+						$("#dialog-modal").dialog( "close" );
+					}
 				}
-			}
-		});
+			});
+		}
 	});
 	
 	$('#sel-title_rowid').combobox({

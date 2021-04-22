@@ -478,4 +478,12 @@ EDT;
 
 		return $_arrReturn;
 	}
+
+	function _get_QT_Detail($qt_number) {
+		$_sql = "
+		select ptqd.json_details from pm_t_quotation ptq 
+		left join pm_t_quotation_detail ptqd on ptq.rowid = ptqd.quotation_rowid 
+		where ptq.qo_number = '" .$qt_number."'";
+		return $this->arr_execute($_sql);
+	}
 }

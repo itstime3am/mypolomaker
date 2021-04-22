@@ -212,4 +212,33 @@ class Quotation_detail extends MY_Ctrl_crud {
 		header('content-type: application/json; charset=utf-8');
 		echo isset($_GET['callback'])? "{" . $_GET['callback']. "}(".$json.")": $json;
 	}
+
+	function clone() {
+		$this->load->model($this->modelName, 'mt');
+		$json_input_data = json_decode(trim(file_get_contents('php://input')), true); //get json
+		$job_number = $json_input_data['job_number'];
+
+		$_arrData = $this->mt->_get_QT_Detail($job_number);
+		$json = '';
+		if($_arrData){
+			$objData = json_decode($_arrData[0]['json_details']);
+			$json = json_encode(
+				array(
+					'error' => false,
+					'data' => $objData
+				)
+			);
+		}else{
+			$json = json_encode(
+				array(
+					'error' => true,
+					'msg' => 'Not found data of '. $job_number
+				)
+			);
+		}
+		
+
+		header('content-type: application/json; charset=utf-8');
+		echo isset($_GET['callback'])? "{" . $_GET['callback']. "}(".$json.")": $json;
+	}
 }
