@@ -221,13 +221,22 @@ class Quotation_detail extends MY_Ctrl_crud {
 		$_arrData = $this->mt->_get_QT_Detail($job_number);
 		$json = '';
 		if($_arrData){
-			$objData = json_decode($_arrData[0]['json_details']);
-			$json = json_encode(
-				array(
-					'error' => false,
-					'data' => $objData
-				)
-			);
+			if(count($_arrData) == 1){
+				$objData = json_decode($_arrData[0]['json_details']);
+				$json = json_encode(
+					array(
+						'error' => false,
+						'data' => $objData
+					)
+				);
+			}else if (count($_arrData) > 1){
+				$json = json_encode(
+					array(
+						'error' => true,
+						'msg' => 'Result consisted of more than one row'
+					)
+				);
+			}
 		}else{
 			$json = json_encode(
 				array(

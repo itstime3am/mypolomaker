@@ -479,11 +479,11 @@ EDT;
 		return $_arrReturn;
 	}
 
-	function _get_QT_Detail($qt_number) {
+	function _get_QT_Detail($job_number) {
 		$_sql = "
-		select ptqd.json_details from pm_t_quotation ptq 
-		left join pm_t_quotation_detail ptqd on ptq.rowid = ptqd.quotation_rowid 
-		where ptq.qo_number = '" .$qt_number."'";
+		select ptqd.json_details from v_order_report vor
+		left join pm_t_quotation_detail ptqd on vor.quotation_detail_rowid = ptqd.quotation_rowid 
+		where vor.job_number = '" .$job_number."'";
 		return $this->arr_execute($_sql);
 	}
 }

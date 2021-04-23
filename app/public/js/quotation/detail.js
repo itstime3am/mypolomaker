@@ -104,7 +104,7 @@ $(function() {
 	
 						Object.keys(result).map( (key, index) => { 
 							let _val = result[key];
-							if(!_val || _val == '' || key == 'size') return;
+							if(!_val || _val == '' || key == 'size' || key.indexOf('detail_remark') >= 0) return;
 	
 							if(key.indexOf('txa') < 0){
 								$('#divPoloDetailPanel').find(`#hdn-${key}_disp`).siblings('select.user-input').find('option').filter(function() {
@@ -119,7 +119,6 @@ $(function() {
 								$('#divPoloDetailPanel').find(`textarea#${key}`).val(_val);
 							}
 						});
-						$('#divPoloDetailPanel').find(`textarea#txa-detail_remark2`).val(`insert value from ${_jobNumber}`);
 	
 						_arrSize.map((item, index) => {
 							let _tdSizePool = item.type_disp.indexOf('ผู้ชาย') >= 0 ?  $('#divPoloOthersPanel').find($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[1]) : $('#divPoloOthersPanel').find($('#div_order_size_panel table#cat_id_5').find('tbody tr td')[30]);
@@ -154,13 +153,15 @@ $(function() {
 				dataType:"json",
 				data:_str,
 				success: function(data, textStatus, jqXHR) {
-					
+					$('#divPoloDetailPanel').find("input, select, span").val('');
 					if(!data.error){
 						let result = data.data;
 						Object.keys(result).map( (key, index) => { 
 							
 							let _val = result[key];
-							if(!_val || _val == '' || key == 'size_category') return;
+							console.log(key)
+							console.log(key.indexOf('detail_remark'))
+							if(!_val || _val == '' || key == 'size_category' || key.indexOf('detail_remark') >= 0) return;
 							let _ele = $('#divPoloDetailPanel').find("*[id*='"+key+"']");
 							let _eleTag = _ele.prop("tagName").toLowerCase()
 							// console.log(_eleTag)
@@ -176,7 +177,6 @@ $(function() {
 								_ele.length > 1 ? $(_ele[0]).val(_val) : _ele.val(_val);
 							};
 						});
-						$('#divPoloDetailPanel').find(`textarea#txa-detail_remark2`).val(`insert value from ${_jobNumber}`);
 					}else{
 						alert(data.msg);
 					}
