@@ -91,7 +91,7 @@ $(function() {
 	$('body').on('click', '.submit-query-cqt', function(){
 		// let aa = $('#div_order_size_panel table#cat_id_5').find('tbody tr td.cls-col-size-qty');
 		var _jobNumber = $('.input-query-cqt input').val();
-		if(!_jobNumber){alert('กรุณากรอกหมายเลข CQT');return;};
+		if(!_jobNumber){alert('กรุณากรอกหมายเลขงาน / CQT');return;};
 
 		if(_jobNumber.indexOf('CQT') >= 0) {
 			$.ajax({
@@ -218,7 +218,7 @@ $(function() {
 					<tr class="query-cqt">
 						<td colspan="3" class="td-align-center">
 							<div class="frm-edit-row-group">
-								<span class="group-title">เรียกข้อมูลจากหมายเลข CQT</span>
+								<span class="group-title">อ้างอิงข้อมูลจากหมายเลขงาน / CQT</span>
 								<div class="input-query-cqt" style="display:flex;padding-left:60px">
 									<input type="text" name="cqt_job_number" autocomplete="off" style="width:30%;">
 									<div class="submit-query-cqt" style="background-color: #FFF;padding: 2px 10px;margin: 0px 0px 0px 5px;cursor: pointer;">ค้นหา</div>
