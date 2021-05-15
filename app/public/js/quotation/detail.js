@@ -164,7 +164,9 @@ $(function() {
 							if(!_val || _val == '' || key == 'size_category' || key.indexOf('detail_remark') >= 0) return;
 							let _ele = $('#divPoloDetailPanel').find("*[id*='"+key+"']");
 							let _eleTag = _ele.prop("tagName").toLowerCase()
+							let _eleTagType = _ele.attr('type');
 							// console.log(_eleTag)
+							// console.log(_eleTagType)
 							
 							if(_eleTag == 'select'){ 
 								_ele.val(_val);
@@ -175,6 +177,8 @@ $(function() {
 								}
 							}else if (_eleTag == 'textarea'){
 								_ele.length > 1 ? $(_ele[0]).val(_val) : _ele.val(_val);
+							}else if(_eleTag == 'input' && _eleTagType == 'checkbox'){
+								_ele.prop('checked', true);
 							};
 						});
 					}else{
