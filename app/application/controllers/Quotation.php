@@ -240,13 +240,19 @@ CCLMS
 			)
 			, array(
 				"column" => <<<CCLMS
-{ "sTitle":"จัดการข้อมูล","width":"120","sClass":"center","mData":'rowid',"mRender":function(data,type,full) { return fnc__DDT_Row_RenderAvailAction(data, type, full); }, "bSortable": false }
+{ "sTitle":"#","width":"180","sClass":"center","mData":'rowid',"mRender":function(data,type,full) { return fnc__DDT_Row_RenderNotify(data, type, full); }, "bSortable": false }
 CCLMS
 				, "order" => 20
 			)
 			, array(
-				"column" => '{"sTitle":"เอกสาร", "sClass":"center","mData":function() { return \'<img class="tblButton" command="pdf" src="./public/images/pdf_icon_40.png" title="Export to PDF" />\';}, "bSortable": false}'
+				"column" => <<<CCLMS
+{ "sTitle":"จัดการข้อมูล","width":"120","sClass":"center","mData":'rowid',"mRender":function(data,type,full) { return fnc__DDT_Row_RenderAvailAction(data, type, full); }, "bSortable": false }
+CCLMS
 				, "order" => 21
+			)
+			, array(
+				"column" => '{"sTitle":"เอกสาร", "sClass":"center","mData":function() { return \'<img class="tblButton" command="pdf" src="./public/images/pdf_icon_40.png" title="Export to PDF" />\';}, "bSortable": false}'
+				, "order" => 22
 			)
 		);
 		$pass['left_panel'] = $this->add_view('_public/_search_panel', $this->_arrSearchParams(), TRUE);
@@ -551,6 +557,12 @@ OCH
 						"label" => "แสดงเฉพาะ active",
 						"name" => "is_active_status",
 						"value" => TRUE
+					),
+					array(
+						"type" => "chk",
+						"label" => "แสดงเฉพาะ ยังไม่ยืนยันยอดชำระ",
+						"name" => "not_approve_payment",
+						"value" => FALSE
 					),
 					array(
 						"type" => "info",

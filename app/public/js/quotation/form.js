@@ -928,6 +928,29 @@ function fnc__DDT_Row_RenderAvailStatus(data, type, full) {
 	}
 }
 
+function fnc__DDT_Row_RenderNotify(data, type, full) {
+
+	let _depositLog = full['arr_deposit_log'] ? JSON.parse(full['arr_deposit_log']) : undefined;
+	let _paymentLog = full['arr_payment_log'] ? JSON.parse(full['arr_payment_log']) : undefined;
+	let _sumDepositionNoApprove = 0;
+
+	if(_depositLog && _depositLog.length > 0){
+		let _depositNoApprove = _depositLog.filter((item)=> { return item.is_approve < 1})
+		_sumDepositionNoApprove += _depositNoApprove.length
+	}
+
+	if(_paymentLog && _paymentLog.length > 0){
+		let _paymentNoApprove = _paymentLog.filter((item)=> { return item.is_approve < 1})
+		_sumDepositionNoApprove += _paymentNoApprove.length
+	}
+	
+	if(_sumDepositionNoApprove > 0){
+		return '<div class="notification" style="border-radius: 50%;height: 20px;margin: 0 30%;width: 20px;background-color:#FFCC00;"><strong style="color:#FFF;">'+_sumDepositionNoApprove+'</strong></div>';
+	}else{
+		return '<div class="notification"></div>';
+	}
+}
+
 function fnc__DDT_Row_RenderAvailAction(data, type, full) {
 	var _elPanel = $('<div>');
 	var _div = $('<div>').attr('qo_rowid', full['rowid']).addClass("cls-quotation-row-control-panel").appendTo(_elPanel);

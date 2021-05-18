@@ -105,6 +105,19 @@ COALESCE(uu.name, ' - ') AS update_user,
 			unset($arrObj['is_active_status']);
 		}
 
+		if (isset($arrObj['not_approve_payment']) && ($arrObj['not_approve_payment'])) {
+			$_sql .= "\n
+			AND (( SELECT count(jdl.value)
+			FROM json_array_elements(t.arr_deposit_log) jdl
+			WHERE (jdl->>'is_approve')::INT = 0
+			) > 0 OR ( SELECT count(jdl.value)
+			FROM json_array_elements(t.arr_payment_log) jdl
+			WHERE (jdl->>'is_approve')::INT = 0
+			) > 0)
+			\n";
+			unset($arrObj['not_approve_payment']);
+		}
+
 		$_arrSpecSearch = array(
 				'qo_number' => array("type"=>"txt")
 				, 'display_name_company' => array("type"=>"txt", "dbcol" => 't.display_name_company')
