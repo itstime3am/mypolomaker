@@ -105,12 +105,15 @@ function _openPaymentListDialog(objData) {
 						, "description": _row["description"]
 						, "is_approve": _row["is_approve"]
 						, "is_cancel": _row["is_cancel"]
+						, "image_receipt": _row["image_receipt"]
 					}
 					, _is_editable
 					, _is_approveable
 				);
 			}
 		}
+
+		$('.input-upload-image-receipt').val('');
 		
 		var _objTA = _objPT.__objGetTotalAmount() || false;
 		if (_objTA) {

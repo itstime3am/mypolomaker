@@ -55,4 +55,13 @@ QUERY;
 		return $this->db->affected_rows();
 	}
 
+	function updateImageReceipt($filename, $rowid) {
+		$this->db->set('image_receipt', $filename);
+		$this->db->where('rowid', $rowid);
+		$this->db->update($this->_TABLE_NAME);
+		$this->error_message = $this->db->error()['message'];
+		$this->error_number = $this->db->error()['code'];
+		return $this->db->affected_rows();
+	}
+
 }

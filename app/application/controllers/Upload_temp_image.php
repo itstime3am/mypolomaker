@@ -5,6 +5,7 @@ class Upload_temp_image extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('form', 'url', 'file', 'upload_helper'));
 		hlpr_doTempUploadPathCleanUp();
+		$this->load->model('Mdl_quotation_payment_log');
 	}
 	public function index() {
 		$_arrFiles = array();
@@ -13,6 +14,10 @@ class Upload_temp_image extends CI_Controller {
 			$_upload_path_url = _url_temp_upload_path();
 			$_uploaddir_path = _file_temp_upload_path();
 
+			if(isset($_POST['receipt'])){
+				$_upload_path_url = str_replace('temp', 'receipt', $_upload_path_url);
+				$_uploaddir_path = str_replace('temp', 'receipt', $_uploaddir_path);
+			}
 			//$_dat = new DateTime();
 			$_uplCnfg = array(
 				'upload_path' => $_uploaddir_path
@@ -38,6 +43,10 @@ class Upload_temp_image extends CI_Controller {
 					$info->size = $data['file_size'] * 1024;
 					$info->type = $data['file_type'];
 					$info->url = $_upload_path_url . $data['file_name'];
+
+					if(isset($_POST['receipt'])){
+						$this->Mdl_quotation_payment_log->updateImageReceipt($info->name, $_POST['rowid']);
+					}
 					/* 
 					// ++ I set this to original file since I did not create thumbs. 
 					// ++ change to thumbnail directory if you do = $_upload_path_url .'/thumbs' .$data['file_name']
@@ -83,7 +92,9 @@ class Upload_temp_image extends CI_Controller {
 			it you set this without the if(IS_AJAX)...else... you get ERROR:TRUE (my experience anyway)
 			 so that this will still work if javascript is not enabled
 			*/
+
 			if (IS_AJAX) echo json_encode(array("files" => $_arrFiles));
+			// echo json_encode(array("files" => $_arrFiles));
 		}
 	}
 }

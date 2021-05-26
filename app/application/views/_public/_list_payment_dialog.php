@@ -44,6 +44,7 @@
 								<th>ช่องทางการชำระ</th>
 								<th>จำนวนเงิน</th>
 								<th>รายละเอียด</th>
+								<th>รูปสลิป</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -64,6 +65,9 @@
 								</td>
 								<td>
 									<textarea class="user-input cls-payment-description" rows="1" data="description"></textarea>
+								</td>
+								<td class="transfer-receipt">
+									
 								</td>
 								<td class="control-button">
 									<img src="public/images/b_edit.png" class="edit-ctrl cls-btn-submit" act="insert" title="Insert" />
@@ -107,6 +111,7 @@
 								<th>ช่องทางการชำระ</th>
 								<th>จำนวนเงิน</th>
 								<th>รายละเอียด</th>
+								<th>รูปสลิป</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -127,6 +132,9 @@
 								</td>
 								<td>
 									<textarea class="user-input cls-payment-description" rows="1" data="description"></textarea>
+								</td>
+								<td class="transfer-receipt">
+									
 								</td>
 								<td class="control-button">
 									<img src="public/images/b_edit.png" class="edit-ctrl cls-btn-submit" act="insert" title="Insert" />

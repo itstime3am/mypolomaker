@@ -195,6 +195,47 @@ function _obj_payment_panel(strDivID) {
 		return false;
 	});
 
+	$(this._tblPayment).on('click', '.upload-image-receipt', function(){
+		$('.input-upload-image-receipt').val('');
+		$('.input-upload-image-receipt').click();
+	});
+
+	$(this._tblPayment).on('change', '.input-upload-image-receipt', function() {
+		let paymentRowId = $(this).parents('tr').attr('rowid');
+		let self = $(this);
+		let data = new FormData();
+		data.append('image', (this).files[0]);
+		data.append('receipt', 1);
+		data.append('rowid', parseInt(paymentRowId));
+		$.ajax({
+            url: 'Upload_temp_image',
+            type: 'POST',
+            data: data,
+            processData: false,
+            contentType: false,
+            success: function(data ) {
+				let response = data ? JSON.parse(data) : undefined;
+				if(response.files){
+					var file_name = response.files[0]['name'];
+					var file_url = response.files[0]['url'];
+					if(self.siblings('a').length > 0){
+						self.siblings('a').attr('href', file_url) 
+					}else[
+						$(`<a target="_blank" href="${file_url}"><br/>ดูรูป</a>`).insertAfter(self)
+					]
+					_doDisplayToastMessage(MSG_ALERT_COMMIT_SUCCESS.replace(/v_XX_1/g, ''), 3, false);
+				}else{
+					_doDisplayToastMessage(MSG_ALERT_COMMIT_FAILED.replace(/v_XX_1/g, ''), 3, false);
+				}
+
+				$('.input-upload-image-receipt').val('');
+            },
+            error: function(response) {
+				doDisplayInfo("UnknownError", "ErrorMessage", 3);
+            }
+        });
+	})
+
 
 	this._fncDoUpdateApprovalStatus = function(img, intApproveStatus) {
 		var _tr = $($(img).parents('tr')[0]);
@@ -297,7 +338,6 @@ function _obj_payment_panel(strDivID) {
 	this._insertDetailRow = function(objNew, is_editable, is_approveable) {
 		var _tbl = self._tblPayment;
 		if ((! _tbl) || (_tbl.length < 1)) return false;
-		
 		var _rowid = (('rowid' in objNew) ? objNew['rowid'] : -1);
 		if (_rowid < 1) return false;
 
@@ -319,7 +359,7 @@ function _obj_payment_panel(strDivID) {
 		} else {
 			_is_approveable = (_tbl.attr("approveable") == 'approveable');
 		}
-		
+
 		var _strBtns = '', _payment_route = false, _str;
 		var _payment_route_rowid = ('payment_route_rowid' in objNew) ? objNew.payment_route_rowid : -1;
 		var _is_approve = (objNew.is_approve || 0);
@@ -335,8 +375,10 @@ function _obj_payment_panel(strDivID) {
 		_str += '<td amount="' + objNew.amount + '">' + formatNumber(objNew.amount) + '</td>';
 		_str += '<td>' + (((objNew.description + '').trim() != 'null') ? objNew.description.trim() : '')  + '</td>';
 
+		_str += `<td class="transfer-receipt" style="text-decoration: underline; cursor: pointer;"><span class="upload-image-receipt">อัพโหลด</span>
+		${objNew.image_receipt ? `<a href="./uploads/receipt/${objNew.image_receipt}">ดูรูป</a>` : ''}<input type="file" class="input-upload-image-receipt" name="image_receipt" style="display:none;">`;
+		// _str += `<td class="transfer-receipt"><a target="_blank" href="http://manu.mypolomaker.com/app/uploads/manu_weave/20210521095337-4232-00617-1(2).jpg">รูป<buntton></buntton></a></td>`;
 		_str += '<td class="control-button" from_qs="40"></td></tr>';
-		
 		var _tr = $(_str).appendTo($('tbody', _tbl));
 		self.__fncGetApprovalControllers(_is_approve, $('td.control-button', _tr));
 	};
@@ -346,7 +388,6 @@ function _obj_payment_panel(strDivID) {
 		if (self._CURRENT_ROW) $(self._CURRENT_ROW).css('display', 'none');
 
 		var _tbl = $(self._CURRENT_ROW).parents('table#tbl_payment')[0];
-
 		_arrItems = $(self._CURRENT_ROW).children();
 		setValue($('.cls-payment-datetime', this._trEditPanel), $(_arrItems[0]).html(), false);
 		setValue($('.cls-payment-route', this._trEditPanel), $(_arrItems[1]).attr('payment_route_rowid'), false);
