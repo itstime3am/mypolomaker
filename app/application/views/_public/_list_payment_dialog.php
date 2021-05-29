@@ -45,6 +45,7 @@
 								<th>จำนวนเงิน</th>
 								<th>รายละเอียด</th>
 								<th>รูปสลิป</th>
+								<th>ใบกำกับภาษี</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -68,6 +69,9 @@
 								</td>
 								<td class="transfer-receipt">
 									
+								</td>
+								<td class="chk-box tax-invoice">
+								
 								</td>
 								<td class="control-button">
 									<img src="public/images/b_edit.png" class="edit-ctrl cls-btn-submit" act="insert" title="Insert" />
@@ -112,6 +116,7 @@
 								<th>จำนวนเงิน</th>
 								<th>รายละเอียด</th>
 								<th>รูปสลิป</th>
+								<th>ใบกำกับภาษี</th>
 								<th></th>
 							</tr>
 						</thead>
@@ -135,6 +140,9 @@
 								</td>
 								<td class="transfer-receipt">
 									
+								</td>
+								<td class="chk-box tax-invoice">
+
 								</td>
 								<td class="control-button">
 									<img src="public/images/b_edit.png" class="edit-ctrl cls-btn-submit" act="insert" title="Insert" />

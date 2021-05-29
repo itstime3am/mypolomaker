@@ -106,6 +106,7 @@ function _openPaymentListDialog(objData) {
 						, "is_approve": _row["is_approve"]
 						, "is_cancel": _row["is_cancel"]
 						, "image_receipt": _row["image_receipt"]
+						, "is_tax_invoice": _row["is_tax_invoice"]
 					}
 					, _is_editable
 					, _is_approveable

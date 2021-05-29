@@ -60,6 +60,7 @@ function _obj_payment_panel(strDivID) {
 		if (_rowid > 0) {
 			_jsonData['rowid'] = _rowid;
 		}
+
 		$.ajax({
 			type:"POST",
 			url: _url,
@@ -197,7 +198,7 @@ function _obj_payment_panel(strDivID) {
 
 	$(this._tblPayment).on('click', '.upload-image-receipt', function(){
 		$('.input-upload-image-receipt').val('');
-		$('.input-upload-image-receipt').click();
+		$(this).siblings('.input-upload-image-receipt').click();
 	});
 
 	$(this._tblPayment).on('change', '.input-upload-image-receipt', function() {
@@ -236,6 +237,34 @@ function _obj_payment_panel(strDivID) {
         });
 	})
 
+	$(this._tblPayment).on('change', '.cls-is-tax-invoice', function() {
+		let isApproval = $(this).parents('tr').attr('is_approve') == '1' ? true : false;
+		if(isApproval){
+			$(this).prop('checked', true);
+		}else{
+			let paymentRowId = $(this).parents('tr').attr('rowid');
+			let isChecked = $(this).is(':checked');
+			let _jsonData = { rowid: paymentRowId, status: isChecked };
+			$.ajax({
+				url: 'quotation_payment_log/update_is_tax_invoice_status',
+				type: 'POST',
+				contentType:"application/json;charset=utf-8",
+				dataType:"json",
+				data: JSON.stringify(_jsonData),
+				success: function(data) {
+				if(data.error == ""){
+					_doDisplayToastMessage(MSG_ALERT_COMMIT_SUCCESS.replace(/v_XX_1/g, ''), 3, false);
+				}else{
+					_doDisplayToastMessage(MSG_ALERT_COMMIT_FAILED.replace(/v_XX_1/g, ''), 3, false);
+				}
+				},
+				error: function(response) {
+					doDisplayInfo("UnknownError", "ErrorMessage", 3);
+				}
+			});
+		}
+
+	});
 
 	this._fncDoUpdateApprovalStatus = function(img, intApproveStatus) {
 		var _tr = $($(img).parents('tr')[0]);
@@ -304,7 +333,6 @@ function _obj_payment_panel(strDivID) {
 	this.__fncGetApprovalControllers = function(is_approve, container) {
 		if (typeof is_approve == 'undefined') return false;	
 		var _is_approve = is_approve;
-		
 		var _cntr = container || false;
 		var _tbl = self._tblPayment;
 		var _is_editable = (_tbl.attr('editable') == 'editable');
@@ -313,6 +341,8 @@ function _obj_payment_panel(strDivID) {
 		var _strBtns = '';
 		if (_is_approve > 0) {
 			_strBtns += '<span class="cls-payment-approved">ยืนยันแล้ว</span>';
+			container.siblings('.transfer-receipt').find('span, input').remove();
+			container.parents('tr').attr('is_approve', '1')
 		} else if (_is_approve < 0) {
 			_strBtns += '<span class="cls-payment-rejected">ตรวจสอบ</span>';		
 		}
@@ -359,7 +389,6 @@ function _obj_payment_panel(strDivID) {
 		} else {
 			_is_approveable = (_tbl.attr("approveable") == 'approveable');
 		}
-
 		var _strBtns = '', _payment_route = false, _str;
 		var _payment_route_rowid = ('payment_route_rowid' in objNew) ? objNew.payment_route_rowid : -1;
 		var _is_approve = (objNew.is_approve || 0);
@@ -375,9 +404,16 @@ function _obj_payment_panel(strDivID) {
 		_str += '<td amount="' + objNew.amount + '">' + formatNumber(objNew.amount) + '</td>';
 		_str += '<td>' + (((objNew.description + '').trim() != 'null') ? objNew.description.trim() : '')  + '</td>';
 
-		_str += `<td class="transfer-receipt" style="text-decoration: underline; cursor: pointer;"><span class="upload-image-receipt">อัพโหลด</span>
-		${objNew.image_receipt ? `<a href="./uploads/receipt/${objNew.image_receipt}">ดูรูป</a>` : ''}<input type="file" class="input-upload-image-receipt" name="image_receipt" style="display:none;">`;
-		// _str += `<td class="transfer-receipt"><a target="_blank" href="http://manu.mypolomaker.com/app/uploads/manu_weave/20210521095337-4232-00617-1(2).jpg">รูป<buntton></buntton></a></td>`;
+		if(_is_approve > 0){
+			_str += `<td class="transfer-receipt" style="text-decoration: underline; cursor: pointer;">
+			${objNew.image_receipt ? `<a href="./uploads/receipt/${objNew.image_receipt}">ดูรูป</a>` : ''}`;
+		}else{
+			_str += `<td class="transfer-receipt" style="text-decoration: underline; cursor: pointer;"><span class="upload-image-receipt">อัพโหลด</span>
+			${objNew.image_receipt ? `<a href="./uploads/receipt/${objNew.image_receipt}">ดูรูป</a>` : ''}<input type="file" class="input-upload-image-receipt" name="image_receipt" style="display:none;">`;
+		}
+		
+		_str += `<td class="chk-box tax-invoice"><input class="cls-is-tax-invoice" type="checkbox" data="is_tax_invoice" ${objNew.is_tax_invoice ? 'checked' : ''}></input></td>`;
+
 		_str += '<td class="control-button" from_qs="40"></td></tr>';
 		var _tr = $(_str).appendTo($('tbody', _tbl));
 		self.__fncGetApprovalControllers(_is_approve, $('td.control-button', _tr));

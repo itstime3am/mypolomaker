@@ -38,4 +38,35 @@ class Quotation_payment_log extends MY_Ctrl_crud {
 		header('content-type: application/json; charset=utf-8');
 		echo isset($_GET['callback'])? "{" . $_GET['callback']. "}(".$json.")": $json;
 	}
+
+	function update_is_tax_invoice_status(){
+
+		$_blnSuccess = FALSE;
+		$_strError = "Unknown error";
+		$_strMessage = "";
+		
+		$_arrData = $this->__getAjaxPostParams();
+
+		if (isset($_arrData) && ($_arrData != FALSE)) {
+			$rowid = $_arrData['rowid'];
+			$status = $_arrData['status'];
+			try {
+				$this->load->model($this->modelName, 'm');
+				$_strMessage = $this->m->update_is_tax_invoice_status($rowid, $status);
+				$_strError = $this->m->error_message;
+			} catch (Exception $e) {
+				$_strError = $e->getMessage();
+			}
+		}
+
+		$json = json_encode(
+			array(
+				'success' => $_blnSuccess,
+				'error' => $_strError,
+				'message' => $_strMessage
+			)
+		);
+		header('content-type: application/json; charset=utf-8');
+		echo isset($_GET['callback'])? "{" . $_GET['callback']. "}(".$json.")": $json;
+	}
 }

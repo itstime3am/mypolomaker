@@ -109,10 +109,10 @@ COALESCE(uu.name, ' - ') AS update_user,
 			$_sql .= "\n
 			AND (( SELECT count(jdl.value)
 			FROM json_array_elements(t.arr_deposit_log) jdl
-			WHERE (jdl->>'is_approve')::INT = 0
+			WHERE (jdl->>'is_approve')::INT < 1
 			) > 0 OR ( SELECT count(jdl.value)
 			FROM json_array_elements(t.arr_payment_log) jdl
-			WHERE (jdl->>'is_approve')::INT = 0
+			WHERE (jdl->>'is_approve')::INT < 1
 			) > 0)
 			\n";
 			unset($arrObj['not_approve_payment']);

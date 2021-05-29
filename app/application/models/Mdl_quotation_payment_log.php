@@ -64,4 +64,13 @@ QUERY;
 		return $this->db->affected_rows();
 	}
 
+	function update_is_tax_invoice_status($rowid, $status) {
+		$this->db->set('is_tax_invoice', $status);
+		$this->db->where('rowid', $rowid);
+		$this->db->update($this->_TABLE_NAME);
+		$this->error_message = $this->db->error()['message'];
+		$this->error_number = $this->db->error()['code'];
+		return $this->db->affected_rows();
+	}
+
 }
