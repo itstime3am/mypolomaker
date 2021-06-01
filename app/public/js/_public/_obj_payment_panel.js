@@ -341,7 +341,7 @@ function _obj_payment_panel(strDivID) {
 		var _strBtns = '';
 		if (_is_approve > 0) {
 			_strBtns += '<span class="cls-payment-approved">ยืนยันแล้ว</span>';
-			container.siblings('.transfer-receipt').find('span, input').remove();
+			container.siblings('.transfer-receipt').find('span, input.input-upload-image-receipt').css('display', 'none');
 			container.parents('tr').attr('is_approve', '1')
 		} else if (_is_approve < 0) {
 			_strBtns += '<span class="cls-payment-rejected">ตรวจสอบ</span>';		
@@ -354,7 +354,9 @@ function _obj_payment_panel(strDivID) {
 		if (_is_approveable == true) {
 			if (_is_approve == 0) {
 				_strBtns += '<img src="public/images/icons/16/file-complete.png" class="cls-approve-ctrl ctrl-approve" title="ยืนยันเอกสาร" /><img src="public/images/icons/16/file-reject.png" class="cls-reject-ctrl ctrl-reject" title="กรุณาตรวจสอบข้อมูล" />';
-			} else {
+				container.siblings('.transfer-receipt').find('span').css('display', 'block');
+				container.parents('tr').attr('is_approve', '0')
+		} else {
 				_strBtns += '<img src="public/images/icons/16/undo.png" class="cls-undo-ctrl ctrl-undo" title="ยกเลิกสถานะ" />';
 			}
 		}
@@ -405,8 +407,10 @@ function _obj_payment_panel(strDivID) {
 		_str += '<td>' + (((objNew.description + '').trim() != 'null') ? objNew.description.trim() : '')  + '</td>';
 
 		if(_is_approve > 0){
-			_str += `<td class="transfer-receipt" style="text-decoration: underline; cursor: pointer;">
-			${objNew.image_receipt ? `<a href="./uploads/receipt/${objNew.image_receipt}">ดูรูป</a>` : ''}`;
+			_str += `<td class="transfer-receipt" style="text-decoration: underline; cursor: pointer;"><span class="upload-image-receipt" style="display: none;">อัพโหลด</span>
+			${objNew.image_receipt ? `<a href="./uploads/receipt/${objNew.image_receipt}">ดูรูป</a>` : ''}<input type="file" class="input-upload-image-receipt" name="image_receipt" style="display:none;">`;
+			// _str += `<td class="transfer-receipt" style="text-decoration: underline; cursor: pointer;">
+			// ${objNew.image_receipt ? `<a href="./uploads/receipt/${objNew.image_receipt}">ดูรูป</a>` : ''}`;
 		}else{
 			_str += `<td class="transfer-receipt" style="text-decoration: underline; cursor: pointer;"><span class="upload-image-receipt">อัพโหลด</span>
 			${objNew.image_receipt ? `<a href="./uploads/receipt/${objNew.image_receipt}">ดูรูป</a>` : ''}<input type="file" class="input-upload-image-receipt" name="image_receipt" style="display:none;">`;
