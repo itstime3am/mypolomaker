@@ -240,7 +240,8 @@ function _obj_payment_panel(strDivID) {
 	$(this._tblPayment).on('change', '.cls-is-tax-invoice', function() {
 		let isApproval = $(this).parents('tr').attr('is_approve') == '1' ? true : false;
 		if(isApproval){
-			$(this).prop('checked', true);
+			$(this).prop('checked', $(this).is(':checked'));
+			_doDisplayToastMessage(MSG_ALERT_COMMIT_FAILED.replace(/v_XX_1/g, 'ไม่สามารถแก้ไขข้อมูล'), 3, false);
 		}else{
 			let paymentRowId = $(this).parents('tr').attr('rowid');
 			let isChecked = $(this).is(':checked');

@@ -484,7 +484,7 @@ TMP;
 		$_arrCompanySearch = $this->c->list_select_company();
 		if (is_array($_arrCompanySearch)) array_unshift($_arrCompanySearch, array('rowid'=>'', 'company'=>''));
 		$_to = new DateTime();
-		$_frm = date_sub(new DateTime(), new DateInterval('P3D'));
+		$_frm = date_sub(new DateTime(), new DateInterval('P15D'));
 		return array(
 				'controls' => array(
 					array(

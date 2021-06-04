@@ -165,7 +165,8 @@ class Quotation_detail extends MY_Ctrl_crud {
 						if (array_key_exists($_key, $_arr) && ($_arr[$_key] != '') && ($_arr[$_key] != 'unchange')) {
 							$_oldFile = $_tmpPath . $_arr[$_key];
 							$_ext = pathinfo($_oldFile, PATHINFO_EXTENSION);
-							$_newFileName = gmdate('YmdHis') . '-' . $_i . '-pl.' . $_ext; // $_now->format('YmdHis') . '-1-pl.' . $_ext;
+							$_position = explode(".", explode("@", $_arrData['json_images'][$_key])[1])[0];
+							$_newFileName = gmdate('YmdHis') . '-' . $_i . '-pl@'. $_position.'.' . $_ext; // $_now->format('YmdHis') . '-1-pl.' . $_ext;
 							$_newFile = $_upPath . $_newFileName;
 							if (file_exists($_oldFile)) {
 								if (rename($_oldFile, $_newFile)) {

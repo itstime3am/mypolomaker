@@ -13,15 +13,19 @@ class Upload_temp_image extends CI_Controller {
 		if (isset($_FILES['image']) && ($_FILES['image']['name']) && ($_FILES['image']['name'] != "")) {
 			$_upload_path_url = _url_temp_upload_path();
 			$_uploaddir_path = _file_temp_upload_path();
+			$file_name = gmdate('YmdHis');
 
 			if(isset($_POST['receipt'])){
 				$_upload_path_url = str_replace('temp', 'receipt', $_upload_path_url);
 				$_uploaddir_path = str_replace('temp', 'receipt', $_uploaddir_path);
+			}else{
+				$timestamp = gmdate('YmdHis');
+				$file_name = $timestamp."@".$_FILES['image']['name'];
 			}
 			//$_dat = new DateTime();
 			$_uplCnfg = array(
 				'upload_path' => $_uploaddir_path
-				, 'file_name' => gmdate('YmdHis') //$_dat->format('YmdHis')
+				, 'file_name' => $file_name //$_dat->format('YmdHis')
 				, 'allowed_types' => 'jpg|jpeg|png|gif'
 				, 'max_size' => 5000
 				, 'max_width' => 4000
